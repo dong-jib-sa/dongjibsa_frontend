@@ -9,15 +9,25 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
+        setupView()
     }
     
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "상도동", style: .plain, target: self, action: .none)
         navigationController?.navigationBar.tintColor = .headerColor
+    }
+    
+    private func setupView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(RecipeCell.self, forCellReuseIdentifier: RecipeCell.cellId)
+        tableView.separatorStyle = .none
     }
     
 
