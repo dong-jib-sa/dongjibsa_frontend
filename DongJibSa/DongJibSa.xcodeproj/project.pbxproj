@@ -15,6 +15,7 @@
 		103449942A71F2BD0096E45D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 103449922A71F2BD0096E45D /* LaunchScreen.storyboard */; };
 		103449A12A71F4B80096E45D /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 103449A02A71F4B80096E45D /* SnapKit-Dynamic */; };
 		103449A32A720B6C0096E45D /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449A22A720B6C0096E45D /* TabBarViewController.swift */; };
+		103449A62A720E7F0096E45D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449A52A720E7F0096E45D /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		103449932A71F2BD0096E45D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		103449952A71F2BD0096E45D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		103449A22A720B6C0096E45D /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		103449A52A720E7F0096E45D /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				1034499B2A71F31F0096E45D /* Model */,
 				1034499C2A71F3280096E45D /* View */,
 				1034499D2A71F32E0096E45D /* Controller */,
+				103449A42A720E540096E45D /* Extensions */,
 				103449902A71F2BD0096E45D /* Assets.xcassets */,
 				103449922A71F2BD0096E45D /* LaunchScreen.storyboard */,
 				103449952A71F2BD0096E45D /* Info.plist */,
@@ -102,6 +105,14 @@
 				103449892A71F2BC0096E45D /* SceneDelegate.swift */,
 			);
 			path = Delegate;
+			sourceTree = "<group>";
+		};
+		103449A42A720E540096E45D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				103449A52A720E7F0096E45D /* Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				103449A62A720E7F0096E45D /* Extension.swift in Sources */,
 				103449A32A720B6C0096E45D /* TabBarViewController.swift in Sources */,
 				1034498C2A71F2BC0096E45D /* ViewController.swift in Sources */,
 				103449882A71F2BC0096E45D /* AppDelegate.swift in Sources */,
