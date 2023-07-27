@@ -6,10 +6,23 @@
 //
 
 import UIKit
+import SnapKit
 
 class HomeViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    let floatingActionButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .accentColor
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.tintColor = .primaryColor
+        button.layer.cornerRadius = 65 / 2
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOffset = .zero
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +41,20 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(RecipeCell.self, forCellReuseIdentifier: RecipeCell.cellId)
         tableView.separatorStyle = .none
+        
+        self.view.addSubview(floatingActionButton)
+        self.view.bringSubviewToFront(floatingActionButton)
+        floatingActionButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(100)
+            make.height.width.equalTo(65)
+        }
+        floatingActionButton.addTarget(self, action: #selector(floatingActionButtonTapped), for: .touchUpInside)
     }
     
+    @objc func floatingActionButtonTapped(_ sender: UIButton) {
+        
+    }
 
     /*
     // MARK: - Navigation
