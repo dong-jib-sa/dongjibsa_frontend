@@ -39,7 +39,7 @@ class RecipeCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "새우 부추전 파티원 모집합니다."
-        label.font = .systemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .headerColor
         label.textAlignment = .left
         return label
@@ -66,10 +66,16 @@ class RecipeCell: UITableViewCell {
     var priceLabel: UILabel = {
         let label = UILabel()
         label.text = "1인당 예상가 6500원"
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 16)
         label.textColor = .bodyColor
         label.textAlignment = .left
         return label
+    }()
+    
+    var separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray4
+        return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -94,6 +100,7 @@ class RecipeCell: UITableViewCell {
         cellView.addSubview(locationLabel)
         cellView.addSubview(participantLabel)
         cellView.addSubview(priceLabel)
+        cellView.addSubview(separatorView)
         
         cellView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -108,43 +115,44 @@ class RecipeCell: UITableViewCell {
         }
         
         tagListLabel.snp.makeConstraints { make in
-            make.top.equalTo(recipeImage.snp.top)
+            make.top.equalTo(recipeImage.snp.top).offset(8)
             make.left.equalTo(recipeImage.snp.right).offset(20)
             make.right.equalToSuperview()
             make.height.equalTo(15)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(tagListLabel.snp.bottom)
+            make.top.equalTo(tagListLabel.snp.bottom).offset(4)
             make.left.equalTo(recipeImage.snp.right).offset(20)
             make.right.equalToSuperview()
             make.height.equalTo(20)
         }
-        
+        locationLabel.setContentCompressionResistancePriority(.init(750), for: .horizontal)
         locationLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.left.equalTo(recipeImage.snp.right).offset(20)
+            make.right.equalTo(participantLabel.snp.left)
             make.height.equalTo(15)
         }
         
+        participantLabel.setContentCompressionResistancePriority(.init(751), for: .horizontal)
         participantLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.right.equalToSuperview()
             make.height.equalTo(15)
         }
         
         priceLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(recipeImage.snp.bottom)
+            make.bottom.equalTo(recipeImage.snp.bottom).offset(-8)
             make.left.equalTo(recipeImage.snp.right).offset(20)
             make.right.equalToSuperview()
             make.height.equalTo(15)
         }
+        
+        separatorView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.height.equalTo(0.5)
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
