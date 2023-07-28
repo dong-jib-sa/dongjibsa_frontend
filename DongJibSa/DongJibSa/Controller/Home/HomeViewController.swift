@@ -53,7 +53,20 @@ class HomeViewController: UIViewController {
     }
     
     @objc func floatingActionButtonTapped(_ sender: UIButton) {
+        let addViewController = AddViewController()
         
+        let navigationController = UINavigationController(rootViewController: addViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        addViewController.navigationItem.title = NSLocalizedString("레시피 파티원 모집하기", comment: "")
+        addViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeAddViewController))
+        navigationController.navigationBar.tintColor = .bodyColor
+        addViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
+        
+        self.present(navigationController, animated: true)
+    }
+    
+    @objc func closeAddViewController() {
+        self.dismiss(animated: true)
     }
 
     /*
