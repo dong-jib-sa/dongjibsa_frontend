@@ -68,6 +68,17 @@ class HomeViewController: UIViewController {
     @objc func closeAddViewController() {
         self.dismiss(animated: true)
     }
+    
+    func showDetail(for id: Int) {
+        let detail = UIStoryboard.init(name: "Detail", bundle: nil)
+        guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
+            return
+        }
+        viewController.hidesBottomBarWhenPushed = true
+        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
+        navigationController?.pushViewController(viewController, animated: true)
+        navigationItem.backButtonDisplayMode = .minimal
+    }
 
     /*
     // MARK: - Navigation
