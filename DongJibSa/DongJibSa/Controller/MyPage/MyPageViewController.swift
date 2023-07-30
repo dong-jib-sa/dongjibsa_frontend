@@ -10,6 +10,7 @@ import UIKit
 class MyPageViewController: UIViewController {
     
     @IBOutlet weak var myTableView: UITableView!
+    let myPractice: [MyPractice] = MyPractice.list
     
     override func viewDidLoad() {
         super.viewDidLoad()

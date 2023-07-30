@@ -13,7 +13,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 2
+            return myPractice.count
         } else {
             return 5
         }
@@ -22,6 +22,9 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: MyInfoCell.cellId, for: indexPath) as! MyInfoCell
+            cell.itemImageView.image = UIImage(named: myPractice[indexPath.row].item)
+            cell.descriptionLabel.text = myPractice[indexPath.row].description
+            cell.resultLabel.text = myPractice[indexPath.row].result
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: MyRecipeCell.cellId, for: indexPath) as! MyRecipeCell

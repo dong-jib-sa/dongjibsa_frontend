@@ -31,6 +31,7 @@
 		103449F32A7650750096E45D /* MyInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F22A7650750096E45D /* MyInfoCell.swift */; };
 		103449F52A765AA80096E45D /* MyRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F42A765AA80096E45D /* MyRecipeCell.swift */; };
 		103449F72A765C2A0096E45D /* MyPageViewController+TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F62A765C2A0096E45D /* MyPageViewController+TableViewController.swift */; };
+		103449F92A765E060096E45D /* MyPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F82A765E060096E45D /* MyPractice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		103449F22A7650750096E45D /* MyInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoCell.swift; sourceTree = "<group>"; };
 		103449F42A765AA80096E45D /* MyRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRecipeCell.swift; sourceTree = "<group>"; };
 		103449F62A765C2A0096E45D /* MyPageViewController+TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyPageViewController+TableViewController.swift"; sourceTree = "<group>"; };
+		103449F82A765E060096E45D /* MyPractice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPractice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		1034499B2A71F31F0096E45D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				103449F82A765E060096E45D /* MyPractice.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				103449C02A7411460096E45D /* CommentCell.swift in Sources */,
 				103449A32A720B6C0096E45D /* TabBarViewController.swift in Sources */,
 				103449BE2A7400900096E45D /* IngredientsInfoCell.swift in Sources */,
+				103449F92A765E060096E45D /* MyPractice.swift in Sources */,
 				103449F12A7641860096E45D /* MyPageViewController.swift in Sources */,
 				1034498C2A71F2BC0096E45D /* ViewController.swift in Sources */,
 				103449F52A765AA80096E45D /* MyRecipeCell.swift in Sources */,
