@@ -33,3 +33,33 @@ extension UIColor {
         UIColor(named: "accentColor") ?? UIColor(hex: 0xDFEFDC)
     }
 }
+
+extension UITextField {
+    func addPadding(width: CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: self.frame.height))
+        self.leftView = paddingView
+        self.leftViewMode = ViewMode.always
+        self.rightView = paddingView
+        self.rightViewMode = ViewMode.always
+    }
+    
+    func toStyledTextField(_ textField: UITextField) {
+        textField.backgroundColor = .systemGray6
+        textField.clipsToBounds = true
+        textField.layer.cornerRadius = 10
+    }
+}
+
+extension UILabel {
+    func setLineSpacing(spacing: CGFloat) {
+        guard let text = text else { return }
+
+        let attributeString = NSMutableAttributedString(string: text)
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = spacing
+        attributeString.addAttribute(.paragraphStyle,
+                                     value: style,
+                                     range: NSRange(location: 0, length: attributeString.length))
+        attributedText = attributeString
+    }
+}
