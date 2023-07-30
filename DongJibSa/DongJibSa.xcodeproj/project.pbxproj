@@ -27,6 +27,11 @@
 		103449C02A7411460096E45D /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449BF2A7411460096E45D /* CommentCell.swift */; };
 		103449EA2A750EBF0096E45D /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 103449E82A750EBF0096E45D /* Detail.storyboard */; };
 		103449EE2A763C0D0096E45D /* DetailViewController+TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449ED2A763C0D0096E45D /* DetailViewController+TableViewController.swift */; };
+		103449F12A7641860096E45D /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F02A7641860096E45D /* MyPageViewController.swift */; };
+		103449F32A7650750096E45D /* MyInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F22A7650750096E45D /* MyInfoCell.swift */; };
+		103449F52A765AA80096E45D /* MyRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F42A765AA80096E45D /* MyRecipeCell.swift */; };
+		103449F72A765C2A0096E45D /* MyPageViewController+TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F62A765C2A0096E45D /* MyPageViewController+TableViewController.swift */; };
+		103449F92A765E060096E45D /* MyPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F82A765E060096E45D /* MyPractice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +56,11 @@
 		103449BF2A7411460096E45D /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		103449E92A750EBF0096E45D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = DongJibSa/View/Base.lproj/Detail.storyboard; sourceTree = "<group>"; };
 		103449ED2A763C0D0096E45D /* DetailViewController+TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailViewController+TableViewController.swift"; sourceTree = "<group>"; };
+		103449F02A7641860096E45D /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		103449F22A7650750096E45D /* MyInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoCell.swift; sourceTree = "<group>"; };
+		103449F42A765AA80096E45D /* MyRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRecipeCell.swift; sourceTree = "<group>"; };
+		103449F62A765C2A0096E45D /* MyPageViewController+TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyPageViewController+TableViewController.swift"; sourceTree = "<group>"; };
+		103449F82A765E060096E45D /* MyPractice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPractice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +109,7 @@
 		1034499B2A71F31F0096E45D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				103449F82A765E060096E45D /* MyPractice.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -119,6 +130,7 @@
 				1034498B2A71F2BC0096E45D /* ViewController.swift */,
 				103449A22A720B6C0096E45D /* TabBarViewController.swift */,
 				103449A72A7259DC0096E45D /* Home */,
+				103449EF2A7641650096E45D /* MyPage */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -160,8 +172,19 @@
 				103449B52A73AAAA0096E45D /* IngredientsCell.swift */,
 				103449BD2A7400900096E45D /* IngredientsInfoCell.swift */,
 				103449BF2A7411460096E45D /* CommentCell.swift */,
+				103449F22A7650750096E45D /* MyInfoCell.swift */,
+				103449F42A765AA80096E45D /* MyRecipeCell.swift */,
 			);
 			path = CustomCells;
+			sourceTree = "<group>";
+		};
+		103449EF2A7641650096E45D /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				103449F02A7641860096E45D /* MyPageViewController.swift */,
+				103449F62A765C2A0096E45D /* MyPageViewController+TableViewController.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,17 +267,22 @@
 			files = (
 				103449BC2A73F06C0096E45D /* DetailViewController.swift in Sources */,
 				103449A62A720E7F0096E45D /* Extension.swift in Sources */,
+				103449F72A765C2A0096E45D /* MyPageViewController+TableViewController.swift in Sources */,
 				103449AE2A726F2E0096E45D /* HomeViewController+TableViewController.swift in Sources */,
 				103449B02A729D460096E45D /* AddViewController.swift in Sources */,
 				103449C02A7411460096E45D /* CommentCell.swift in Sources */,
 				103449A32A720B6C0096E45D /* TabBarViewController.swift in Sources */,
 				103449BE2A7400900096E45D /* IngredientsInfoCell.swift in Sources */,
+				103449F92A765E060096E45D /* MyPractice.swift in Sources */,
+				103449F12A7641860096E45D /* MyPageViewController.swift in Sources */,
 				1034498C2A71F2BC0096E45D /* ViewController.swift in Sources */,
+				103449F52A765AA80096E45D /* MyRecipeCell.swift in Sources */,
 				103449AB2A725D8F0096E45D /* RecipeCell.swift in Sources */,
 				103449B42A72B4B60096E45D /* PhotoCell.swift in Sources */,
 				103449882A71F2BC0096E45D /* AppDelegate.swift in Sources */,
 				1034498A2A71F2BC0096E45D /* SceneDelegate.swift in Sources */,
 				103449EE2A763C0D0096E45D /* DetailViewController+TableViewController.swift in Sources */,
+				103449F32A7650750096E45D /* MyInfoCell.swift in Sources */,
 				103449B62A73AAAA0096E45D /* IngredientsCell.swift in Sources */,
 				103449A92A725A110096E45D /* HomeViewController.swift in Sources */,
 			);

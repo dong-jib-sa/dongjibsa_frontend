@@ -40,21 +40,36 @@
             </objects>
             <point key="canvasLocation" x="-775" y="1575"/>
         </scene>
-        <!--내 장바구니-->
+        <!--My Page View Controller-->
         <scene sceneID="AdE-C7-avT">
             <objects>
-                <viewController id="Cbc-Hl-Ydd" sceneMemberID="viewController">
+                <viewController id="Cbc-Hl-Ydd" customClass="MyPageViewController" customModule="DongJibSa" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cKt-Ds-NdY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="UMK-cl-VK0">
+                                <rect key="frame" x="0.0" y="91" width="375" height="638"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="iRX-mb-AmZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iRX-mb-AmZ" firstAttribute="trailing" secondItem="UMK-cl-VK0" secondAttribute="trailing" id="2ur-ct-5FV"/>
+                            <constraint firstItem="iRX-mb-AmZ" firstAttribute="bottom" secondItem="UMK-cl-VK0" secondAttribute="bottom" id="6uu-6K-mvh"/>
+                            <constraint firstItem="UMK-cl-VK0" firstAttribute="top" secondItem="iRX-mb-AmZ" secondAttribute="top" id="CuH-4J-a0R"/>
+                            <constraint firstItem="UMK-cl-VK0" firstAttribute="leading" secondItem="iRX-mb-AmZ" secondAttribute="leading" id="gsa-3L-D1b"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="내 장바구니" image="person" catalog="system" id="6b4-JY-ckC"/>
+                    <navigationItem key="navigationItem" id="Dma-Av-XEO"/>
+                    <connections>
+                        <outlet property="myTableView" destination="UMK-cl-VK0" id="3Lm-mp-2s7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k5F-NU-SG5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2015.2" y="832.75862068965523"/>
+            <point key="canvasLocation" x="2015" y="1575"/>
         </scene>
         <!--검색-->
         <scene sceneID="lsM-cy-LfJ">
@@ -85,7 +100,7 @@
                     <connections>
                         <segue destination="Fbs-ig-wCm" kind="relationship" relationship="viewControllers" id="iyQ-6C-Zh3"/>
                         <segue destination="z6g-Un-9Vd" kind="relationship" relationship="viewControllers" id="suX-Gc-ZvD"/>
-                        <segue destination="Cbc-Hl-Ydd" kind="relationship" relationship="viewControllers" id="Qc8-0l-DjI"/>
+                        <segue destination="UsZ-Bu-kDT" kind="relationship" relationship="viewControllers" id="Qc8-0l-DjI"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1AB-20-XfO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -110,6 +125,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PXY-Nn-Bvc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-775.20000000000005" y="832.75862068965523"/>
+        </scene>
+        <!--내 장바구니-->
+        <scene sceneID="ZFp-mW-KO5">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UsZ-Bu-kDT" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="내 장바구니" image="person" catalog="system" id="6b4-JY-ckC"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wej-LV-PG9">
+                        <rect key="frame" x="0.0" y="47" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Cbc-Hl-Ydd" kind="relationship" relationship="rootViewController" id="ymZ-S5-dAz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BAV-aO-6Qy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2015.2" y="832.75862068965523"/>
         </scene>
     </scenes>
     <resources>
