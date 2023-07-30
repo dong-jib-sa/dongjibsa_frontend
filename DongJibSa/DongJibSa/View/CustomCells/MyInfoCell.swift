@@ -39,7 +39,8 @@ class MyInfoCell: UITableViewCell {
         let label = UILabel()
         label.text = "이번주 내가 버리지 않고\n나눔한 식재료 수량"
         label.numberOfLines = 2
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 16)
+        label.setLineSpacing(spacing: 3)
         return label
     }()
     
@@ -56,7 +57,7 @@ class MyInfoCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = 10
+        stackView.spacing = 15
         return stackView
     }()
     
@@ -100,6 +101,9 @@ class MyInfoCell: UITableViewCell {
             make.centerY.equalTo(itemView.snp.centerY)
             make.left.equalTo(itemView.snp.right).offset(16)
             make.right.equalToSuperview().inset(16)
-        }   
+        }
+        
+        descriptionLabel.setContentCompressionResistancePriority(.init(750), for: .horizontal)
+        resultLabel.setContentCompressionResistancePriority(.init(751), for: .horizontal)
     }
 }

@@ -54,14 +54,14 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             let userNameLabel: UILabel = {
                 let label = UILabel()
                 label.text = "집밥이지"
-                label.font = .boldSystemFont(ofSize: 14)
+                label.font = .boldSystemFont(ofSize: 16)
                 return label
             }()
             
             let sideLabel: UILabel = {
                 let label = UILabel()
                 label.text = "님이"
-                label.font = .systemFont(ofSize: 14)
+                label.font = .systemFont(ofSize: 16)
                 return label
             }()
             
@@ -75,8 +75,8 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             
             let descriptionLabel: UILabel = {
                 let label = UILabel()
-                label.text = "실천한 식재료 제로 웨이스트"
-                label.font = .systemFont(ofSize: 14)
+                label.text = "이번주에 실천한 식재료 제로 웨이스트"
+                label.font = .systemFont(ofSize: 16)
                 return label
             }()
             
@@ -85,6 +85,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
                 stackView.axis = .vertical
                 stackView.distribution = .fillEqually
                 stackView.alignment = .fill
+                stackView.spacing = 3
                 return stackView
             }()
             
@@ -94,6 +95,9 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
                 make.left.equalTo(profileImageView.snp.right).offset(10)
                 make.right.equalToSuperview().inset(16)
             }
+            
+            userNameLabel.setContentHuggingPriority(.init(251), for: .horizontal)
+            sideLabel.setContentHuggingPriority(.init(250), for: .horizontal)
             
             return headerView
         } else {
