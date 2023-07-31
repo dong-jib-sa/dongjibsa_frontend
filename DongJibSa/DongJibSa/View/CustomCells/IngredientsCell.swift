@@ -14,6 +14,9 @@ class IngredientsCell: UITableViewCell {
     var cellView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.layer.cornerRadius = 10
+        view.layer.borderColor = UIColor.systemGray3.cgColor
+        view.layer.borderWidth = 0.5
         return view
     }()
     
@@ -88,9 +91,6 @@ class IngredientsCell: UITableViewCell {
     }
 
     private func setupCell() {
-        self.contentView.layer.cornerRadius = 10
-        self.contentView.layer.borderColor = UIColor.systemGray3.cgColor
-        self.contentView.layer.borderWidth = 0.5
         self.contentView.addSubview(cellView)
         cellView.addSubview(stackView)
         titleView.addSubview(titleTextField)
@@ -100,7 +100,7 @@ class IngredientsCell: UITableViewCell {
         
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.left.right.equalToSuperview()
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
         

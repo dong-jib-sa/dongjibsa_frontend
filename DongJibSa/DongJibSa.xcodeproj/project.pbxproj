@@ -32,6 +32,13 @@
 		103449F52A765AA80096E45D /* MyRecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F42A765AA80096E45D /* MyRecipeCell.swift */; };
 		103449F72A765C2A0096E45D /* MyPageViewController+TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F62A765C2A0096E45D /* MyPageViewController+TableViewController.swift */; };
 		103449F92A765E060096E45D /* MyPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449F82A765E060096E45D /* MyPractice.swift */; };
+		103449FB2A767F100096E45D /* AddRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449FA2A767F100096E45D /* AddRecipeViewController.swift */; };
+		103449FD2A76830C0096E45D /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449FC2A76830C0096E45D /* TextFieldCell.swift */; };
+		103449FF2A7692930096E45D /* DoneButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449FE2A7692930096E45D /* DoneButtonCell.swift */; };
+		10344A012A76940A0096E45D /* DetailTextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A002A76940A0096E45D /* DetailTextViewCell.swift */; };
+		10344A032A7697550096E45D /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A022A7697550096E45D /* EmptyCell.swift */; };
+		10344A052A773E270096E45D /* AddRecipeViewController+TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A042A773E270096E45D /* AddRecipeViewController+TableViewController.swift */; };
+		10344A072A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A062A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +68,13 @@
 		103449F42A765AA80096E45D /* MyRecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRecipeCell.swift; sourceTree = "<group>"; };
 		103449F62A765C2A0096E45D /* MyPageViewController+TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyPageViewController+TableViewController.swift"; sourceTree = "<group>"; };
 		103449F82A765E060096E45D /* MyPractice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPractice.swift; sourceTree = "<group>"; };
+		103449FA2A767F100096E45D /* AddRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeViewController.swift; sourceTree = "<group>"; };
+		103449FC2A76830C0096E45D /* TextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
+		103449FE2A7692930096E45D /* DoneButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButtonCell.swift; sourceTree = "<group>"; };
+		10344A002A76940A0096E45D /* DetailTextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTextViewCell.swift; sourceTree = "<group>"; };
+		10344A022A7697550096E45D /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		10344A042A773E270096E45D /* AddRecipeViewController+TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddRecipeViewController+TableViewController.swift"; sourceTree = "<group>"; };
+		10344A062A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddRecipeViewController+CollectionViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +172,9 @@
 				103449A82A725A110096E45D /* HomeViewController.swift */,
 				103449AD2A726F2E0096E45D /* HomeViewController+TableViewController.swift */,
 				103449AF2A729D460096E45D /* AddViewController.swift */,
+				103449FA2A767F100096E45D /* AddRecipeViewController.swift */,
+				10344A042A773E270096E45D /* AddRecipeViewController+TableViewController.swift */,
+				10344A062A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift */,
 				103449BB2A73F06C0096E45D /* DetailViewController.swift */,
 				103449ED2A763C0D0096E45D /* DetailViewController+TableViewController.swift */,
 			);
@@ -174,6 +191,10 @@
 				103449BF2A7411460096E45D /* CommentCell.swift */,
 				103449F22A7650750096E45D /* MyInfoCell.swift */,
 				103449F42A765AA80096E45D /* MyRecipeCell.swift */,
+				103449FC2A76830C0096E45D /* TextFieldCell.swift */,
+				103449FE2A7692930096E45D /* DoneButtonCell.swift */,
+				10344A002A76940A0096E45D /* DetailTextViewCell.swift */,
+				10344A022A7697550096E45D /* EmptyCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -275,12 +296,19 @@
 				103449BE2A7400900096E45D /* IngredientsInfoCell.swift in Sources */,
 				103449F92A765E060096E45D /* MyPractice.swift in Sources */,
 				103449F12A7641860096E45D /* MyPageViewController.swift in Sources */,
+				10344A072A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift in Sources */,
+				10344A052A773E270096E45D /* AddRecipeViewController+TableViewController.swift in Sources */,
 				1034498C2A71F2BC0096E45D /* ViewController.swift in Sources */,
 				103449F52A765AA80096E45D /* MyRecipeCell.swift in Sources */,
 				103449AB2A725D8F0096E45D /* RecipeCell.swift in Sources */,
+				103449FD2A76830C0096E45D /* TextFieldCell.swift in Sources */,
+				10344A032A7697550096E45D /* EmptyCell.swift in Sources */,
+				10344A012A76940A0096E45D /* DetailTextViewCell.swift in Sources */,
 				103449B42A72B4B60096E45D /* PhotoCell.swift in Sources */,
 				103449882A71F2BC0096E45D /* AppDelegate.swift in Sources */,
+				103449FB2A767F100096E45D /* AddRecipeViewController.swift in Sources */,
 				1034498A2A71F2BC0096E45D /* SceneDelegate.swift in Sources */,
+				103449FF2A7692930096E45D /* DoneButtonCell.swift in Sources */,
 				103449EE2A763C0D0096E45D /* DetailViewController+TableViewController.swift in Sources */,
 				103449F32A7650750096E45D /* MyInfoCell.swift in Sources */,
 				103449B62A73AAAA0096E45D /* IngredientsCell.swift in Sources */,
