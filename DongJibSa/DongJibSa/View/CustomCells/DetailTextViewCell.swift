@@ -11,15 +11,17 @@ class DetailTextViewCell: UITableViewCell {
 
     static let cellId: String = "DetailTextViewCell"
     
-    let detailTextView: UITextView = {
+    let placeholder: String = "상세내용을 작성해주세요."
+    lazy var detailTextView: UITextView = {
         let textView = UITextView()
-        textView.text = "상세내용을 작성해주세요."
+        textView.text = placeholder
         textView.font = .systemFont(ofSize: 16)
         textView.textColor = .systemGray3
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.systemGray4.cgColor
         textView.layer.cornerRadius = 10
         textView.isScrollEnabled = false
+        textView.delegate = self
         return textView
     }()
     
@@ -48,7 +50,17 @@ class DetailTextViewCell: UITableViewCell {
 }
 
 extension DetailTextViewCell: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        textViewDidChange(textView)
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == placeholder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = placeholder
+            textView.textColor = .lightGray
+        }
     }
 }
