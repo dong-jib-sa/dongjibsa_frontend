@@ -8,7 +8,7 @@
 import UIKit
 
 class IngredientsInfoCell: UITableViewCell {
-    static let cellID: String = "IngredientsInfoCell"
+    static let cellId: String = "IngredientsInfoCell"
     
     var cellView: UIView = {
         let view = UIView()
@@ -107,6 +107,12 @@ class IngredientsInfoCell: UITableViewCell {
         return stackView
     }()
     
+    let emptyView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray3
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
@@ -129,10 +135,11 @@ class IngredientsInfoCell: UITableViewCell {
         needView.addSubview(needLabel)
         shareView.addSubview(shareEmphasisView)
         shareEmphasisView.addSubview(shareLabel)
+        cellView.addSubview(emptyView)
         
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.left.right.equalToSuperview()
+            make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
         
@@ -159,6 +166,12 @@ class IngredientsInfoCell: UITableViewCell {
         
         shareLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        emptyView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.height.equalTo(0.5)
         }
     }
 

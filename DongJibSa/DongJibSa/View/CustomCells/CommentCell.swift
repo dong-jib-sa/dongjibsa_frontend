@@ -10,6 +10,12 @@ import UIKit
 class CommentCell: UITableViewCell {
     static let cellId: String = "CommentCell"
     
+    var cellView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .primaryColor
@@ -70,10 +76,17 @@ class CommentCell: UITableViewCell {
     }
     
     private func setupCell() {
-        self.contentView.addSubview(profileImageView)
-        self.contentView.addSubview(profileStackView)
-        self.contentView.addSubview(commentLabel)
-        self.contentView.addSubview(replyButton)
+        self.contentView.addSubview(cellView)
+        cellView.addSubview(profileImageView)
+        cellView.addSubview(profileStackView)
+        cellView.addSubview(commentLabel)
+        cellView.addSubview(replyButton)
+        
+        cellView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.right.equalToSuperview().inset(16)
+            make.height.equalTo(100)
+        }
         
         profileImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)

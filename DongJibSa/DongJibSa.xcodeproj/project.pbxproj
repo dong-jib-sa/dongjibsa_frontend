@@ -39,6 +39,7 @@
 		10344A032A7697550096E45D /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A022A7697550096E45D /* EmptyCell.swift */; };
 		10344A052A773E270096E45D /* AddRecipeViewController+TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A042A773E270096E45D /* AddRecipeViewController+TableViewController.swift */; };
 		10344A072A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A062A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift */; };
+		10344A0B2A778A320096E45D /* RecipeInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A0A2A778A320096E45D /* RecipeInfoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,7 @@
 		10344A022A7697550096E45D /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
 		10344A042A773E270096E45D /* AddRecipeViewController+TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddRecipeViewController+TableViewController.swift"; sourceTree = "<group>"; };
 		10344A062A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddRecipeViewController+CollectionViewController.swift"; sourceTree = "<group>"; };
+		10344A0A2A778A320096E45D /* RecipeInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeInfoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				103449FE2A7692930096E45D /* DoneButtonCell.swift */,
 				10344A002A76940A0096E45D /* DetailTextViewCell.swift */,
 				10344A022A7697550096E45D /* EmptyCell.swift */,
+				10344A0A2A778A320096E45D /* RecipeInfoCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				103449BC2A73F06C0096E45D /* DetailViewController.swift in Sources */,
+				10344A0B2A778A320096E45D /* RecipeInfoCell.swift in Sources */,
 				103449A62A720E7F0096E45D /* Extension.swift in Sources */,
 				103449F72A765C2A0096E45D /* MyPageViewController+TableViewController.swift in Sources */,
 				103449AE2A726F2E0096E45D /* HomeViewController+TableViewController.swift in Sources */,
