@@ -340,7 +340,6 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             headerView.addSubview(commentStackView)
             commentStackView.snp.makeConstraints { make in
                 make.center.equalToSuperview()
-                make.bottom.equalTo(headerView.keyboardLayoutGuide.snp.top)
                 make.left.right.equalToSuperview().inset(16)
             }
             photoButton.setContentHuggingPriority(.init(251), for: .horizontal)

@@ -30,25 +30,45 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
 
         setupView()
-        viewTappedKeyboardCancel()
+        keyboardNotification()
+        
     }
     
-    private func viewTappedKeyboardCancel() {
-        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
-        self.view.addGestureRecognizer(tapGesture)
-        tapGesture.cancelsTouchesInView = false
+    private func keyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification:Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let currentTextField = UIResponder.currentFirst() as? UITextField else { return }
+        
+        let keyboardTopY = keyboardFrame.cgRectValue.height
+        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
+        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+        
+        if textFieldBottomY > keyboardTopY {
+            let textBoxY = convertedTextFieldFrame.origin.y
+            let newFrameY = (textBoxY - keyboardTopY / 2)
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardTopY, right: 0)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification:Notification) {
+        tableView.contentInset = .zero
     }
     
     @objc func addButtonTapped(_ sender: UIButton) {
-        // textField가 비어있을때는 추가되지 않도록
-        // 텍스트필드가 올라왔을때 전송 버튼이 눌러지지 않는 현상
-        // -> 테이블뷰의 스크롤이 위로 올라가도록 구현하는게 나을 것 같음
-        if commentTextField.text == "" {
+        self.view.endEditing(true)
+        if self.commentTextField.text == "" {
             
         } else {
-            table += 1
-            tableView.insertRows(at: [IndexPath(row: table - 1, section: 2)], with: .bottom)
-            tableView.reloadRows(at: [IndexPath(row: table - 1, section: 2)], with: .bottom)
+            self.commentTextField.text = ""
+            self.table += 1
+            self.tableView.insertRows(at: [IndexPath(row: self.table - 1, section: 2)], with: .middle)
+            self.tableView.reloadRows(at: [IndexPath(row: self.table - 1, section: 2)], with: .middle)
         }
     }
     
