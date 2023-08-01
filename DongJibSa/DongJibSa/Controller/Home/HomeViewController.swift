@@ -53,7 +53,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func floatingActionButtonTapped(_ sender: UIButton) {
-        let addViewController = AddRecipeViewController()
+        let addViewController = AddRecipeViewController(navigationController: self.navigationController)
         
         let navigationController = UINavigationController(rootViewController: addViewController)
         navigationController.modalPresentationStyle = .fullScreen

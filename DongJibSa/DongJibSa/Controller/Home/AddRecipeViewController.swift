@@ -31,6 +31,16 @@ class AddRecipeViewController: UIViewController {
     
     var photoList: [UIImage] = []
     var table: Int = 1
+    var navigation: UINavigationController?
+    
+    init(navigationController: UINavigationController?) {
+        super.init(nibName: nil, bundle: nil)
+        self.navigation = navigationController
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,20 +131,15 @@ class AddRecipeViewController: UIViewController {
     }
     
     @objc func doneButtonTapped(_ sender: UIButton) {
-        guard let pvc = self.presentingViewController else { return }
         self.dismiss(animated: true) {
-            // TODO:
             let detail = UIStoryboard.init(name: "Detail", bundle: nil)
             guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
                 return
             }
             viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
-            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(self.closeButtonTapped))
-            let navController = UINavigationController(rootViewController: viewController)
-            navController.modalTransitionStyle = .coverVertical
-            navController.modalPresentationStyle = .fullScreen
-            navController.navigationBar.tintColor = .black
-            pvc.present(navController, animated: true)
+            viewController.hidesBottomBarWhenPushed = true
+            self.navigation?.navigationItem.backButtonDisplayMode = .minimal
+            self.navigation?.pushViewController(viewController, animated: false)
         }
     }
     @objc private func closeButtonTapped(_ sender: UIButton) {
