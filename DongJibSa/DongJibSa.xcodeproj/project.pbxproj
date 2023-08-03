@@ -44,6 +44,9 @@
 		10344A142A7A042D0096E45D /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10344A122A7A042D0096E45D /* Onboarding.storyboard */; };
 		10344A162A7A546D0096E45D /* OnboardingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A152A7A546D0096E45D /* OnboardingImage.swift */; };
 		10344A182A7A55AC0096E45D /* OnboardingImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A172A7A55AC0096E45D /* OnboardingImageCell.swift */; };
+		10344A1B2A7AA0EF0096E45D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A1A2A7AA0EF0096E45D /* SearchViewController.swift */; };
+		10344A1D2A7AA3040096E45D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A1C2A7AA3040096E45D /* SearchCell.swift */; };
+		10344A1F2A7AA3CA0096E45D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A1E2A7AA3CA0096E45D /* Menu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +88,9 @@
 		10344A132A7A042D0096E45D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = DongJibSa/View/Base.lproj/Onboarding.storyboard; sourceTree = "<group>"; };
 		10344A152A7A546D0096E45D /* OnboardingImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingImage.swift; sourceTree = "<group>"; };
 		10344A172A7A55AC0096E45D /* OnboardingImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingImageCell.swift; sourceTree = "<group>"; };
+		10344A1A2A7AA0EF0096E45D /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		10344A1C2A7AA3040096E45D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		10344A1E2A7AA3CA0096E45D /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +141,7 @@
 			children = (
 				103449F82A765E060096E45D /* MyPractice.swift */,
 				10344A152A7A546D0096E45D /* OnboardingImage.swift */,
+				10344A1E2A7AA3CA0096E45D /* Menu.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -157,6 +164,7 @@
 				1034498B2A71F2BC0096E45D /* ViewController.swift */,
 				103449A22A720B6C0096E45D /* TabBarViewController.swift */,
 				103449A72A7259DC0096E45D /* Home */,
+				10344A192A7AA0DA0096E45D /* Search */,
 				103449EF2A7641650096E45D /* MyPage */,
 			);
 			path = Controller;
@@ -210,6 +218,7 @@
 				10344A022A7697550096E45D /* EmptyCell.swift */,
 				10344A0A2A778A320096E45D /* RecipeInfoCell.swift */,
 				10344A172A7A55AC0096E45D /* OnboardingImageCell.swift */,
+				10344A1C2A7AA3040096E45D /* SearchCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -229,6 +238,14 @@
 				10344A102A7A03700096E45D /* OnboardingViewController.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		10344A192A7AA0DA0096E45D /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				10344A1A2A7AA0EF0096E45D /* SearchViewController.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				103449BC2A73F06C0096E45D /* DetailViewController.swift in Sources */,
+				10344A1D2A7AA3040096E45D /* SearchCell.swift in Sources */,
 				10344A0B2A778A320096E45D /* RecipeInfoCell.swift in Sources */,
 				10344A162A7A546D0096E45D /* OnboardingImage.swift in Sources */,
 				103449A62A720E7F0096E45D /* Extension.swift in Sources */,
@@ -320,6 +338,7 @@
 				103449B02A729D460096E45D /* AddViewController.swift in Sources */,
 				103449C02A7411460096E45D /* CommentCell.swift in Sources */,
 				103449A32A720B6C0096E45D /* TabBarViewController.swift in Sources */,
+				10344A1B2A7AA0EF0096E45D /* SearchViewController.swift in Sources */,
 				103449BE2A7400900096E45D /* IngredientsInfoCell.swift in Sources */,
 				103449F92A765E060096E45D /* MyPractice.swift in Sources */,
 				103449F12A7641860096E45D /* MyPageViewController.swift in Sources */,
@@ -338,6 +357,7 @@
 				1034498A2A71F2BC0096E45D /* SceneDelegate.swift in Sources */,
 				103449FF2A7692930096E45D /* DoneButtonCell.swift in Sources */,
 				103449EE2A763C0D0096E45D /* DetailViewController+TableViewController.swift in Sources */,
+				10344A1F2A7AA3CA0096E45D /* Menu.swift in Sources */,
 				103449F32A7650750096E45D /* MyInfoCell.swift in Sources */,
 				103449B62A73AAAA0096E45D /* IngredientsCell.swift in Sources */,
 				103449A92A725A110096E45D /* HomeViewController.swift in Sources */,
