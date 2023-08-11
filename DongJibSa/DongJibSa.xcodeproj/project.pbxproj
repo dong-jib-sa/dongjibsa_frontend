@@ -51,6 +51,12 @@
 		10344A272A7BCF870096E45D /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A262A7BCF870096E45D /* Board.swift */; };
 		10344A5B2A7D55160096E45D /* Mypage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A5A2A7D55160096E45D /* Mypage.swift */; };
 		10344A5D2A7DD5DD0096E45D /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A5C2A7DD5DD0096E45D /* ImageCacheManager.swift */; };
+		10344A682A86776D0096E45D /* LocationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A672A86776D0096E45D /* LocationSettingViewController.swift */; };
+		10344A6A2A8677AD0096E45D /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A692A8677AD0096E45D /* LocationCell.swift */; };
+		10344A6C2A8677D20096E45D /* GuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A6B2A8677D20096E45D /* GuTableViewCell.swift */; };
+		10344A6E2A8677F10096E45D /* DongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A6D2A8677F10096E45D /* DongTableViewCell.swift */; };
+		10344A702A8678910096E45D /* LocationSettingViewController+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A6F2A8678910096E45D /* LocationSettingViewController+UICollectionView.swift */; };
+		10344A722A8678BA0096E45D /* LocationSettingViewController+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A712A8678BA0096E45D /* LocationSettingViewController+UITableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +105,12 @@
 		10344A262A7BCF870096E45D /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		10344A5A2A7D55160096E45D /* Mypage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mypage.swift; sourceTree = "<group>"; };
 		10344A5C2A7DD5DD0096E45D /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		10344A672A86776D0096E45D /* LocationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSettingViewController.swift; sourceTree = "<group>"; };
+		10344A692A8677AD0096E45D /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		10344A6B2A8677D20096E45D /* GuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuTableViewCell.swift; sourceTree = "<group>"; };
+		10344A6D2A8677F10096E45D /* DongTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DongTableViewCell.swift; sourceTree = "<group>"; };
+		10344A6F2A8678910096E45D /* LocationSettingViewController+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationSettingViewController+UICollectionView.swift"; sourceTree = "<group>"; };
+		10344A712A8678BA0096E45D /* LocationSettingViewController+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationSettingViewController+UITableView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +242,9 @@
 				10344A022A7697550096E45D /* EmptyCell.swift */,
 				10344A0A2A778A320096E45D /* RecipeInfoCell.swift */,
 				10344A172A7A55AC0096E45D /* OnboardingImageCell.swift */,
+				10344A692A8677AD0096E45D /* LocationCell.swift */,
+				10344A6B2A8677D20096E45D /* GuTableViewCell.swift */,
+				10344A6D2A8677F10096E45D /* DongTableViewCell.swift */,
 				10344A1C2A7AA3040096E45D /* SearchCell.swift */,
 			);
 			path = CustomCells;
@@ -248,6 +263,9 @@
 			isa = PBXGroup;
 			children = (
 				10344A102A7A03700096E45D /* OnboardingViewController.swift */,
+				10344A672A86776D0096E45D /* LocationSettingViewController.swift */,
+				10344A6F2A8678910096E45D /* LocationSettingViewController+UICollectionView.swift */,
+				10344A712A8678BA0096E45D /* LocationSettingViewController+UITableView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -351,10 +369,13 @@
 				10344A1D2A7AA3040096E45D /* SearchCell.swift in Sources */,
 				10344A0B2A778A320096E45D /* RecipeInfoCell.swift in Sources */,
 				10344A162A7A546D0096E45D /* OnboardingImage.swift in Sources */,
+				10344A722A8678BA0096E45D /* LocationSettingViewController+UITableView.swift in Sources */,
 				103449A62A720E7F0096E45D /* Extension.swift in Sources */,
 				10344A252A7BCF3B0096E45D /* Network.swift in Sources */,
+				10344A6A2A8677AD0096E45D /* LocationCell.swift in Sources */,
 				103449F72A765C2A0096E45D /* MyPageViewController+TableViewController.swift in Sources */,
 				10344A5D2A7DD5DD0096E45D /* ImageCacheManager.swift in Sources */,
+				10344A682A86776D0096E45D /* LocationSettingViewController.swift in Sources */,
 				10344A182A7A55AC0096E45D /* OnboardingImageCell.swift in Sources */,
 				103449AE2A726F2E0096E45D /* HomeViewController+TableViewController.swift in Sources */,
 				103449B02A729D460096E45D /* AddViewController.swift in Sources */,
@@ -377,10 +398,13 @@
 				10344A012A76940A0096E45D /* DetailTextViewCell.swift in Sources */,
 				103449B42A72B4B60096E45D /* PhotoCell.swift in Sources */,
 				103449882A71F2BC0096E45D /* AppDelegate.swift in Sources */,
+				10344A702A8678910096E45D /* LocationSettingViewController+UICollectionView.swift in Sources */,
 				103449FB2A767F100096E45D /* AddRecipeViewController.swift in Sources */,
 				1034498A2A71F2BC0096E45D /* SceneDelegate.swift in Sources */,
+				10344A6C2A8677D20096E45D /* GuTableViewCell.swift in Sources */,
 				103449FF2A7692930096E45D /* DoneButtonCell.swift in Sources */,
 				103449EE2A763C0D0096E45D /* DetailViewController+TableViewController.swift in Sources */,
+				10344A6E2A8677F10096E45D /* DongTableViewCell.swift in Sources */,
 				10344A1F2A7AA3CA0096E45D /* Menu.swift in Sources */,
 				103449F32A7650750096E45D /* MyInfoCell.swift in Sources */,
 				103449B62A73AAAA0096E45D /* IngredientsCell.swift in Sources */,
