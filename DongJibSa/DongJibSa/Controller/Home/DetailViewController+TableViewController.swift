@@ -16,7 +16,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return 1
         } else if section == 2 {
-            return table
+            return commentCount
         } else if section == 3 {
             return 0
         } else {
@@ -47,6 +47,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.cellId, for: indexPath) as! CommentCell
+            cell.commentLabel.text = self.comment
             cell.selectionStyle = .none
             return cell
         default:
@@ -215,7 +216,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             let talkLabel: UILabel = {
                 let label = UILabel()
-                label.text = "3"
+                label.text = "\(self.commentCount)"
                 label.textColor = .gray
                 label.font = .systemFont(ofSize: 12)
                 return label

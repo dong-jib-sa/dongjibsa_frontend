@@ -20,19 +20,21 @@ class CommentCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.backgroundColor = .primaryColor
         imageView.layer.cornerRadius = 40 / 2
+        imageView.image = UIImage(named: "Myprofile")
         return imageView
     }()
     
     let userNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "양념치킨"
+        label.text = "집밥이지"
         label.font = .systemFont(ofSize: 12)
         return label
     }()
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "10분 전"
+//        label.text = "10분 전"
+        label.text = "방금"
         label.font = .systemFont(ofSize: 10)
         return label
     }()
