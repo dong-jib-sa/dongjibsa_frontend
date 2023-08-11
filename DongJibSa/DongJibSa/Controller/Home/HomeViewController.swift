@@ -32,19 +32,18 @@ class HomeViewController: UIViewController {
 
         setupNavigationBar()
         setupView()
-        
-        Network.shared.getRecipes(completion: { board in
-//            print("--> \(board[0])")
-            self.recipeList = board
-//            print(self.boardList)
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
+        super.viewWillAppear(animated)
+        
+        Network.shared.getRecipes { board in
+            self.recipeList = board
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     private func setupNavigationBar() {
