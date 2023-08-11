@@ -48,8 +48,24 @@ class HomeViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "상도동", style: .plain, target: self, action: .none)
+        self.myLocation = UserDefaults.standard.string(forKey: "myLocation") ?? "정릉4동"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "\(myLocation)", style: .plain, target: self, action: #selector(locationButtonTapped))
         navigationController?.navigationBar.tintColor = .headerColor
+    }
+    
+    @objc private func locationButtonTapped(_ sender: UIButton) {
+        let viewController = LocationSettingViewController(selectLocation: [myLocation])
+        
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
+        navigationController.navigationBar.tintColor = .bodyColor
+        
+        self.present(navigationController, animated: true)
+    }
+    
+    @objc private func closeButtonTapped(_ sender: UIButton) {
+        self.dismiss(animated: true)
     }
     
     private func setupView() {
