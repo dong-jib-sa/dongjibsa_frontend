@@ -15,7 +15,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return myPractice.count
         } else {
-            return 5
+            return recipeList.count
         }
     }
     
@@ -25,9 +25,30 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             cell.itemImageView.image = UIImage(named: myPractice[indexPath.row].item)
             cell.descriptionLabel.text = myPractice[indexPath.row].description
             cell.resultLabel.text = myPractice[indexPath.row].result
+            if indexPath.row == 0 {
+                cell.resultLabel.text = "\(my[indexPath.row])kcal"
+            } else {
+                cell.resultLabel.text = "\(my[indexPath.row])개"
+            }
+            cell.selectionStyle = .none
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: MyRecipeCell.cellId, for: indexPath) as! MyRecipeCell
+//            if let imageURL = URL(string: boardList[indexPath.row].imgUrl) {
+//                if let imageData = try? Data(contentsOf: imageURL) {
+                    cell.recipeImage.setImageURL(recipeList[indexPath.row].imgUrl)
+//                }
+//            }
+            cell.titleLabel.text = recipeList[indexPath.row].title
+            cell.locationLabel.text = "집밥이지"
+            cell.priceLabel.text = "1인당 예상가 \(recipeList[indexPath.row].pricePerOne)원"
+            var recipeIngredients: [String] = []
+            for i in 0..<recipeList[indexPath.row].recipeIngredients.count {
+                var name: String = recipeList[indexPath.row].recipeIngredients[i].ingredientName
+                recipeIngredients.append("#\(name) ")
+            }
+            cell.tagListLabel.text = recipeIngredients.reduce("", +)
+            cell.selectionStyle = .none
             return cell
         }
     }

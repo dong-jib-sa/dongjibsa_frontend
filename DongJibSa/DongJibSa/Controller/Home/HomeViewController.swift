@@ -24,11 +24,27 @@ class HomeViewController: UIViewController {
         return button
     }()
     
+    var recipeList: [Board] = []
+    var myLocation: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
         setupView()
+        
+        Network.shared.getRecipes(completion: { board in
+//            print("--> \(board[0])")
+            self.recipeList = board
+//            print(self.boardList)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        })
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
     }
     
     private func setupNavigationBar() {
@@ -69,11 +85,12 @@ class HomeViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
-    func showDetail(for id: Int) {
+    func showDetail(for recipeInfo: Board) {
         let detail = UIStoryboard.init(name: "Detail", bundle: nil)
         guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
             return
         }
+        viewController.recipeInfo = recipeInfo
         viewController.hidesBottomBarWhenPushed = true
         viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
         navigationController?.pushViewController(viewController, animated: true)

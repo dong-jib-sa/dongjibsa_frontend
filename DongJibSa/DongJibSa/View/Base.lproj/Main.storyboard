@@ -122,7 +122,7 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="co4-hZ-rX3">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="s5o-es-sq8" customClass="TabBarViewController" customModule="DongJibSa" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="s5o-es-sq8" customClass="TabBarViewController" customModule="DongJibSa" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1JA-fg-mJ2">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>

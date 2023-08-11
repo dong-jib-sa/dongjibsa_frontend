@@ -32,6 +32,15 @@ class AddRecipeViewController: UIViewController {
     var photoList: [UIImage] = []
     var table: Int = 1
     var navigation: UINavigationController?
+    var recipe: [String: Any] = [:]
+    var recipeIngredients: [[String: Any]] = []
+    
+    var ingredientName: String = ""
+    var totalQty: Double = 0.0
+    var requiredQty: Double = 0.0
+    var sharingAvailableQty: Double = 0.0
+    
+    var recipeInfo: Board?
     
     init(navigationController: UINavigationController?) {
         super.init(nibName: nil, bundle: nil)
@@ -127,8 +136,8 @@ class AddRecipeViewController: UIViewController {
     
     @objc func addButtonTapped(_ sender: UIButton) {
         table += 1
-        tableView.insertRows(at: [IndexPath(row: table - 1, section: 4)], with: .bottom)
-        tableView.reloadRows(at: [IndexPath(row: table - 1, section: 4)], with: .bottom)
+        tableView.insertRows(at: [IndexPath(row: table - 1, section: 5)], with: .bottom)
+        tableView.reloadRows(at: [IndexPath(row: table - 1, section: 5)], with: .bottom)
     }
     
     @objc func doneButtonTapped(_ sender: UIButton) {
@@ -137,6 +146,7 @@ class AddRecipeViewController: UIViewController {
             guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
                 return
             }
+            viewController.recipeInfo = self.recipeInfo
             viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
             viewController.hidesBottomBarWhenPushed = true
             self.navigation?.navigationItem.backButtonDisplayMode = .minimal
