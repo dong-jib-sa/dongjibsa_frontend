@@ -21,7 +21,6 @@ class DetailTextViewCell: UITableViewCell {
         textView.layer.borderColor = UIColor.systemGray4.cgColor
         textView.layer.cornerRadius = 10
         textView.isScrollEnabled = false
-        textView.delegate = self
         return textView
     }()
     
@@ -45,22 +44,6 @@ class DetailTextViewCell: UITableViewCell {
             make.centerY.equalToSuperview()
             make.left.right.equalToSuperview().inset(16)
             make.height.equalTo(140)
-        }
-    }
-}
-
-extension DetailTextViewCell: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == placeholder {
-            textView.text = nil
-            textView.textColor = .black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = placeholder
-            textView.textColor = .lightGray
         }
     }
 }
