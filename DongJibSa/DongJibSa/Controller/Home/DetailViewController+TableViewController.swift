@@ -40,9 +40,9 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: IngredientsInfoCell.cellId, for: indexPath) as! IngredientsInfoCell
             cell.titleLabel.text = "  \(recipeInfo?.recipeIngredients[indexPath.row].ingredientName ?? "")"
-            cell.buyLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].totalQty ?? 0)"
-            cell.needLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].requiredQty ?? 0)"
-            cell.shareLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].sharingAvailableQty ?? 0)"
+            cell.buyLabel.text = "\(Int(recipeInfo?.recipeIngredients[indexPath.row].totalQty ?? 0))"
+            cell.needLabel.text = "\(Int(recipeInfo?.recipeIngredients[indexPath.row].requiredQty ?? 0))"
+            cell.shareLabel.text = "\(Int(recipeInfo?.recipeIngredients[indexPath.row].sharingAvailableQty ?? 0))"
             cell.selectionStyle = .none
             return cell
         case 2:
