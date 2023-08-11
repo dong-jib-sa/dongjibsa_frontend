@@ -11,12 +11,32 @@ class MyPageViewController: UIViewController {
     
     @IBOutlet weak var myTableView: UITableView!
     let myPractice: [MyPractice] = MyPractice.list
+    var my: [Double] = [0000.0, 0000.0]
+    var recipeList: [Board] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigationBar()
         setupView()
+        
+        Network.shared.getMypage { mypage in
+            self.my = []
+            for (_, j) in mypage {
+                self.my.append(j)
+            }
+            DispatchQueue.main.async {
+                self.myTableView.reloadData()
+            }
+        }
+        
+        Network.shared.getMyPosts { board in
+            self.recipeList = board
+            
+            DispatchQueue.main.async {
+                self.myTableView.reloadData()
+            }
+        }
     }
     
     private func setupNavigationBar() {

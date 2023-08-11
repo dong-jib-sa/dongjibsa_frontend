@@ -17,6 +17,7 @@ class DetailViewController: UIViewController {
     lazy var minTopHeight: CGFloat = 44 + (self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height)!
     
     var table: Int = 3
+    var recipeInfo: Board?
     
     let commentTextField: UITextField = {
         let textField = UITextField()

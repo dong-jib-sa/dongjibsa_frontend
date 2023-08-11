@@ -20,7 +20,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         } else if section == 3 {
             return 0
         } else {
-            return 3
+            return (recipeInfo?.recipeIngredients.count)!
         }
     }
     
@@ -28,10 +28,21 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: RecipeInfoCell.cellId, for: indexPath) as! RecipeInfoCell
+            cell.titleLabel.text = recipeInfo?.title
+//            cell.writeDateLabel.text =
+//            cell.timeLabel.text
+            cell.detailLabel.text = recipeInfo?.content
+            cell.priceLabel.text = "예상가: \(recipeInfo?.expectingPrice ?? 0)원"
+            cell.participantLabel.text = "파티원: \(recipeInfo?.peopleCount ?? 4)명"
+            cell.pricePerPersonLabel.text = "1인당 예상 구매가: \(recipeInfo?.pricePerOne ?? 0)원"
             cell.selectionStyle = .none
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: IngredientsInfoCell.cellId, for: indexPath) as! IngredientsInfoCell
+            cell.titleLabel.text = "  \(recipeInfo?.recipeIngredients[indexPath.row].ingredientName ?? "")"
+            cell.buyLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].totalQty ?? 0)"
+            cell.needLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].requiredQty ?? 0)"
+            cell.shareLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].sharingAvailableQty ?? 0)"
             cell.selectionStyle = .none
             return cell
         case 2:
@@ -88,7 +99,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             let userNameLabel: UILabel = {
                 let label = UILabel()
-                label.text = "집밥이지"
+                label.text = recipeInfo?.userName
                 label.font = .boldSystemFont(ofSize: 16)
                 return label
             }()
