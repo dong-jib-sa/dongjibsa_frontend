@@ -26,9 +26,11 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             cell.descriptionLabel.text = myPractice[indexPath.row].description
             cell.resultLabel.text = myPractice[indexPath.row].result
             if indexPath.row == 0 {
-                cell.resultLabel.text = "\(my[indexPath.row])kcal"
+                let calorie: Int = Int(my[indexPath.row])
+                cell.resultLabel.text = "\(calorie * 10)kcal"
             } else {
-                cell.resultLabel.text = "\(my[indexPath.row])개"
+                let sum: Int = Int(my[indexPath.row])
+                cell.resultLabel.text = "\(sum / 100)개"
             }
             cell.selectionStyle = .none
             return cell
@@ -62,6 +64,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
                 let imageView = UIImageView()
                 imageView.backgroundColor = .primaryColor
                 imageView.layer.cornerRadius = 45 / 2
+                imageView.image = UIImage(named: "Myprofile")
                 return imageView
             }()
             
