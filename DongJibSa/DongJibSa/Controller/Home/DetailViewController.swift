@@ -75,12 +75,17 @@ class DetailViewController: UIViewController {
     
     private func setupView() {
         self.view.backgroundColor = .white
+        recipeView.backgroundColor = .white
         
         let recipeImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.backgroundColor = .primaryColor
+            imageView.contentMode = .scaleAspectFill
+            imageView.layer.masksToBounds = false
             return imageView
         }()
+        let imageURL = recipeInfo?.imgUrl ?? ""
+        recipeImageView.setImageURL(imageURL)
         
         recipeView.addSubview(recipeImageView)
         recipeImageView.snp.makeConstraints { make in
