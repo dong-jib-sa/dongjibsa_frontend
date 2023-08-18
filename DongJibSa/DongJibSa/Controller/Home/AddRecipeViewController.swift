@@ -142,11 +142,11 @@ class AddRecipeViewController: UIViewController {
             alert.addAction(action)
             present(alert, animated: true)
         } else {
-            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
-            self.ingredientName = ""
-            self.totalQty = 0.0
-            self.requiredQty = 0.0
-            self.sharingAvailableQty = 0.0
+//            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
+//            self.ingredientName = ""
+//            self.totalQty = 0.0
+//            self.requiredQty = 0.0
+//            self.sharingAvailableQty = 0.0
             
             table += 1
             tableView.insertRows(at: [IndexPath(row: table - 1, section: 5)], with: .bottom)
@@ -162,7 +162,7 @@ class AddRecipeViewController: UIViewController {
             print("테스트 성공?!")
             let imageUrl: String = arr[0]
             let createdAt: String = arr[1]
-            let userName: String = arr[2]
+            let userName: String = "지예로운사람"
             
             let expectingPrice: String = "\(self.recipe["expectingPrice"] ?? "25000")"
             let peopleCount: String = "\(self.recipe["peopleCount"] ?? "4")"

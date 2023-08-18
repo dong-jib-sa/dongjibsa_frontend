@@ -224,9 +224,9 @@ class Network {
                 guard let id = recipeInfoResult["id"] as? Int else { return }
                 guard let imageUrl = recipeInfoResult["imgUrl"] as? String else { return }
                 guard let createdAt = recipeInfoResult["createdAt"] as? String else { return }
-                guard let userName = recipeInfoResult["userName"] as? String else { return }
+//                guard let userName = recipeInfoResult["user"]["userName"] as? String else { return }
                 
-                completion([imageUrl, createdAt, userName])
+                completion([imageUrl, createdAt])
                 
             } catch let error as NSError {
                 print("Error occur: error calling PATCH - \(error)")
