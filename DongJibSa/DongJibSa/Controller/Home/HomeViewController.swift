@@ -32,24 +32,39 @@ class HomeViewController: UIViewController {
 
         setupNavigationBar()
         setupView()
-        
-        Network.shared.getRecipes(completion: { board in
-//            print("--> \(board[0])")
-            self.recipeList = board
-//            print(self.boardList)
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
+        super.viewWillAppear(animated)
+        
+        Network.shared.getRecipes { board in
+            self.recipeList = board
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     private func setupNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "상도동", style: .plain, target: self, action: .none)
+        self.myLocation = UserDefaults.standard.string(forKey: "myLocation") ?? "정릉4동"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "\(myLocation)", style: .plain, target: self, action: #selector(locationButtonTapped))
         navigationController?.navigationBar.tintColor = .headerColor
+    }
+    
+    @objc private func locationButtonTapped(_ sender: UIButton) {
+        let viewController = LocationSettingViewController(selectLocation: [myLocation])
+        
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
+        navigationController.navigationBar.tintColor = .bodyColor
+        
+        self.present(navigationController, animated: true)
+    }
+    
+    @objc private func closeButtonTapped(_ sender: UIButton) {
+        self.dismiss(animated: true)
     }
     
     private func setupView() {

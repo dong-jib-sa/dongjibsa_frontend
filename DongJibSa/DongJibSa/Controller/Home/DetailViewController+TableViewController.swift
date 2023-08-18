@@ -15,8 +15,8 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1
-        } else if section == 2{
-            return table
+        } else if section == 2 {
+            return commentCount
         } else if section == 3 {
             return 0
         } else {
@@ -40,13 +40,14 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: IngredientsInfoCell.cellId, for: indexPath) as! IngredientsInfoCell
             cell.titleLabel.text = "  \(recipeInfo?.recipeIngredients[indexPath.row].ingredientName ?? "")"
-            cell.buyLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].totalQty ?? 0)"
-            cell.needLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].requiredQty ?? 0)"
-            cell.shareLabel.text = "\(recipeInfo?.recipeIngredients[indexPath.row].sharingAvailableQty ?? 0)"
+            cell.buyLabel.text = "\(Int(recipeInfo?.recipeIngredients[indexPath.row].totalQty ?? 0))"
+            cell.needLabel.text = "\(Int(recipeInfo?.recipeIngredients[indexPath.row].requiredQty ?? 0))"
+            cell.shareLabel.text = "\(Int(recipeInfo?.recipeIngredients[indexPath.row].sharingAvailableQty ?? 0))"
             cell.selectionStyle = .none
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.cellId, for: indexPath) as! CommentCell
+            cell.commentLabel.text = self.comment
             cell.selectionStyle = .none
             return cell
         default:
@@ -87,6 +88,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                 let imageView = UIImageView()
                 imageView.backgroundColor = .primaryColor
                 imageView.layer.cornerRadius = 45 / 2
+                imageView.image = UIImage(named: "Myprofile")
                 return imageView
             }()
             
@@ -104,9 +106,10 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                 return label
             }()
             
+            let myLocation = UserDefaults.standard.string(forKey: "myLocation") ?? "정릉4동"
             let descriptionLabel: UILabel = {
                 let label = UILabel()
-                label.text = "신대방동"
+                label.text = myLocation
                 label.font = .systemFont(ofSize: 14)
                 return label
             }()
@@ -189,7 +192,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             let likeLabel: UILabel = {
                 let label = UILabel()
-                label.text = "7"
+                label.text = "0"
                 label.textColor = .gray
                 label.font = .systemFont(ofSize: 12)
                 return label
@@ -213,7 +216,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             let talkLabel: UILabel = {
                 let label = UILabel()
-                label.text = "3"
+                label.text = "\(self.commentCount)"
                 label.textColor = .gray
                 label.font = .systemFont(ofSize: 12)
                 return label
@@ -237,7 +240,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             let viewLabel: UILabel = {
                 let label = UILabel()
-                label.text = "24"
+                label.text = "1"
                 label.textColor = .gray
                 label.font = .systemFont(ofSize: 12)
                 return label

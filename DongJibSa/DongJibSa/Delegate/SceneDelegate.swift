@@ -18,14 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        // 온보딩 페이지 추가시
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//        let window = UIWindow(windowScene: windowScene)
-//        self.window = window
-//        let onboarding = UIStoryboard.init(name: "Onboarding", bundle: nil)
-//        let onboardingViewController = onboarding.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
-//        window.rootViewController = onboardingViewController
-//        window.makeKeyAndVisible()
+        // 온보딩 페이지
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        let window = UIWindow(windowScene: windowScene)
+        self.window = window
+        let onboarding = UIStoryboard.init(name: "Onboarding", bundle: nil)
+        let onboardingViewController = onboarding.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
+        window.rootViewController = onboardingViewController
+        window.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

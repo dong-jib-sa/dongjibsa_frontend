@@ -13,7 +13,7 @@ class TextFieldCell: UITableViewCell {
     
     let textField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "레시피 제목을 입력해주세요."
+        textField.placeholder = "게시글 제목을 입력해주세요."
         textField.toStyledTextField(textField)
         textField.addPadding(width: 16)
         return textField

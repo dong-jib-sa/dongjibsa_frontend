@@ -18,6 +18,8 @@ class DetailViewController: UIViewController {
     
     var table: Int = 3
     var recipeInfo: Board?
+    var commentCount: Int = 0
+    var comment: String = ""
     
     let commentTextField: UITextField = {
         let textField = UITextField()
@@ -32,7 +34,7 @@ class DetailViewController: UIViewController {
 
         setupView()
         keyboardNotification()
-        
+        commentTextField.delegate = self
     }
     
     private func keyboardNotification() {
@@ -67,20 +69,25 @@ class DetailViewController: UIViewController {
             
         } else {
             self.commentTextField.text = ""
-            self.table += 1
-            self.tableView.insertRows(at: [IndexPath(row: self.table - 1, section: 2)], with: .middle)
-            self.tableView.reloadRows(at: [IndexPath(row: self.table - 1, section: 2)], with: .middle)
+            commentCount += 1
+            self.tableView.insertRows(at: [IndexPath(row: commentCount - 1, section: 2)], with: .middle)
+            self.tableView.reloadData()
         }
     }
     
     private func setupView() {
         self.view.backgroundColor = .white
+        recipeView.backgroundColor = .white
         
         let recipeImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.backgroundColor = .primaryColor
+            imageView.contentMode = .scaleAspectFill
+            imageView.layer.masksToBounds = false
             return imageView
         }()
+        let imageURL = recipeInfo?.imgUrl ?? ""
+        recipeImageView.setImageURL(imageURL)
         
         recipeView.addSubview(recipeImageView)
         recipeImageView.snp.makeConstraints { make in
@@ -111,5 +118,11 @@ extension DetailViewController: UIScrollViewDelegate {
             recipeViewHeight.constant = modifiedTopHeight
             tableView.contentOffset.y = 0
         }
+    }
+}
+
+extension DetailViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.comment = textField.text ?? ""
     }
 }

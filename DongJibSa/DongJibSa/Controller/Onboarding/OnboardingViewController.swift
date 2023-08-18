@@ -12,6 +12,7 @@ class OnboardingViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     let imageList: [Onboarding] = Onboarding.imageList
     
@@ -31,13 +32,20 @@ class OnboardingViewController: UIViewController {
         }
         
         pageControl.numberOfPages = imageList.count
+        
+        descriptionLabel.text = "장바구니 공동구매를 통해 음식물 쓰레기 절감과\n식생활 제로웨이스트를 실천해보세요!"
+        descriptionLabel.setLineSpacing(spacing: 5)
+        descriptionLabel.textAlignment = .center
     }
     
     @IBAction func startButtonTapped(_ sender: UIButton) {
-        let main = UIStoryboard.init(name: "Main", bundle: nil)
-        let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
-        viewController.modalPresentationStyle = .fullScreen
-        self.present(viewController, animated: false)
+        let viewController = LocationSettingViewController(selectLocation: [])
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: nil)
+        navigationController.navigationBar.tintColor = .bodyColor
+        
+        self.present(navigationController, animated: false)
     }
 }
 

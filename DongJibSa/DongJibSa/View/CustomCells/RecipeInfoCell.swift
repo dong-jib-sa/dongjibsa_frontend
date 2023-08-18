@@ -25,7 +25,7 @@ class RecipeInfoCell: UITableViewCell {
     
     let writeDateLabel: UILabel = {
         let label = UILabel()
-        label.text = "2023.07.28."
+        label.text = "2023.08.06."
         label.font = .systemFont(ofSize: 14)
         label.textAlignment = .left
         label.textColor = .gray
@@ -34,7 +34,8 @@ class RecipeInfoCell: UITableViewCell {
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "1시간 전"
+//        label.text = "1시간 전"
+        label.text = "방금"
         label.font = .systemFont(ofSize: 14)
         label.textAlignment = .right
         label.textColor = .gray
@@ -53,6 +54,7 @@ class RecipeInfoCell: UITableViewCell {
         let label = UILabel()
         label.text = "양배추랑 돼지고기가 많이 남는데 필요하신 분 있나요? 재료 나눔합니다~"
         label.numberOfLines = 0
+        label.setLineSpacing(spacing: 4)
         label.font = .systemFont(ofSize: 16)
         return label
     }()
