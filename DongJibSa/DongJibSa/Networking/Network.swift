@@ -158,4 +158,79 @@ class Network {
         }
         task.resume()
     }
+    
+    func postBoard(image: Data? = nil, filename: String? = nil, recipe: [String: Any], recipeIngredients: [[String: Any]], completion: @escaping ([String]) -> Void) {
+        let strURL = baseURL + postURL
+        let myDong: String = UserDefaults.standard.string(forKey: "myLocation") ?? "정릉4동"
+        let expectingPrice: String = "\(recipe["expectingPrice"] ?? "25000")"
+        let peopleCount: String = "\(recipe["peopleCount"] ?? "4")"
+        let pricePerOne = "\(Int(expectingPrice)! / Int(peopleCount)!)"
+        
+        let configuration = URLSessionConfiguration.default
+        
+        guard let urlComponets = URLComponents(string: strURL) else { return }
+        guard let requestURL = urlComponets.url else { return }
+        var request = URLRequest(url: requestURL)
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        
+        request.httpMethod = "POST"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var parameters: [String: Any] = recipe
+        parameters["userName"] = "지예로운사람" // userName은 지예로운사람으로 고정되어 있음
+        parameters["dong"] = myDong
+        parameters["pricePerOne"] = pricePerOne
+        
+        for i in 0..<recipeIngredients.count {
+            parameters["ingredients[\(i)].ingredientName"] = recipeIngredients[i]["ingredientName"]
+            parameters["ingredients[\(i)].totalQty"] = recipeIngredients[i]["totalQty"]
+            parameters["ingredients[\(i)].requiredQty"] = recipeIngredients[i]["requiredQty"]
+            parameters["ingredients[\(i)].sharingAvailableQty"] = recipeIngredients[i]["sharingAvailableQty"]
+        }
+        
+        var uploadData = Data()
+        let imgDataKey = "image"
+        let boundaryPrefix = "--\(boundary)\r\n"
+        
+        for (key, value) in parameters {
+            uploadData.append(boundaryPrefix.data(using: .utf8)!)
+            uploadData.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            uploadData.append("\(value)\r\n".data(using: .utf8)!)
+        }
+        
+        if let imageData = image {
+            uploadData.append(boundaryPrefix.data(using: .utf8)!)
+            uploadData.append("Content-Disposition: form-data; name=\"\(imgDataKey)\"; filename=\"\(filename ?? "profileImage.jpeg")\"\r\n".data(using: .utf8)!)
+            uploadData.append("Content-Type: \("image/jpeg")\r\n\r\n".data(using: .utf8)!)
+            uploadData.append(imageData)
+            uploadData.append("\r\n".data(using: .utf8)!)
+            uploadData.append("--\(boundary)--".data(using: .utf8)!)
+        }
+        
+        let session = URLSession(configuration: configuration)
+        session.uploadTask(with: request, from: uploadData) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode)  else {
+                print("Error: HTTP request failed \n --> response: \(response)")
+                return
+            }
+            guard let data = data else { return }
+            
+            do {
+                guard let recipeInfo = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] else { return }
+                
+                guard let recipeInfoResult = recipeInfo["result"] as? [String: Any] else { return }
+                guard let id = recipeInfoResult["id"] as? Int else { return }
+                guard let imageUrl = recipeInfoResult["imgUrl"] as? String else { return }
+                guard let createdAt = recipeInfoResult["createdAt"] as? String else { return }
+                guard let userName = recipeInfoResult["userName"] as? String else { return }
+                
+                completion([imageUrl, createdAt, userName])
+                
+            } catch let error as NSError {
+                print("Error occur: error calling PATCH - \(error)")
+            }
+        }.resume()
+    }
 }

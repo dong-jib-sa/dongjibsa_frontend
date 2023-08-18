@@ -20,7 +20,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         } else if section == 3 {
             return 0
         } else {
-            return (recipeInfo?.recipeIngredients.count)!
+            return (recipeInfo?.recipeIngredients.count ?? 0)
         }
     }
     
@@ -29,8 +29,10 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: RecipeInfoCell.cellId, for: indexPath) as! RecipeInfoCell
             cell.titleLabel.text = recipeInfo?.title
-//            cell.writeDateLabel.text =
 //            cell.timeLabel.text
+            // "createdAt": 2023-08-18T05:18:54.182206681
+            let createdAt = recipeInfo?.createdAt?.components(separatedBy: "T")
+            cell.writeDateLabel.text = createdAt?.first ?? "2023-08-18"
             cell.detailLabel.text = recipeInfo?.content
             cell.priceLabel.text = "예상가: \(recipeInfo?.expectingPrice ?? 0)원"
             cell.participantLabel.text = "파티원: \(recipeInfo?.peopleCount ?? 4)명"
