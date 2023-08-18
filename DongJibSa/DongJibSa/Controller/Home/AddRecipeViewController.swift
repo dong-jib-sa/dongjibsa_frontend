@@ -41,6 +41,7 @@ class AddRecipeViewController: UIViewController {
     var sharingAvailableQty: Double = 0.0
     
     var recipeInfo: Board?
+    var imageData: Data?
     
     init(navigationController: UINavigationController?) {
         super.init(nibName: nil, bundle: nil)
@@ -135,23 +136,60 @@ class AddRecipeViewController: UIViewController {
     }
     
     @objc func addButtonTapped(_ sender: UIButton) {
-        table += 1
-        tableView.insertRows(at: [IndexPath(row: table - 1, section: 5)], with: .bottom)
-        tableView.reloadRows(at: [IndexPath(row: table - 1, section: 5)], with: .bottom)
+        if self.ingredientName == "" || self.totalQty == 0.0 || self.requiredQty == 0.0 || self.sharingAvailableQty == 0.0 {
+            let alert = UIAlertController(title: "", message: "재료명, 구매수량, 필요수량, 나눔수량 중에서 빠진 것이 없는지 확인하세요.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+        } else {
+            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
+            self.ingredientName = ""
+            self.totalQty = 0.0
+            self.requiredQty = 0.0
+            self.sharingAvailableQty = 0.0
+            
+            table += 1
+            tableView.insertRows(at: [IndexPath(row: table - 1, section: 5)], with: .bottom)
+            tableView.reloadRows(at: [IndexPath(row: table - 1, section: 5)], with: .bottom)
+        }
     }
     
     @objc func doneButtonTapped(_ sender: UIButton) {
-        self.dismiss(animated: true) {
-            let detail = UIStoryboard.init(name: "Detail", bundle: nil)
-            guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
-                return
+        guard let imageData = self.imageData else { return }
+        guard let filename = recipe["title"] as? String else { return }
+        
+        Network.shared.postBoard(image: imageData, filename: filename, recipe: self.recipe, recipeIngredients: self.recipeIngredients, completion: { arr in
+            print("테스트 성공?!")
+            let imageUrl: String = arr[0]
+            let createdAt: String = arr[1]
+            let userName: String = arr[2]
+            
+            let expectingPrice: String = "\(self.recipe["expectingPrice"] ?? "25000")"
+            let peopleCount: String = "\(self.recipe["peopleCount"] ?? "4")"
+            let pricePerOne = Int("\(Int(expectingPrice)! / Int(peopleCount)!)")
+            var recipeIngredientsResult: [RecipeIngredients] = []
+            
+            for i in 0..<self.table {
+                let recipeIngredient = RecipeIngredients(ingredientName: "\(self.recipeIngredients[i]["ingredientName"] ?? "두부")", totalQty: Double("\(self.recipeIngredients[i]["totalQty"] ?? 2.0)")!, requiredQty: Double("\(self.recipeIngredients[i]["requiredQty"] ?? 2.0)")!, sharingAvailableQty: Double("\(self.recipeIngredients[i]["sharingAvailableQty"] ?? 2.0)")!)
+                recipeIngredientsResult.append(recipeIngredient)
             }
-            viewController.recipeInfo = self.recipeInfo
-            viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
-            viewController.hidesBottomBarWhenPushed = true
-            self.navigation?.navigationItem.backButtonDisplayMode = .minimal
-            self.navigation?.pushViewController(viewController, animated: false)
-        }
+            
+            let recipeInfo: Board = Board(title: "\(self.recipe["title"] ?? "제목")", content: "\(self.recipe["content"] ?? "알배추, 청경채, 깻잎, 소고기 목심, 팽이랑 표고버섯 구매할 건데 재료가 너무 많이 남을거 같아서요~ㅠ같이 공구하실 분 구합니다~!")", userName: userName, expectingPrice: Int("\(self.recipe["expectingPrice"] ?? 0)")!, pricePerOne: pricePerOne!, peopleCount: Int("\(self.recipe["peopleCount"] ?? 4)")!, recipeIngredients: recipeIngredientsResult, imgUrl: "\(self.recipe["imgUrl"] ?? imageUrl)", createdAt: createdAt)
+            
+            DispatchQueue.main.async {
+                self.dismiss(animated: true) {
+                    let detail = UIStoryboard.init(name: "Detail", bundle: nil)
+                    guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
+                        return
+                    }
+                    viewController.recipeInfo = recipeInfo
+                    viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
+                    viewController.hidesBottomBarWhenPushed = true
+                    self.navigation?.navigationItem.backButtonDisplayMode = .minimal
+                    self.navigation?.pushViewController(viewController, animated: false)
+                }
+            }
+        })
     }
     @objc private func closeButtonTapped(_ sender: UIButton) {
         self.dismiss(animated: true)
@@ -182,6 +220,7 @@ extension AddRecipeViewController: PHPickerViewControllerDelegate {
                     itemProvider.loadObject(ofClass: UIImage.self) { [weak self](image, error) in
                         if let image = image as? UIImage {
                             self?.photoList.append(image)
+                            self?.imageData = image.jpegData(compressionQuality: 0.7)
                             
                             DispatchQueue.main.async {
                                 self?.collectionView.reloadData()

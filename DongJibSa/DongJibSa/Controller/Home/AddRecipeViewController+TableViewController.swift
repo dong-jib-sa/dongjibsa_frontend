@@ -49,6 +49,7 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textField.delegate = self
             cell.selectionStyle = .none
             cell.textField.tag = indexPath.section
+            cell.textField.isEnabled = false
             return cell
         case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.cellID, for: indexPath) as! IngredientsCell
@@ -294,9 +295,9 @@ extension AddRecipeViewController: UITextFieldDelegate {
         case 1:
             self.recipe["recipeName"] = textField.text ?? ""
         case 2:
-            self.recipe["expectingPrice"] = Int(textField.text ?? "0")!
+            self.recipe["expectingPrice"] = Int(textField.text ?? "0") ?? 0
         case 3:
-            self.recipe["peopleCount"] = Int(textField.text ?? "0")!
+            self.recipe["peopleCount"] = Int(textField.text ?? "0") ?? 0
         case 4:
             if textField.text == nil {
                 self.recipe["pricePerOne"] = "\(Int(self.recipe["expectingPrice"] as! String)! / Int(self.recipe["peopleCount"] as! String)!)"
@@ -306,25 +307,17 @@ extension AddRecipeViewController: UITextFieldDelegate {
         case 5:
             self.ingredientName = textField.text ?? ""
         case 6:
-            var totalQ = exChange(value: textField.text ?? "0")
+            let totalQ = exChange(value: textField.text ?? "0")
             self.totalQty = totalQ
         case 7:
-            var requiredQ = exChange(value: textField.text ?? "0")
+            let requiredQ = exChange(value: textField.text ?? "0")
             self.requiredQty = requiredQ
         case 8:
-            var sharingAvailableQ = exChange(value: textField.text ?? "0")
+            let sharingAvailableQ = exChange(value: textField.text ?? "0")
             self.sharingAvailableQty = sharingAvailableQ
-            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
-            self.ingredientName = ""
-            self.totalQty = 0.0
-            self.requiredQty = 0.0
-            self.sharingAvailableQty = 0.0
         default:
             print("")
         }
-        print(recipe)
-        print(recipeIngredients)
-//        tableView.cellForRow(at: 0)
     }
     
     // 값을 분수(1/2)로 받았을때와
@@ -336,15 +329,15 @@ extension AddRecipeViewController: UITextFieldDelegate {
             for (_, i) in value.enumerated() {
                 arr.append(String(i))
             }
-            var first = Double(arr.first!)!
-            var second = Double(arr.last!)!
+            let first = Double(arr.first!) ?? 0.0
+            let second = Double(arr.last!) ?? 0.0
             result = first/second
             return result
         } else if value.contains(".") {
             result = Double(value)!
             return result
         } else {
-            result = Double(value)!
+            result = Double(value) ?? 0.0
             return result
         }
     }

@@ -83,7 +83,7 @@ class DetailViewController: UIViewController {
             let imageView = UIImageView()
             imageView.backgroundColor = .primaryColor
             imageView.contentMode = .scaleAspectFill
-            imageView.layer.masksToBounds = false
+            imageView.layer.masksToBounds = true
             return imageView
         }()
         let imageURL = recipeInfo?.imgUrl ?? ""
