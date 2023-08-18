@@ -13,7 +13,6 @@
 		1034498F2A71F2BC0096E45D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1034498D2A71F2BC0096E45D /* Main.storyboard */; };
 		103449912A71F2BD0096E45D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 103449902A71F2BD0096E45D /* Assets.xcassets */; };
 		103449942A71F2BD0096E45D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 103449922A71F2BD0096E45D /* LaunchScreen.storyboard */; };
-		103449A12A71F4B80096E45D /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 103449A02A71F4B80096E45D /* SnapKit-Dynamic */; };
 		103449A32A720B6C0096E45D /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449A22A720B6C0096E45D /* TabBarViewController.swift */; };
 		103449A62A720E7F0096E45D /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449A52A720E7F0096E45D /* Extension.swift */; };
 		103449A92A725A110096E45D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449A82A725A110096E45D /* HomeViewController.swift */; };
@@ -57,6 +56,7 @@
 		10344A6E2A8677F10096E45D /* DongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A6D2A8677F10096E45D /* DongTableViewCell.swift */; };
 		10344A702A8678910096E45D /* LocationSettingViewController+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A6F2A8678910096E45D /* LocationSettingViewController+UICollectionView.swift */; };
 		10344A722A8678BA0096E45D /* LocationSettingViewController+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A712A8678BA0096E45D /* LocationSettingViewController+UITableView.swift */; };
+		10344A772A8F72C20096E45D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10344A762A8F72C20096E45D /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,7 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				103449A12A71F4B80096E45D /* SnapKit-Dynamic in Frameworks */,
+				10344A772A8F72C20096E45D /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,7 +303,7 @@
 			);
 			name = DongJibSa;
 			packageProductDependencies = (
-				103449A02A71F4B80096E45D /* SnapKit-Dynamic */,
+				10344A762A8F72C20096E45D /* SnapKit */,
 			);
 			productName = DongJibSa;
 			productReference = 103449842A71F2BC0096E45D /* DongJibSa.app */;
@@ -334,7 +334,7 @@
 			);
 			mainGroup = 1034497B2A71F2BC0096E45D;
 			packageReferences = (
-				1034499F2A71F4B80096E45D /* XCRemoteSwiftPackageReference "SnapKit" */,
+				10344A752A8F72C20096E45D /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 103449852A71F2BC0096E45D /* Products */;
 			projectDirPath = "";
@@ -654,7 +654,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1034499F2A71F4B80096E45D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		10344A752A8F72C20096E45D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -665,10 +665,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		103449A02A71F4B80096E45D /* SnapKit-Dynamic */ = {
+		10344A762A8F72C20096E45D /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1034499F2A71F4B80096E45D /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
+			package = 10344A752A8F72C20096E45D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
