@@ -315,6 +315,13 @@ extension AddRecipeViewController: UITextFieldDelegate {
         case 8:
             let sharingAvailableQ = exChange(value: textField.text ?? "0")
             self.sharingAvailableQty = sharingAvailableQ
+            
+            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
+            self.ingredientName = ""
+            self.totalQty = 0.0
+            self.requiredQty = 0.0
+            self.sharingAvailableQty = 0.0
+            
         default:
             print("")
         }
