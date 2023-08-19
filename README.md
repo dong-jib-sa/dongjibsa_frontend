@@ -17,10 +17,10 @@
 
 ## 주요 기능
 
-| ![](https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/onboardingview.gif) | ![](https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/locationview.gif) | ![](https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/homeview.gif) |
+| ![](<img width="200" src="https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/onboardingview.gif">) | ![](<img width="200" src="https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/locationview.gif">) | ![](<img width="200" src="https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/homeview.gif">) |
 | :-:| :-: | :-: |
 | `온보딩 화면` | `동네 설정 화면` | `홈 화면` |
 
-| ![](https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/recipeview.gif) | ![](https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/mypageview.gif) |
+| ![](<img width="200" src="https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/recipeview.gif">) | ![](<img width="200" src="https://github.com/dong-jib-sa/dongjibsa_frontend/blob/main/images/mypageview.gif">) |
 | :-:| :-: |
 | `게시글 작성 화면` | `내 장바구니 화면` |
