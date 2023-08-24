@@ -38,7 +38,6 @@ class LoginViewController: UIViewController {
     
     @objc func skipButtonTapped(_ sender: UIButton) {
         let viewController = LocationSettingViewController(selectLocation: [])
-        let navigationController = UINavigationController(rootViewController: viewController)
         self.navigationController?.navigationBar.tintColor = .bodyColor
         self.navigationItem.backButtonDisplayMode = .minimal
         self.navigationController?.pushViewController(viewController, animated: true)
