@@ -39,12 +39,10 @@ class OnboardingViewController: UIViewController {
     }
     
     @IBAction func startButtonTapped(_ sender: UIButton) {
-        let viewController = LocationSettingViewController(selectLocation: [])
-        let navigationController = UINavigationController(rootViewController: viewController)
+        let login = UIStoryboard.init(name: "Login", bundle: nil)
+        let loginViewController = login.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+        let navigationController = UINavigationController(rootViewController: loginViewController)
         navigationController.modalPresentationStyle = .fullScreen
-        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: nil)
-        navigationController.navigationBar.tintColor = .bodyColor
-        
         self.present(navigationController, animated: false)
     }
 }
