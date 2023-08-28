@@ -44,12 +44,19 @@ class LoginViewController: UIViewController {
         loginView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+        loginView.phoneLoginButton.addTarget(self, action: #selector(phoneLoginButtonTapped), for: .touchUpInside)
     }
     
     @objc func skipButtonTapped(_ sender: UIButton) {
         let viewController = LocationSettingViewController(selectLocation: [])
         self.navigationController?.navigationBar.tintColor = .bodyColor
         self.navigationItem.backButtonDisplayMode = .minimal
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    @objc func phoneLoginButtonTapped(_ sender: UIButton) {
+        let viewController = PhoneCertifyViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

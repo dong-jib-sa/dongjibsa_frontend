@@ -60,6 +60,7 @@
 		10344A812A971F650096E45D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A802A971F650096E45D /* LoginViewController.swift */; };
 		10344A832A97259C0096E45D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10344A822A97259C0096E45D /* Login.storyboard */; };
 		10344A892A9BA5400096E45D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A882A9BA5400096E45D /* LoginView.swift */; };
+		10344A8B2A9C3D970096E45D /* PhoneCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +118,7 @@
 		10344A802A971F650096E45D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		10344A822A97259C0096E45D /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		10344A882A9BA5400096E45D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				10344A802A971F650096E45D /* LoginViewController.swift */,
+				10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */,
 				10344A882A9BA5400096E45D /* LoginView.swift */,
 			);
 			path = Login;
@@ -425,6 +428,7 @@
 				103449FF2A7692930096E45D /* DoneButtonCell.swift in Sources */,
 				103449EE2A763C0D0096E45D /* DetailViewController+TableViewController.swift in Sources */,
 				10344A6E2A8677F10096E45D /* DongTableViewCell.swift in Sources */,
+				10344A8B2A9C3D970096E45D /* PhoneCertifyViewController.swift in Sources */,
 				10344A1F2A7AA3CA0096E45D /* Menu.swift in Sources */,
 				103449F32A7650750096E45D /* MyInfoCell.swift in Sources */,
 				103449B62A73AAAA0096E45D /* IngredientsCell.swift in Sources */,
