@@ -59,6 +59,7 @@
 		10344A772A8F72C20096E45D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10344A762A8F72C20096E45D /* SnapKit */; };
 		10344A812A971F650096E45D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A802A971F650096E45D /* LoginViewController.swift */; };
 		10344A832A97259C0096E45D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10344A822A97259C0096E45D /* Login.storyboard */; };
+		10344A892A9BA5400096E45D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A882A9BA5400096E45D /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +116,7 @@
 		10344A712A8678BA0096E45D /* LocationSettingViewController+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationSettingViewController+UITableView.swift"; sourceTree = "<group>"; };
 		10344A802A971F650096E45D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		10344A822A97259C0096E45D /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		10344A882A9BA5400096E45D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				10344A802A971F650096E45D /* LoginViewController.swift */,
+				10344A882A9BA5400096E45D /* LoginView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				10344A1D2A7AA3040096E45D /* SearchCell.swift in Sources */,
 				10344A0B2A778A320096E45D /* RecipeInfoCell.swift in Sources */,
 				10344A162A7A546D0096E45D /* OnboardingImage.swift in Sources */,
+				10344A892A9BA5400096E45D /* LoginView.swift in Sources */,
 				10344A722A8678BA0096E45D /* LocationSettingViewController+UITableView.swift in Sources */,
 				103449A62A720E7F0096E45D /* Extension.swift in Sources */,
 				10344A252A7BCF3B0096E45D /* Network.swift in Sources */,

@@ -8,11 +8,14 @@
 import UIKit
 
 class LoginViewController: UIViewController {
+    
+    private let loginView = LoginView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setNavigationBar()
+        setupView()
     }
     
     private func setNavigationBar() {
@@ -34,6 +37,13 @@ class LoginViewController: UIViewController {
         
         let skipItem = UIBarButtonItem(customView: skipButton)
         self.navigationItem.rightBarButtonItem = skipItem
+    }
+    
+    private func setupView() {
+        self.view.addSubview(loginView)
+        loginView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     @objc func skipButtonTapped(_ sender: UIButton) {
