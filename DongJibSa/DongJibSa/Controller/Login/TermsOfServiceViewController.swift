@@ -8,6 +8,8 @@
 import UIKit
 
 class TermsOfServiceViewController: UIViewController {
+    
+    private let termsOfServiceView = TermsOfServiceView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +31,41 @@ class TermsOfServiceViewController: UIViewController {
     
     private func setupView() {
         self.view.backgroundColor = .white
+        
+        self.view.addSubview(termsOfServiceView)
+        termsOfServiceView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        termsOfServiceView.agreementButton.addTarget(self, action: #selector(agreementButtonTapped), for: .touchUpInside)
+        termsOfServiceView.startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
     
     @objc func backButtonTapped(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func agreementButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        if sender.isSelected {
+            sender.tintColor = .primaryColor
+            termsOfServiceView.isSelected.toggle()
+            termsOfServiceView.startButton.backgroundColor = .primaryColor
+            termsOfServiceView.startButton.setTitleColor(.white, for: .normal)
+            termsOfServiceView.startButton.isEnabled.toggle()
+        } else {
+            sender.tintColor = .systemGray
+            termsOfServiceView.isSelected.toggle()
+            termsOfServiceView.startButton.backgroundColor = .accentColor
+            termsOfServiceView.startButton.setTitleColor(.systemGray, for: .normal)
+            termsOfServiceView.startButton.isEnabled.toggle()
+        }
+    }
+    
+    @objc func startButtonTapped(_ sender: UIButton) {
+        let viewController = LocationSettingViewController(selectLocation: [])
+        self.navigationController?.navigationBar.tintColor = .bodyColor
+        self.navigationItem.backButtonDisplayMode = .minimal
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

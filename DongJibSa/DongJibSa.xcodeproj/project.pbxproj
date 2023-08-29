@@ -63,6 +63,7 @@
 		10344A8B2A9C3D970096E45D /* PhoneCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */; };
 		10344A8D2A9C66B60096E45D /* PhoneCertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */; };
 		10344A8F2A9DAD360096E45D /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */; };
+		10344A912A9DCA350096E45D /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A902A9DCA350096E45D /* TermsOfServiceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,6 +124,7 @@
 		10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyViewController.swift; sourceTree = "<group>"; };
 		10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyView.swift; sourceTree = "<group>"; };
 		10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
+		10344A902A9DCA350096E45D /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,6 +308,7 @@
 				10344A802A971F650096E45D /* LoginViewController.swift */,
 				10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */,
 				10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */,
+				10344A902A9DCA350096E45D /* TermsOfServiceView.swift */,
 				10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */,
 				10344A882A9BA5400096E45D /* LoginView.swift */,
 			);
@@ -407,6 +410,7 @@
 				10344A182A7A55AC0096E45D /* OnboardingImageCell.swift in Sources */,
 				103449AE2A726F2E0096E45D /* HomeViewController+TableViewController.swift in Sources */,
 				103449B02A729D460096E45D /* AddViewController.swift in Sources */,
+				10344A912A9DCA350096E45D /* TermsOfServiceView.swift in Sources */,
 				10344A5B2A7D55160096E45D /* Mypage.swift in Sources */,
 				103449C02A7411460096E45D /* CommentCell.swift in Sources */,
 				103449A32A720B6C0096E45D /* TabBarViewController.swift in Sources */,
