@@ -81,7 +81,8 @@ class PhoneCertifyViewController: UIViewController {
     }
     
     @objc func certificationButtonTapped(_ sender: UIButton) {
-        
+        let viewController = TermsOfServiceViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     @objc func certificationTextFieldDidChange(_ textField: UITextField) {

@@ -62,6 +62,7 @@
 		10344A892A9BA5400096E45D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A882A9BA5400096E45D /* LoginView.swift */; };
 		10344A8B2A9C3D970096E45D /* PhoneCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */; };
 		10344A8D2A9C66B60096E45D /* PhoneCertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */; };
+		10344A8F2A9DAD360096E45D /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +122,7 @@
 		10344A882A9BA5400096E45D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyViewController.swift; sourceTree = "<group>"; };
 		10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyView.swift; sourceTree = "<group>"; };
+		10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,6 +305,7 @@
 			children = (
 				10344A802A971F650096E45D /* LoginViewController.swift */,
 				10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */,
+				10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */,
 				10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */,
 				10344A882A9BA5400096E45D /* LoginView.swift */,
 			);
@@ -428,6 +431,7 @@
 				10344A702A8678910096E45D /* LocationSettingViewController+UICollectionView.swift in Sources */,
 				103449FB2A767F100096E45D /* AddRecipeViewController.swift in Sources */,
 				1034498A2A71F2BC0096E45D /* SceneDelegate.swift in Sources */,
+				10344A8F2A9DAD360096E45D /* TermsOfServiceViewController.swift in Sources */,
 				10344A6C2A8677D20096E45D /* GuTableViewCell.swift in Sources */,
 				103449FF2A7692930096E45D /* DoneButtonCell.swift in Sources */,
 				103449EE2A763C0D0096E45D /* DetailViewController+TableViewController.swift in Sources */,
