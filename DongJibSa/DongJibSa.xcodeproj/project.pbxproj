@@ -57,6 +57,13 @@
 		10344A702A8678910096E45D /* LocationSettingViewController+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A6F2A8678910096E45D /* LocationSettingViewController+UICollectionView.swift */; };
 		10344A722A8678BA0096E45D /* LocationSettingViewController+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A712A8678BA0096E45D /* LocationSettingViewController+UITableView.swift */; };
 		10344A772A8F72C20096E45D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 10344A762A8F72C20096E45D /* SnapKit */; };
+		10344A812A971F650096E45D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A802A971F650096E45D /* LoginViewController.swift */; };
+		10344A832A97259C0096E45D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10344A822A97259C0096E45D /* Login.storyboard */; };
+		10344A892A9BA5400096E45D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A882A9BA5400096E45D /* LoginView.swift */; };
+		10344A8B2A9C3D970096E45D /* PhoneCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */; };
+		10344A8D2A9C66B60096E45D /* PhoneCertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */; };
+		10344A8F2A9DAD360096E45D /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */; };
+		10344A912A9DCA350096E45D /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A902A9DCA350096E45D /* TermsOfServiceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +118,13 @@
 		10344A6D2A8677F10096E45D /* DongTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DongTableViewCell.swift; sourceTree = "<group>"; };
 		10344A6F2A8678910096E45D /* LocationSettingViewController+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationSettingViewController+UICollectionView.swift"; sourceTree = "<group>"; };
 		10344A712A8678BA0096E45D /* LocationSettingViewController+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationSettingViewController+UITableView.swift"; sourceTree = "<group>"; };
+		10344A802A971F650096E45D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		10344A822A97259C0096E45D /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		10344A882A9BA5400096E45D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyViewController.swift; sourceTree = "<group>"; };
+		10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyView.swift; sourceTree = "<group>"; };
+		10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
+		10344A902A9DCA350096E45D /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +189,7 @@
 				1034498D2A71F2BC0096E45D /* Main.storyboard */,
 				103449E82A750EBF0096E45D /* Detail.storyboard */,
 				10344A122A7A042D0096E45D /* Onboarding.storyboard */,
+				10344A822A97259C0096E45D /* Login.storyboard */,
 				103449AC2A725D960096E45D /* CustomCells */,
 			);
 			path = View;
@@ -184,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				10344A0F2A7A02FC0096E45D /* Onboarding */,
+				10344A7F2A971F420096E45D /* Login */,
 				1034498B2A71F2BC0096E45D /* ViewController.swift */,
 				103449A22A720B6C0096E45D /* TabBarViewController.swift */,
 				103449A72A7259DC0096E45D /* Home */,
@@ -286,6 +302,19 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		10344A7F2A971F420096E45D /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				10344A802A971F650096E45D /* LoginViewController.swift */,
+				10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */,
+				10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */,
+				10344A902A9DCA350096E45D /* TermsOfServiceView.swift */,
+				10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */,
+				10344A882A9BA5400096E45D /* LoginView.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -352,6 +381,7 @@
 			files = (
 				103449942A71F2BD0096E45D /* LaunchScreen.storyboard in Resources */,
 				10344A142A7A042D0096E45D /* Onboarding.storyboard in Resources */,
+				10344A832A97259C0096E45D /* Login.storyboard in Resources */,
 				103449912A71F2BD0096E45D /* Assets.xcassets in Resources */,
 				1034498F2A71F2BC0096E45D /* Main.storyboard in Resources */,
 				103449EA2A750EBF0096E45D /* Detail.storyboard in Resources */,
@@ -369,6 +399,7 @@
 				10344A1D2A7AA3040096E45D /* SearchCell.swift in Sources */,
 				10344A0B2A778A320096E45D /* RecipeInfoCell.swift in Sources */,
 				10344A162A7A546D0096E45D /* OnboardingImage.swift in Sources */,
+				10344A892A9BA5400096E45D /* LoginView.swift in Sources */,
 				10344A722A8678BA0096E45D /* LocationSettingViewController+UITableView.swift in Sources */,
 				103449A62A720E7F0096E45D /* Extension.swift in Sources */,
 				10344A252A7BCF3B0096E45D /* Network.swift in Sources */,
@@ -379,10 +410,12 @@
 				10344A182A7A55AC0096E45D /* OnboardingImageCell.swift in Sources */,
 				103449AE2A726F2E0096E45D /* HomeViewController+TableViewController.swift in Sources */,
 				103449B02A729D460096E45D /* AddViewController.swift in Sources */,
+				10344A912A9DCA350096E45D /* TermsOfServiceView.swift in Sources */,
 				10344A5B2A7D55160096E45D /* Mypage.swift in Sources */,
 				103449C02A7411460096E45D /* CommentCell.swift in Sources */,
 				103449A32A720B6C0096E45D /* TabBarViewController.swift in Sources */,
 				10344A1B2A7AA0EF0096E45D /* SearchViewController.swift in Sources */,
+				10344A812A971F650096E45D /* LoginViewController.swift in Sources */,
 				103449BE2A7400900096E45D /* IngredientsInfoCell.swift in Sources */,
 				103449F92A765E060096E45D /* MyPractice.swift in Sources */,
 				103449F12A7641860096E45D /* MyPageViewController.swift in Sources */,
@@ -391,6 +424,7 @@
 				10344A272A7BCF870096E45D /* Board.swift in Sources */,
 				10344A112A7A03700096E45D /* OnboardingViewController.swift in Sources */,
 				1034498C2A71F2BC0096E45D /* ViewController.swift in Sources */,
+				10344A8D2A9C66B60096E45D /* PhoneCertifyView.swift in Sources */,
 				103449F52A765AA80096E45D /* MyRecipeCell.swift in Sources */,
 				103449AB2A725D8F0096E45D /* RecipeCell.swift in Sources */,
 				103449FD2A76830C0096E45D /* TextFieldCell.swift in Sources */,
@@ -401,10 +435,12 @@
 				10344A702A8678910096E45D /* LocationSettingViewController+UICollectionView.swift in Sources */,
 				103449FB2A767F100096E45D /* AddRecipeViewController.swift in Sources */,
 				1034498A2A71F2BC0096E45D /* SceneDelegate.swift in Sources */,
+				10344A8F2A9DAD360096E45D /* TermsOfServiceViewController.swift in Sources */,
 				10344A6C2A8677D20096E45D /* GuTableViewCell.swift in Sources */,
 				103449FF2A7692930096E45D /* DoneButtonCell.swift in Sources */,
 				103449EE2A763C0D0096E45D /* DetailViewController+TableViewController.swift in Sources */,
 				10344A6E2A8677F10096E45D /* DongTableViewCell.swift in Sources */,
+				10344A8B2A9C3D970096E45D /* PhoneCertifyViewController.swift in Sources */,
 				10344A1F2A7AA3CA0096E45D /* Menu.swift in Sources */,
 				103449F32A7650750096E45D /* MyInfoCell.swift in Sources */,
 				103449B62A73AAAA0096E45D /* IngredientsCell.swift in Sources */,
