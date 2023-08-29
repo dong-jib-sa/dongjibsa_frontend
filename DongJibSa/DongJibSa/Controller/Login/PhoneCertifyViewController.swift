@@ -90,6 +90,8 @@ class PhoneCertifyViewController: UIViewController {
             phoneCertifyView.certificationButton.backgroundColor = .primaryColor
             phoneCertifyView.certificationButton.setTitleColor(.white, for: .normal)
             phoneCertifyView.certificationButton.isEnabled = true
+        } else if textField.text!.count > 6 {
+            textField.deleteBackward()
         } else {
             phoneCertifyView.certificationButton.backgroundColor = .accentColor
             phoneCertifyView.certificationButton.setTitleColor(.systemGray, for: .normal)
