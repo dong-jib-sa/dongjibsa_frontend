@@ -61,6 +61,7 @@
 		10344A832A97259C0096E45D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10344A822A97259C0096E45D /* Login.storyboard */; };
 		10344A892A9BA5400096E45D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A882A9BA5400096E45D /* LoginView.swift */; };
 		10344A8B2A9C3D970096E45D /* PhoneCertifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */; };
+		10344A8D2A9C66B60096E45D /* PhoneCertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +120,7 @@
 		10344A822A97259C0096E45D /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		10344A882A9BA5400096E45D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyViewController.swift; sourceTree = "<group>"; };
+		10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +303,7 @@
 			children = (
 				10344A802A971F650096E45D /* LoginViewController.swift */,
 				10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */,
+				10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */,
 				10344A882A9BA5400096E45D /* LoginView.swift */,
 			);
 			path = Login;
@@ -414,6 +417,7 @@
 				10344A272A7BCF870096E45D /* Board.swift in Sources */,
 				10344A112A7A03700096E45D /* OnboardingViewController.swift in Sources */,
 				1034498C2A71F2BC0096E45D /* ViewController.swift in Sources */,
+				10344A8D2A9C66B60096E45D /* PhoneCertifyView.swift in Sources */,
 				103449F52A765AA80096E45D /* MyRecipeCell.swift in Sources */,
 				103449AB2A725D8F0096E45D /* RecipeCell.swift in Sources */,
 				103449FD2A76830C0096E45D /* TextFieldCell.swift in Sources */,
