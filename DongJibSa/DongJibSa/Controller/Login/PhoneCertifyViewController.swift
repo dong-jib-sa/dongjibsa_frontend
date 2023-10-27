@@ -12,6 +12,7 @@ class PhoneCertifyViewController: UIViewController {
     
     private let phoneCertifyView = PhoneCertifyView()
     private var authVerificationID: String?
+    private let phoneNumberFormat = PhoneNumberFormat.init(digits: "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,9 +81,7 @@ class PhoneCertifyViewController: UIViewController {
     
     @objc func phoneTextFieldDidChange(_ textField: UITextField) {
         if textField.text!.count < 13 {
-            if textField.text!.count == 3 || textField.text!.count == 8 {
-                textField.text! += " "
-            }
+            textField.text = phoneNumberFormat.addSpacing(at: textField.text!)
             phoneCertifyView.phoneButton.backgroundColor = .accentColor
             phoneCertifyView.phoneButton.setTitleColor(.systemGray, for: .normal)
             phoneCertifyView.phoneButton.isEnabled = false

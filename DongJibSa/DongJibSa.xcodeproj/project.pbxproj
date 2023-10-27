@@ -64,6 +64,7 @@
 		10344A8D2A9C66B60096E45D /* PhoneCertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */; };
 		10344A8F2A9DAD360096E45D /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */; };
 		10344A912A9DCA350096E45D /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A902A9DCA350096E45D /* TermsOfServiceView.swift */; };
+		105B2CD22AEB809E00256FCA /* PhoneNumberFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105B2CD12AEB809E00256FCA /* PhoneNumberFormat.swift */; };
 		10EBA1F02ADD5A45006D3828 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 10EBA1EF2ADD5A45006D3828 /* FirebaseAnalytics */; };
 		10EBA1F22ADD5A45006D3828 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10EBA1F12ADD5A45006D3828 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
@@ -127,6 +128,7 @@
 		10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyView.swift; sourceTree = "<group>"; };
 		10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
 		10344A902A9DCA350096E45D /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
+		105B2CD12AEB809E00256FCA /* PhoneNumberFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberFormat.swift; sourceTree = "<group>"; };
 		10EBA1F32ADD5EE3006D3828 /* DongJibSa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DongJibSa.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -313,6 +315,7 @@
 			children = (
 				10344A802A971F650096E45D /* LoginViewController.swift */,
 				10344A8A2A9C3D970096E45D /* PhoneCertifyViewController.swift */,
+				105B2CD12AEB809E00256FCA /* PhoneNumberFormat.swift */,
 				10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */,
 				10344A902A9DCA350096E45D /* TermsOfServiceView.swift */,
 				10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */,
@@ -429,6 +432,7 @@
 				103449F92A765E060096E45D /* MyPractice.swift in Sources */,
 				103449F12A7641860096E45D /* MyPageViewController.swift in Sources */,
 				10344A072A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift in Sources */,
+				105B2CD22AEB809E00256FCA /* PhoneNumberFormat.swift in Sources */,
 				10344A052A773E270096E45D /* AddRecipeViewController+TableViewController.swift in Sources */,
 				10344A272A7BCF870096E45D /* Board.swift in Sources */,
 				10344A112A7A03700096E45D /* OnboardingViewController.swift in Sources */,
