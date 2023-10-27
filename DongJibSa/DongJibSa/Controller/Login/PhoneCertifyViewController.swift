@@ -69,6 +69,8 @@ class PhoneCertifyViewController: UIViewController {
         let phone = phoneNumberFormatter(phoneNumber)
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationID, error in
+            self.showToastMessage("인증번호가 발송되었습니다.")
+            
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -120,6 +122,31 @@ class PhoneCertifyViewController: UIViewController {
             phoneCertifyView.certificationButton.backgroundColor = .accentColor
             phoneCertifyView.certificationButton.setTitleColor(.systemGray, for: .normal)
             phoneCertifyView.certificationButton.isEnabled = false
+        }
+    }
+    
+    func showToastMessage(_ message: String) {
+        let toastLabel = UILabel()
+        toastLabel.backgroundColor = .systemGray.withAlphaComponent(0.8)
+        toastLabel.textColor = .white
+        toastLabel.font = .systemFont(ofSize: 12)
+        toastLabel.textAlignment = .center
+        toastLabel.text = message
+        toastLabel.layer.cornerRadius = 8
+        toastLabel.clipsToBounds = true
+        
+        self.view.addSubview(toastLabel)
+        toastLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(360)
+            make.width.equalTo(335)
+            make.height.equalTo(30)
+        }
+        
+        UIView.animate(withDuration: 2, delay: 1.5, options: .curveEaseOut) {
+            toastLabel.alpha = 0.0
+        } completion: { isCompleted in
+            toastLabel.removeFromSuperview()
         }
     }
 }
