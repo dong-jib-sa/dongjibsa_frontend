@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class PhoneCertifyViewController: UIViewController {
     
     private let phoneCertifyView = PhoneCertifyView()
+    private var authVerificationID: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +63,19 @@ class PhoneCertifyViewController: UIViewController {
         phoneCertifyView.feedbackLabel.isHidden = true
         phoneCertifyView.feedbackButton.isHidden = true
         phoneCertifyView.helpButton.isHidden = false
+        
+        let phoneNumber: String = phoneCertifyView.phoneTextField.text!
+        let phone = phoneNumberFormatter(phoneNumber)
+        
+        PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationID, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            // Sign in using the verificationID and the code sent to the user
+            self.authVerificationID = verificationID
+            self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
+        }
     }
     
     @objc func phoneTextFieldDidChange(_ textField: UITextField) {
@@ -81,8 +96,18 @@ class PhoneCertifyViewController: UIViewController {
     }
     
     @objc func certificationButtonTapped(_ sender: UIButton) {
-        let viewController = TermsOfServiceViewController()
-        self.navigationController?.pushViewController(viewController, animated: true)
+        let verificationCode: String = phoneCertifyView.certificationNumberTextField.text!
+
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: authVerificationID!, verificationCode: verificationCode)
+
+        Auth.auth().signIn(with: credential) { authResult, error in
+            if let error = error {
+                print("Login error: \(error.localizedDescription)")
+            }
+            // User is signed in
+            let viewController = TermsOfServiceViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
     }
     
     @objc func certificationTextFieldDidChange(_ textField: UITextField) {
@@ -98,4 +123,12 @@ class PhoneCertifyViewController: UIViewController {
             phoneCertifyView.certificationButton.isEnabled = false
         }
     }
+}
+
+// 010 0000 0000 으로 넘어오는 번호를 +8210XXXXXXXX로 바꿔주기
+func phoneNumberFormatter(_ phoneNumber: String) -> String {
+    let locationNumber = "+82"
+    var phone = phoneNumber.filter { $0 != " " }
+    phone.removeFirst()
+    return locationNumber + phone
 }
