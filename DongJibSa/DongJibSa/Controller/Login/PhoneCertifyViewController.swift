@@ -104,10 +104,12 @@ class PhoneCertifyViewController: UIViewController {
         Auth.auth().signIn(with: credential) { authResult, error in
             if let error = error {
                 print("Login error: \(error.localizedDescription)")
+                // MARK: 인증 실패 UI 
+            } else {
+                // User is signed in
+                let viewController = TermsOfServiceViewController()
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
-            // User is signed in
-            let viewController = TermsOfServiceViewController()
-            self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     
