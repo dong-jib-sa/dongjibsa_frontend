@@ -111,3 +111,12 @@ extension UIResponder {
         Static.responder = self
     }
 }
+
+extension String {
+    func getStringIndex(i: Int) -> String.Index {
+        return self.index(self.startIndex, offsetBy: i)
+    }
+    subscript (i: Int) -> Character {
+        return self[index(startIndex, offsetBy: i)]
+    }
+}

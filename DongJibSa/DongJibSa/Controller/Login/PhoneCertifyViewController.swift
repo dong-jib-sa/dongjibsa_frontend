@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class PhoneCertifyViewController: UIViewController {
     
     private let phoneCertifyView = PhoneCertifyView()
+    private var authVerificationID: String?
+    private let phoneNumberFormat = PhoneNumberFormat.init(digits: "")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,13 +64,26 @@ class PhoneCertifyViewController: UIViewController {
         phoneCertifyView.feedbackLabel.isHidden = true
         phoneCertifyView.feedbackButton.isHidden = true
         phoneCertifyView.helpButton.isHidden = false
+        
+        let phoneNumber: String = phoneCertifyView.phoneTextField.text!
+        let phone = phoneNumberFormatter(phoneNumber)
+        
+        PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationID, error in
+            self.showToastMessage("인증번호가 발송되었습니다.")
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            // Sign in using the verificationID and the code sent to the user
+            self.authVerificationID = verificationID
+            self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
+        }
     }
     
     @objc func phoneTextFieldDidChange(_ textField: UITextField) {
         if textField.text!.count < 13 {
-            if textField.text!.count == 3 || textField.text!.count == 8 {
-                textField.text! += " "
-            }
+            textField.text = phoneNumberFormat.addSpacing(at: textField.text!)
             phoneCertifyView.phoneButton.backgroundColor = .accentColor
             phoneCertifyView.phoneButton.setTitleColor(.systemGray, for: .normal)
             phoneCertifyView.phoneButton.isEnabled = false
@@ -81,8 +97,20 @@ class PhoneCertifyViewController: UIViewController {
     }
     
     @objc func certificationButtonTapped(_ sender: UIButton) {
-        let viewController = TermsOfServiceViewController()
-        self.navigationController?.pushViewController(viewController, animated: true)
+        let verificationCode: String = phoneCertifyView.certificationNumberTextField.text!
+
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: authVerificationID!, verificationCode: verificationCode)
+
+        Auth.auth().signIn(with: credential) { authResult, error in
+            if let error = error {
+                print("Login error: \(error.localizedDescription)")
+                // MARK: 인증 실패 UI 
+            } else {
+                // User is signed in
+                let viewController = TermsOfServiceViewController()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
     }
     
     @objc func certificationTextFieldDidChange(_ textField: UITextField) {
@@ -98,4 +126,37 @@ class PhoneCertifyViewController: UIViewController {
             phoneCertifyView.certificationButton.isEnabled = false
         }
     }
+    
+    func showToastMessage(_ message: String) {
+        let toastLabel = UILabel()
+        toastLabel.backgroundColor = .systemGray.withAlphaComponent(0.8)
+        toastLabel.textColor = .white
+        toastLabel.font = .systemFont(ofSize: 12)
+        toastLabel.textAlignment = .center
+        toastLabel.text = message
+        toastLabel.layer.cornerRadius = 8
+        toastLabel.clipsToBounds = true
+        
+        self.view.addSubview(toastLabel)
+        toastLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(360)
+            make.width.equalTo(335)
+            make.height.equalTo(30)
+        }
+        
+        UIView.animate(withDuration: 2, delay: 1.5, options: .curveEaseOut) {
+            toastLabel.alpha = 0.0
+        } completion: { isCompleted in
+            toastLabel.removeFromSuperview()
+        }
+    }
+}
+
+// 010 0000 0000 으로 넘어오는 번호를 +8210XXXXXXXX로 바꿔주기
+func phoneNumberFormatter(_ phoneNumber: String) -> String {
+    let locationNumber = "+82"
+    var phone = phoneNumber.filter { $0 != " " }
+    phone.removeFirst()
+    return locationNumber + phone
 }
