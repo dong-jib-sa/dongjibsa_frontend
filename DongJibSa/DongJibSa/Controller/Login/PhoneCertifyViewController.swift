@@ -69,13 +69,14 @@ class PhoneCertifyViewController: UIViewController {
         let phone = phoneNumberFormatter(phoneNumber)
         
         PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationID, error in
-            self.showToastMessage("인증번호가 발송되었습니다.")
-            
+
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
             // Sign in using the verificationID and the code sent to the user
+            self.showToastMessage("인증번호가 발송되었습니다.")
+
             self.authVerificationID = verificationID
             self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
         }
@@ -104,11 +105,30 @@ class PhoneCertifyViewController: UIViewController {
         Auth.auth().signIn(with: credential) { authResult, error in
             if let error = error {
                 print("Login error: \(error.localizedDescription)")
-                // MARK: 인증 실패 UI 
+                // MARK: 인증 실패 UI
             } else {
                 // User is signed in
-                let viewController = TermsOfServiceViewController()
-                self.navigationController?.pushViewController(viewController, animated: true)
+                print(authResult)
+                // MEMO: 화면전환 -> 전화번호 ? 있음(홈 화면) : 없음(약관)
+                // MARK: 입력받은 번호로 저장하는 걸로 수정하기 -> 엔드포인트 구현 후에
+                Network.shared.postPhoneNumber(number: "01012341237") { result in
+                    switch result {
+                    case "이미 회원입니다.":
+                        DispatchQueue.main.async {
+                            let main = UIStoryboard.init(name: "Main", bundle: nil)
+                            let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+                            viewController.modalPresentationStyle = .fullScreen
+                            self.present(viewController, animated: false)
+                        }
+                    case "회원으로 등록했습니다.":
+                        DispatchQueue.main.async {
+                            let viewController = TermsOfServiceViewController()
+                            self.navigationController?.pushViewController(viewController, animated: true)
+                        }
+                    default:
+                        print()
+                    }
+                }
             }
         }
     }

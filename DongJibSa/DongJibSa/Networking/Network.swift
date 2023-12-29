@@ -16,6 +16,7 @@ class Network {
     private let getMypageURL = "api/v1/my-page/indicator"
     private let getMypostURL = "api/v1/my-page/posts"
     private let postURL = "api/v1/posts/new"
+    private let postPhoneNumber = "/api/v1/users/verifyPhoneNumber"
     
     private init() { }
     
@@ -157,6 +158,46 @@ class Network {
             }
         }
         task.resume()
+    }
+    
+    func postPhoneNumber(number: String, completion: @escaping (String) -> Void) {
+        let strURL = baseURL + postPhoneNumber
+        let parameters: [String: Any] = ["phoneNumber": number]
+        
+        let configuration = URLSessionConfiguration.default
+        
+        guard let urlComponets = URLComponents(string: strURL) else { return }
+        guard let requestURL = urlComponets.url else { return }
+        var request = URLRequest(url: requestURL)
+        
+        
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        request.httpBody = jsonData
+        
+        let session = URLSession(configuration: configuration)
+        session.dataTask(with: request) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode)  else {
+                print("Error: HTTP request failed \n --> response: \(response)")
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            do {
+                guard let loginInfo = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: String] else { return }
+                let result = loginInfo["result"]!
+                completion(result)
+                
+            } catch let error as NSError {
+                print("Error occur: error calling PATCH - \(error)")
+            }
+            
+        }.resume()
     }
     
     func postBoard(image: Data? = nil, filename: String? = nil, recipe: [String: Any], recipeIngredients: [[String: Any]], completion: @escaping ([String]) -> Void) {
