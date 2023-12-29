@@ -9,7 +9,7 @@ import UIKit
 
 class PhoneCertifyView: UIView {
     
-    let certificationLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "휴대폰 번호를 인증해주세요."
         label.textAlignment = .center
@@ -52,7 +52,7 @@ class PhoneCertifyView: UIView {
     let timerButton: UIButton = {
         let button = UIButton()
         button.setTitle("03:00", for: .normal)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .systemGray5
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 8
         button.isEnabled = false
@@ -61,6 +61,7 @@ class PhoneCertifyView: UIView {
         return button
     }()
     
+    /* 블라인드 처리
     let feedbackLabel: UILabel = {
         let label = UILabel()
         label.text = "휴대폰 번호를 변경하셨나요?"
@@ -79,31 +80,23 @@ class PhoneCertifyView: UIView {
         return button
     }()
     
-    let helpButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("인증번호가 오지 않았나요?", for: .normal)
-        button.setTitleColor(.systemGray, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 12)
-        button.isHidden = true
-        return button
-    }()
-    
     lazy var feedbackStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [feedbackLabel, feedbackButton, helpButton])
+        let stackView = UIStackView(arrangedSubviews: [feedbackLabel, feedbackButton])
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 4
         return stackView
     }()
-    
-    let feedbackView: UIView = {
+    */
+     
+    let spaceView: UIView = {
         let view = UIView()
         return view
     }()
     
     lazy var discriptionStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [certificationLabel, discriptionLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, discriptionLabel])
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .center
@@ -120,8 +113,6 @@ class PhoneCertifyView: UIView {
         return stackView
     }()
     
-    
-    
     let certificationNumberTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "인증번호를 입력해주세요."
@@ -131,6 +122,17 @@ class PhoneCertifyView: UIView {
         textField.addPadding(width: 16)
         textField.keyboardType = .numberPad
         return textField
+    }()
+    
+    let helpMessageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "인증번호가 오지 않았나요?\n입력하신 정보가 정확한지 확인해주세요."
+        label.numberOfLines = 2
+        label.setLineSpacing(spacing: 4)
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = .systemGray
+        return label
     }()
     
     let certificationButton: UIButton = {
@@ -145,7 +147,7 @@ class PhoneCertifyView: UIView {
     }()
     
     lazy var certificationStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [certificationNumberTextField, certificationButton])
+        let stackView = UIStackView(arrangedSubviews: [certificationNumberTextField, helpMessageLabel, certificationButton])
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .fill
@@ -154,13 +156,8 @@ class PhoneCertifyView: UIView {
         return stackView
     }()
     
-    let emptyView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
     lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [discriptionStackView, phoneStackView, certificationStackView, feedbackView, emptyView])
+        let stackView = UIStackView(arrangedSubviews: [discriptionStackView, phoneStackView, certificationStackView, spaceView])
         stackView.axis = .vertical
         stackView.distribution = .fill
 //            stackView.alignment = .center
@@ -179,37 +176,28 @@ class PhoneCertifyView: UIView {
 
     func setupView() {
         
-        
         phoneTextField.snp.makeConstraints { make in
             make.height.equalTo(54)
         }
-        
-        
         
         phoneButton.snp.makeConstraints { make in
             make.height.equalTo(54)
         }
         
-        
-        
-        feedbackView.addSubview(feedbackStackView)
-        feedbackStackView.snp.makeConstraints { make in
-            make.height.equalTo(24)
-            make.centerX.equalToSuperview()
-        }
-        
+        // MEMO: 블라인드 처리
+//        spaceView.addSubview(feedbackStackView)
+//        feedbackStackView.snp.makeConstraints { make in
+//            make.height.equalTo(24)
+//            make.centerX.equalToSuperview()
+//        }
         
         certificationNumberTextField.snp.makeConstraints { make in
             make.height.equalTo(54)
         }
         
-        
-        
         certificationButton.snp.makeConstraints { make in
             make.height.equalTo(54)
         }
-        
-        
         
         addSubview(mainStackView)
         mainStackView.snp.makeConstraints { make in

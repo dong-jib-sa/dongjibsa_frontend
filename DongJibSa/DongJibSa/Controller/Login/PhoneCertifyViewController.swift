@@ -72,9 +72,8 @@ class PhoneCertifyViewController: UIViewController {
     @objc func phoneButtonTapped(_ sender: UIButton) {
         phoneCertifyView.phoneTextField.resignFirstResponder()
         phoneCertifyView.certificationStackView.isHidden = false
-        phoneCertifyView.feedbackLabel.isHidden = true
-        phoneCertifyView.feedbackButton.isHidden = true
-        phoneCertifyView.helpButton.isHidden = false
+//        phoneCertifyView.feedbackLabel.isHidden = true
+//        phoneCertifyView.feedbackButton.isHidden = true
         
         let phoneNumber: String = phoneCertifyView.phoneTextField.text!
         let phone = phoneNumberFormatter(phoneNumber)
@@ -89,8 +88,8 @@ class PhoneCertifyViewController: UIViewController {
             self.showToastMessage("인증번호가 발송되었습니다.")
 
             self.authVerificationID = verificationID
-            self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
-            
+//            self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
+
             self.phoneCertifyView.phoneButton.isEnabled = false
             // MEMO: 인증문자 받기 버튼 클릭 시 타이머가 나타나고 끝나면 사라짐
             self.phoneCertifyView.timerButton.isHidden = false
@@ -113,6 +112,7 @@ class PhoneCertifyViewController: UIViewController {
             timer = nil
             self.phoneCertifyView.timerButton.isHidden = true
             self.phoneCertifyView.phoneButton.isEnabled = true
+            self.phoneCertifyView.phoneButton.setTitle("인증문자 다시 받기", for: .normal)
             timerLeft = "03:00".date!
         }
     }
@@ -136,7 +136,10 @@ class PhoneCertifyViewController: UIViewController {
         Auth.auth().signIn(with: credential) { authResult, error in
             if let error = error {
                 print("Login error: \(error.localizedDescription)")
-                // MARK: 인증 실패 UI
+                // MEMO: 인증 실패 UI
+                self.phoneCertifyView.helpMessageLabel.text = "인증번호가 일치하지 않습니다. 다시 인증해주세요."
+                self.phoneCertifyView.helpMessageLabel.textColor = .systemRed
+                self.phoneCertifyView.certificationNumberTextField.layer.borderColor = UIColor.systemRed.cgColor
             } else {
                 // User is signed in
                 print(authResult)
@@ -171,6 +174,7 @@ class PhoneCertifyViewController: UIViewController {
             textField.deleteBackward()
         } else {
             phoneCertifyView.certificationButton.isEnabled = false
+            self.phoneCertifyView.certificationNumberTextField.layer.borderColor = UIColor.systemGray.cgColor
         }
     }
     
@@ -187,7 +191,7 @@ class PhoneCertifyViewController: UIViewController {
         self.view.addSubview(toastLabel)
         toastLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(360)
+            make.bottom.equalToSuperview().inset(100)
             make.width.equalTo(335)
             make.height.equalTo(30)
         }
