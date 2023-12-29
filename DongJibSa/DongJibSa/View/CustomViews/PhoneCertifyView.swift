@@ -39,7 +39,7 @@ class PhoneCertifyView: UIView {
     }()
     
     let phoneButton: UIButton = {
-        let button = UIButton()
+        let button = CustomButton()
         button.setTitle("인증문자 받기", for: .normal)
         button.backgroundColor = .accentColor
         button.setTitleColor(.systemGray, for: .normal)
@@ -134,7 +134,7 @@ class PhoneCertifyView: UIView {
     }()
     
     let certificationButton: UIButton = {
-        let button = UIButton()
+        let button = CustomButton()
         button.setTitle("인증번호 확인", for: .normal)
         button.backgroundColor = .accentColor
         button.setTitleColor(.systemGray, for: .normal)

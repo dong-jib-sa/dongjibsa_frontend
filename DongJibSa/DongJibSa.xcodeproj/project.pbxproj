@@ -64,6 +64,7 @@
 		10344A8D2A9C66B60096E45D /* PhoneCertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */; };
 		10344A8F2A9DAD360096E45D /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */; };
 		10344A912A9DCA350096E45D /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10344A902A9DCA350096E45D /* TermsOfServiceView.swift */; };
+		1044AC702B3EEF7100189F02 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1044AC6F2B3EEF7100189F02 /* CustomButton.swift */; };
 		105B2CD22AEB809E00256FCA /* PhoneNumberFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105B2CD12AEB809E00256FCA /* PhoneNumberFormat.swift */; };
 		10EBA1F02ADD5A45006D3828 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 10EBA1EF2ADD5A45006D3828 /* FirebaseAnalytics */; };
 		10EBA1F22ADD5A45006D3828 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10EBA1F12ADD5A45006D3828 /* FirebaseAuth */; };
@@ -128,6 +129,7 @@
 		10344A8C2A9C66B60096E45D /* PhoneCertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCertifyView.swift; sourceTree = "<group>"; };
 		10344A8E2A9DAD360096E45D /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
 		10344A902A9DCA350096E45D /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
+		1044AC6F2B3EEF7100189F02 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		105B2CD12AEB809E00256FCA /* PhoneNumberFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberFormat.swift; sourceTree = "<group>"; };
 		10EBA1F32ADD5EE3006D3828 /* DongJibSa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DongJibSa.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -233,6 +235,7 @@
 				103449A52A720E7F0096E45D /* Extension.swift */,
 				10344A5C2A7DD5DD0096E45D /* ImageCacheManager.swift */,
 				105B2CD12AEB809E00256FCA /* PhoneNumberFormat.swift */,
+				1044AC6F2B3EEF7100189F02 /* CustomButton.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1044AC702B3EEF7100189F02 /* CustomButton.swift in Sources */,
 				103449BC2A73F06C0096E45D /* DetailViewController.swift in Sources */,
 				10344A1D2A7AA3040096E45D /* SearchCell.swift in Sources */,
 				10344A0B2A778A320096E45D /* RecipeInfoCell.swift in Sources */,
