@@ -49,6 +49,18 @@ class PhoneCertifyView: UIView {
         return button
     }()
     
+    let timerButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("03:00", for: .normal)
+        button.backgroundColor = .systemGray4
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 8
+        button.isEnabled = false
+        button.isHidden = true
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        return button
+    }()
+    
     let feedbackLabel: UILabel = {
         let label = UILabel()
         label.text = "휴대폰 번호를 변경하셨나요?"
@@ -204,6 +216,11 @@ class PhoneCertifyView: UIView {
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(18)
             make.left.right.equalToSuperview().inset(16)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
+        }
+        
+        phoneButton.addSubview(timerButton)
+        timerButton.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }

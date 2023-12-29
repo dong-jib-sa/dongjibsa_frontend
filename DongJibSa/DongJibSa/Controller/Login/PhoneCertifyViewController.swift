@@ -13,6 +13,17 @@ class PhoneCertifyViewController: UIViewController {
     private let phoneCertifyView = PhoneCertifyView()
     private var authVerificationID: String?
     private let phoneNumberFormat = PhoneNumberFormat.init(digits: "")
+    
+    var timer: Timer?
+    var timerLeft: Date = "03:00".date!
+    var timerEnd: Date = "00:00".date!
+    lazy var durationFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second]
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        return formatter
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +90,30 @@ class PhoneCertifyViewController: UIViewController {
 
             self.authVerificationID = verificationID
             self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
+            
+            self.phoneCertifyView.phoneButton.isEnabled = false
+            // MEMO: 인증문자 받기 버튼 클릭 시 타이머가 나타나고 끝나면 사라짐
+            self.phoneCertifyView.timerButton.isHidden = false
+            self.formatDuration(from: self.timerEnd, to: self.timerLeft)
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.onTimerTicked), userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc func onTimerTicked() {
+        formatDuration(from: timerEnd, to: timerLeft)
+        timerLeft -= 1
+    }
+    
+    func formatDuration(from: Date, to: Date) {
+        let text = durationFormatter.string(from: to.timeIntervalSince(from))
+        self.phoneCertifyView.timerButton.setTitle(text, for: .normal)
+
+        if timerLeft <= timerEnd {
+            timer?.invalidate()
+            timer = nil
+            self.phoneCertifyView.timerButton.isHidden = true
+            self.phoneCertifyView.phoneButton.isEnabled = true
+            timerLeft = "03:00".date!
         }
     }
     
