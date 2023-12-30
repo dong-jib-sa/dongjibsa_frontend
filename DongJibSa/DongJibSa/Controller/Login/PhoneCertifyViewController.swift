@@ -24,6 +24,7 @@ class PhoneCertifyViewController: UIViewController {
         formatter.zeroFormattingBehavior = .pad
         return formatter
     }()
+    private var certifyCount: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,7 @@ class PhoneCertifyViewController: UIViewController {
         setupView()
         phoneCertifyView.phoneTextField.becomeFirstResponder()
         viewTappedKeyboardCancel()
+        checkedNumberOfCertifications()
     }
     
     private func setNavigationBar() {
@@ -69,32 +71,55 @@ class PhoneCertifyViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    private func checkedNumberOfCertifications() {
+        guard let blockCertify: String = UserDefaults.standard.string(forKey: "blockCertify") else { return }
+        let today: String = Date().date!
+        if today == blockCertify {
+            self.phoneCertifyView.blockCertifyButton.isHidden = false
+        } else {
+            UserDefaults.standard.removeObject(forKey: "blockCertify")
+        }
+    }
+    
     @objc func phoneButtonTapped(_ sender: UIButton) {
         phoneCertifyView.phoneTextField.resignFirstResponder()
         phoneCertifyView.certificationStackView.isHidden = false
+        phoneCertifyView.phoneButton.isEnabled = false
 //        phoneCertifyView.feedbackLabel.isHidden = true
 //        phoneCertifyView.feedbackButton.isHidden = true
+        certifyCount += 1
         
-        let phoneNumber: String = phoneCertifyView.phoneTextField.text!
-        let phone = phoneNumberFormatter(phoneNumber)
-        
-        PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationID, error in
-
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            // Sign in using the verificationID and the code sent to the user
-            self.showToastMessage("인증번호가 발송되었습니다.")
-
-            self.authVerificationID = verificationID
-//            self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
-
-            self.phoneCertifyView.phoneButton.isEnabled = false
+        if certifyCount <= 5 {
             // MEMO: 인증문자 받기 버튼 클릭 시 타이머가 나타나고 끝나면 사라짐
-            self.phoneCertifyView.timerButton.isHidden = false
-            self.formatDuration(from: self.timerEnd, to: self.timerLeft)
-            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.onTimerTicked), userInfo: nil, repeats: true)
+            phoneCertifyView.timerButton.isHidden = false
+            formatDuration(from: self.timerEnd, to: self.timerLeft)
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.onTimerTicked), userInfo: nil, repeats: true)
+            
+            let phoneNumber: String = phoneCertifyView.phoneTextField.text!
+            let phone = phoneNumberFormatter(phoneNumber)
+        
+            PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationID, error in
+
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+                // Sign in using the verificationID and the code sent to the user
+                self.showToastMessage("인증번호가 발송되었습니다.")
+
+                self.authVerificationID = verificationID
+                //            self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
+            }
+        } else {
+            // MEMO: 인증횟수 5회 초과 시
+            let today: String = Date().date!
+            UserDefaults.standard.set(today, forKey: "blockCertify")
+            
+            self.phoneCertifyView.blockCertifyButton.isHidden = false
+            let alert = UIAlertController(title: "일일 인증번호 요청 횟수를 초과했습니다.", message: "24시간 후에 다시 시도해주세요.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
         }
     }
     

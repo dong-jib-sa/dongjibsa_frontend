@@ -61,6 +61,18 @@ class PhoneCertifyView: UIView {
         return button
     }()
     
+    let blockCertifyButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("일일 인증번호 요청 횟수를 초과했어요.", for: .normal)
+        button.backgroundColor = .systemGray5
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 8
+        button.isEnabled = false
+        button.isHidden = true
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        return button
+    }()
+    
     /* 블라인드 처리
     let feedbackLabel: UILabel = {
         let label = UILabel()
@@ -208,6 +220,11 @@ class PhoneCertifyView: UIView {
         
         phoneButton.addSubview(timerButton)
         timerButton.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        phoneButton.addSubview(blockCertifyButton)
+        blockCertifyButton.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
