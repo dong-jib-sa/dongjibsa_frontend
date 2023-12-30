@@ -119,4 +119,26 @@ extension String {
     subscript (i: Int) -> Character {
         return self[index(startIndex, offsetBy: i)]
     }
+    
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "mm:ss"
+        return formatter
+    }()
+    
+    var date: Date? {
+        return String.dateFormatter.date(from: self)
+    }
+}
+
+extension Date {
+    static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    var date: String? {
+        return Date.dateFormatter.string(from: self)
+    }
 }

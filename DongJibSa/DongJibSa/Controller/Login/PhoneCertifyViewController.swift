@@ -13,6 +13,18 @@ class PhoneCertifyViewController: UIViewController {
     private let phoneCertifyView = PhoneCertifyView()
     private var authVerificationID: String?
     private let phoneNumberFormat = PhoneNumberFormat.init(digits: "")
+    
+    var timer: Timer?
+    var timerLeft: Date = "03:00".date!
+    var timerEnd: Date = "00:00".date!
+    lazy var durationFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second]
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        return formatter
+    }()
+    private var certifyCount: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +33,7 @@ class PhoneCertifyViewController: UIViewController {
         setupView()
         phoneCertifyView.phoneTextField.becomeFirstResponder()
         viewTappedKeyboardCancel()
+        checkedNumberOfCertifications()
     }
     
     private func setNavigationBar() {
@@ -58,38 +71,82 @@ class PhoneCertifyViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    private func checkedNumberOfCertifications() {
+        guard let blockCertify: String = UserDefaults.standard.string(forKey: "blockCertify") else { return }
+        let today: String = Date().date!
+        if today == blockCertify {
+            self.phoneCertifyView.blockCertifyButton.isHidden = false
+        } else {
+            UserDefaults.standard.removeObject(forKey: "blockCertify")
+        }
+    }
+    
     @objc func phoneButtonTapped(_ sender: UIButton) {
         phoneCertifyView.phoneTextField.resignFirstResponder()
         phoneCertifyView.certificationStackView.isHidden = false
-        phoneCertifyView.feedbackLabel.isHidden = true
-        phoneCertifyView.feedbackButton.isHidden = true
-        phoneCertifyView.helpButton.isHidden = false
+        phoneCertifyView.phoneButton.isEnabled = false
+//        phoneCertifyView.feedbackLabel.isHidden = true
+//        phoneCertifyView.feedbackButton.isHidden = true
+        certifyCount += 1
         
-        let phoneNumber: String = phoneCertifyView.phoneTextField.text!
-        let phone = phoneNumberFormatter(phoneNumber)
-        
-        PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationID, error in
-            self.showToastMessage("인증번호가 발송되었습니다.")
+        if certifyCount <= 5 {
+            // MEMO: 인증문자 받기 버튼 클릭 시 타이머가 나타나고 끝나면 사라짐
+            phoneCertifyView.timerButton.isHidden = false
+            formatDuration(from: self.timerEnd, to: self.timerLeft)
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.onTimerTicked), userInfo: nil, repeats: true)
             
-            if let error = error {
-                print(error.localizedDescription)
-                return
+            let phoneNumber: String = phoneCertifyView.phoneTextField.text!
+            let phone = phoneNumberFormatter(phoneNumber)
+        
+            PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationID, error in
+
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+                // Sign in using the verificationID and the code sent to the user
+                self.showToastMessage("인증번호가 발송되었습니다.")
+
+                self.authVerificationID = verificationID
+                //            self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
             }
-            // Sign in using the verificationID and the code sent to the user
-            self.authVerificationID = verificationID
-            self.phoneCertifyView.certificationNumberTextField.becomeFirstResponder()
+        } else {
+            // MEMO: 인증횟수 5회 초과 시
+            let today: String = Date().date!
+            UserDefaults.standard.set(today, forKey: "blockCertify")
+            
+            self.phoneCertifyView.blockCertifyButton.isHidden = false
+            let alert = UIAlertController(title: "일일 인증번호 요청 횟수를 초과했습니다.", message: "24시간 후에 다시 시도해주세요.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+        }
+    }
+    
+    @objc func onTimerTicked() {
+        formatDuration(from: timerEnd, to: timerLeft)
+        timerLeft -= 1
+    }
+    
+    func formatDuration(from: Date, to: Date) {
+        let text = durationFormatter.string(from: to.timeIntervalSince(from))
+        self.phoneCertifyView.timerButton.setTitle(text, for: .normal)
+
+        if timerLeft <= timerEnd {
+            timer?.invalidate()
+            timer = nil
+            self.phoneCertifyView.timerButton.isHidden = true
+            self.phoneCertifyView.phoneButton.isEnabled = true
+            self.phoneCertifyView.phoneButton.setTitle("인증문자 다시 받기", for: .normal)
+            timerLeft = "03:00".date!
         }
     }
     
     @objc func phoneTextFieldDidChange(_ textField: UITextField) {
         if textField.text!.count < 13 {
             textField.text = phoneNumberFormat.addSpacing(at: textField.text!)
-            phoneCertifyView.phoneButton.backgroundColor = .accentColor
-            phoneCertifyView.phoneButton.setTitleColor(.systemGray, for: .normal)
             phoneCertifyView.phoneButton.isEnabled = false
         } else if textField.text!.count == 13 {
-            phoneCertifyView.phoneButton.backgroundColor = .primaryColor
-            phoneCertifyView.phoneButton.setTitleColor(.white, for: .normal)
             phoneCertifyView.phoneButton.isEnabled = true
         } else {
             textField.deleteBackward()
@@ -104,26 +161,45 @@ class PhoneCertifyViewController: UIViewController {
         Auth.auth().signIn(with: credential) { authResult, error in
             if let error = error {
                 print("Login error: \(error.localizedDescription)")
-                // MARK: 인증 실패 UI 
+                // MEMO: 인증 실패 UI
+                self.phoneCertifyView.helpMessageLabel.text = "인증번호가 일치하지 않습니다. 다시 인증해주세요."
+                self.phoneCertifyView.helpMessageLabel.textColor = .systemRed
+                self.phoneCertifyView.certificationNumberTextField.layer.borderColor = UIColor.systemRed.cgColor
             } else {
                 // User is signed in
-                let viewController = TermsOfServiceViewController()
-                self.navigationController?.pushViewController(viewController, animated: true)
+                print(authResult)
+                // MEMO: 화면전환 -> 전화번호 ? 있음(홈 화면) : 없음(약관)
+                // MARK: 입력받은 번호로 저장하는 걸로 수정하기 -> 엔드포인트 구현 후에
+                Network.shared.postPhoneNumber(number: "01012341237") { result in
+                    switch result {
+                    case "이미 회원입니다.":
+                        DispatchQueue.main.async {
+                            let main = UIStoryboard.init(name: "Main", bundle: nil)
+                            let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+                            viewController.modalPresentationStyle = .fullScreen
+                            self.present(viewController, animated: false)
+                        }
+                    case "회원으로 등록했습니다.":
+                        DispatchQueue.main.async {
+                            let viewController = TermsOfServiceViewController()
+                            self.navigationController?.pushViewController(viewController, animated: true)
+                        }
+                    default:
+                        print()
+                    }
+                }
             }
         }
     }
     
     @objc func certificationTextFieldDidChange(_ textField: UITextField) {
         if textField.text!.count == 6 {
-            phoneCertifyView.certificationButton.backgroundColor = .primaryColor
-            phoneCertifyView.certificationButton.setTitleColor(.white, for: .normal)
             phoneCertifyView.certificationButton.isEnabled = true
         } else if textField.text!.count > 6 {
             textField.deleteBackward()
         } else {
-            phoneCertifyView.certificationButton.backgroundColor = .accentColor
-            phoneCertifyView.certificationButton.setTitleColor(.systemGray, for: .normal)
             phoneCertifyView.certificationButton.isEnabled = false
+            self.phoneCertifyView.certificationNumberTextField.layer.borderColor = UIColor.systemGray.cgColor
         }
     }
     
@@ -140,7 +216,7 @@ class PhoneCertifyViewController: UIViewController {
         self.view.addSubview(toastLabel)
         toastLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(360)
+            make.bottom.equalToSuperview().inset(100)
             make.width.equalTo(335)
             make.height.equalTo(30)
         }
