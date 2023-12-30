@@ -63,9 +63,15 @@ class TermsOfServiceViewController: UIViewController {
     }
     
     @objc func startButtonTapped(_ sender: UIButton) {
-        let viewController = LocationSettingViewController(selectLocation: [])
-        self.navigationController?.navigationBar.tintColor = .bodyColor
-        self.navigationItem.backButtonDisplayMode = .minimal
-        self.navigationController?.pushViewController(viewController, animated: true)
+        // MEMO: 동네설정 블라인드 처리
+//        let viewController = LocationSettingViewController(selectLocation: [])
+//        self.navigationController?.navigationBar.tintColor = .bodyColor
+//        self.navigationItem.backButtonDisplayMode = .minimal
+//        self.navigationController?.pushViewController(viewController, animated: true)
+        
+        let main = UIStoryboard.init(name: "Main", bundle: nil)
+        let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: false)
     }
 }
