@@ -41,6 +41,7 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textField.keyboardType = .numberPad
             cell.textField.delegate = self
             cell.textField.tag = indexPath.section
+            cell.textField.addTarget(self, action: #selector(partyTextFieldDidChange), for: .editingChanged)
             cell.selectionStyle = .none
             return cell
         case 4:
@@ -273,6 +274,14 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    @objc func partyTextFieldDidChange(_ textField: UITextField) {
+        if textField.text!.count < 2 {
+            
+        } else {
+            textField.deleteBackward()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 5:
@@ -316,11 +325,11 @@ extension AddRecipeViewController: UITextFieldDelegate {
             let sharingAvailableQ = exChange(value: textField.text ?? "0")
             self.sharingAvailableQty = sharingAvailableQ
             
-            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
-            self.ingredientName = ""
-            self.totalQty = 0.0
-            self.requiredQty = 0.0
-            self.sharingAvailableQty = 0.0
+//            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
+//            self.ingredientName = ""
+//            self.totalQty = 0.0
+//            self.requiredQty = 0.0
+//            self.sharingAvailableQty = 0.0
             
         default:
             print("")

@@ -141,12 +141,17 @@ class AddRecipeViewController: UIViewController {
             let action = UIAlertAction(title: "확인", style: .default)
             alert.addAction(action)
             present(alert, animated: true)
+        } else if self.totalQty != self.requiredQty + self.sharingAvailableQty {
+            let alert = UIAlertController(title: "", message: "구매수량, 필요수량, 나눔수량을 잘 작성하였는지 확인하세요.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
         } else {
-//            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
-//            self.ingredientName = ""
-//            self.totalQty = 0.0
-//            self.requiredQty = 0.0
-//            self.sharingAvailableQty = 0.0
+            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
+            self.ingredientName = ""
+            self.totalQty = 0.0
+            self.requiredQty = 0.0
+            self.sharingAvailableQty = 0.0
             
             table += 1
             tableView.insertRows(at: [IndexPath(row: table - 1, section: 5)], with: .bottom)
