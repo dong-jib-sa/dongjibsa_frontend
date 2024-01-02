@@ -60,86 +60,40 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         headerView.backgroundColor = .white
         
         if section == 0 {
-            let profileImageView: UIImageView = {
-                let imageView = UIImageView()
-                imageView.backgroundColor = .primaryColor
-                imageView.layer.cornerRadius = 45 / 2
-                imageView.image = UIImage(named: "Myprofile")
-                return imageView
-            }()
-            
-            headerView.addSubview(profileImageView)
-            profileImageView.snp.makeConstraints { make in
-                make.top.equalTo(headerView.snp.top).offset(10)
-                make.left.equalToSuperview().inset(16)
-                make.width.height.equalTo(45)
+            headerView.addSubview(myPageProfileView)
+            myPageProfileView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
             }
-            
-            let userNameLabel: UILabel = {
-                let label = UILabel()
-                label.text = "집밥이지"
-                label.font = .boldSystemFont(ofSize: 16)
-                return label
-            }()
-            
-            let sideLabel: UILabel = {
-                let label = UILabel()
-                label.text = "님이"
-                label.font = .systemFont(ofSize: 16)
-                return label
-            }()
-            
-            let nickNameStackView: UIStackView = {
-                let stackView = UIStackView(arrangedSubviews: [userNameLabel, sideLabel])
-                stackView.axis = .horizontal
-                stackView.distribution = .fill
-                stackView.alignment = .fill
-                return stackView
-            }()
-            
-            let descriptionLabel: UILabel = {
-                let label = UILabel()
-                label.text = "이번주에 실천한 식재료 제로 웨이스트"
-                label.font = .systemFont(ofSize: 16)
-                return label
-            }()
-            
-            let profileStackView: UIStackView = {
-                let stackView = UIStackView(arrangedSubviews: [nickNameStackView, descriptionLabel])
-                stackView.axis = .vertical
-                stackView.distribution = .fillEqually
-                stackView.alignment = .fill
-                stackView.spacing = 3
-                return stackView
-            }()
-            
-            headerView.addSubview(profileStackView)
-            profileStackView.snp.makeConstraints { make in
-                make.centerY.equalTo(profileImageView.snp.centerY)
-                make.left.equalTo(profileImageView.snp.right).offset(10)
-                make.right.equalToSuperview().inset(16)
-            }
-            
-            userNameLabel.setContentHuggingPriority(.init(251), for: .horizontal)
-            sideLabel.setContentHuggingPriority(.init(250), for: .horizontal)
-            
             return headerView
         } else {
-            let titleLabel: UILabel = {
-                let label = UILabel()
-                label.text = "내가 구매한 레시피"
-                label.font = .boldSystemFont(ofSize: 16)
-                return label
-            }()
-            
-            headerView.addSubview(titleLabel)
-            titleLabel.snp.makeConstraints { make in
-                make.centerY.equalToSuperview().offset(10)
-                make.left.right.equalToSuperview().inset(16)
+            headerView.addSubview(myPageBoardTitleView)
+            myPageBoardTitleView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
             }
+            
+            myPageBoardTitleView.writtenBoardListButton.addTarget(self, action: #selector(writtenButtonTapped), for: .touchUpInside)
+            myPageBoardTitleView.purchasedBoardListButton.addTarget(self, action: #selector(purchasedButtonTapped), for: .touchUpInside)
             
             return headerView
         }
+    }
+    
+    @objc func writtenButtonTapped() {
+        toggleTableView = false
+        myPageBoardTitleView.purchasedUnderLineView.isHidden = true
+        myPageBoardTitleView.purchasedBoardListButton.setTitleColor(.systemGray, for: .normal)
+        myPageBoardTitleView.writtenUnderLineView.isHidden = false
+        myPageBoardTitleView.writtenBoardListButton.setTitleColor(.black, for: .normal)
+        self.myTableView.reloadData()
+    }
+    
+    @objc func purchasedButtonTapped() {
+        toggleTableView = true
+        myPageBoardTitleView.purchasedUnderLineView.isHidden = false
+        myPageBoardTitleView.purchasedBoardListButton.setTitleColor(.black, for: .normal)
+        myPageBoardTitleView.writtenUnderLineView.isHidden = true
+        myPageBoardTitleView.writtenBoardListButton.setTitleColor(.systemGray, for: .normal)
+        self.myTableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

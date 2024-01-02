@@ -10,6 +10,9 @@ import UIKit
 class MyPageViewController: UIViewController {
     
     @IBOutlet weak var myTableView: UITableView!
+    let myPageBoardTitleView = MyPageBoardTitleView()
+    let myPageProfileView = MyPageProfileView()
+    var toggleTableView: Bool = false
     let myPractice: [MyPractice] = MyPractice.list
     var my: [Double] = [0000.0, 0000.0]
     var recipeList: [Board] = []
