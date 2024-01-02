@@ -43,6 +43,7 @@ class LoginView: UIView {
         configuration.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 28, bottom: .zero, trailing: 28)
         configuration.imagePadding = 40
         configuration.image = UIImage(named: "icon_kakao")
+        configuration.baseForegroundColor = .black
         
         let button = UIButton(configuration: configuration)
         button.backgroundColor = UIColor(hex: 0xFEE500)
@@ -79,6 +80,7 @@ class LoginView: UIView {
         
         var configuration = UIButton.Configuration.plain()
         configuration.attributedTitle = attString
+        configuration.baseForegroundColor = .white
         
         let button = UIButton(configuration: configuration)
         button.backgroundColor = .primaryColor
