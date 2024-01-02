@@ -84,6 +84,7 @@ class DetailViewController: UIViewController {
             imageView.backgroundColor = .primaryColor
             imageView.contentMode = .scaleAspectFill
             imageView.layer.masksToBounds = true
+            imageView.image = UIImage(systemName: "boardDefaultImage")
             return imageView
         }()
         let imageURL = recipeInfo?.imgUrl ?? ""
