@@ -46,7 +46,9 @@ class MyPageViewController: UIViewController {
     }
     
     @objc private func settingbuttonTapped(_ sender: UIButton) {
-        print("settings")
+        let viewController = SettingViewController()
+        viewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     private func setupView() {
