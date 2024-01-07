@@ -72,6 +72,7 @@
 		10C1CEE62B43EA4D000A6B99 /* SettingViewController+TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1CEE52B43EA4D000A6B99 /* SettingViewController+TableViewController.swift */; };
 		10C1CEF02B442287000A6B99 /* MyPageBoardTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1CEEF2B442287000A6B99 /* MyPageBoardTitleView.swift */; };
 		10C1CEF22B44253B000A6B99 /* MyPageProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1CEF12B44253B000A6B99 /* MyPageProfileView.swift */; };
+		10C1CEF42B442AD3000A6B99 /* UpdateAndDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C1CEF32B442AD3000A6B99 /* UpdateAndDeleteViewController.swift */; };
 		10EBA1F02ADD5A45006D3828 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 10EBA1EF2ADD5A45006D3828 /* FirebaseAnalytics */; };
 		10EBA1F22ADD5A45006D3828 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10EBA1F12ADD5A45006D3828 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
@@ -143,6 +144,7 @@
 		10C1CEE52B43EA4D000A6B99 /* SettingViewController+TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingViewController+TableViewController.swift"; sourceTree = "<group>"; };
 		10C1CEEF2B442287000A6B99 /* MyPageBoardTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageBoardTitleView.swift; sourceTree = "<group>"; };
 		10C1CEF12B44253B000A6B99 /* MyPageProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileView.swift; sourceTree = "<group>"; };
+		10C1CEF32B442AD3000A6B99 /* UpdateAndDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAndDeleteViewController.swift; sourceTree = "<group>"; };
 		10EBA1F32ADD5EE3006D3828 /* DongJibSa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DongJibSa.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -297,6 +299,7 @@
 			children = (
 				103449F02A7641860096E45D /* MyPageViewController.swift */,
 				103449F62A765C2A0096E45D /* MyPageViewController+TableViewController.swift */,
+				10C1CEF32B442AD3000A6B99 /* UpdateAndDeleteViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				1044AC892B3FF04600189F02 /* DefaultSettingTableViewCell.swift in Sources */,
 				10344A682A86776D0096E45D /* LocationSettingViewController.swift in Sources */,
 				10344A182A7A55AC0096E45D /* OnboardingImageCell.swift in Sources */,
+				10C1CEF42B442AD3000A6B99 /* UpdateAndDeleteViewController.swift in Sources */,
 				10C1CEF02B442287000A6B99 /* MyPageBoardTitleView.swift in Sources */,
 				103449AE2A726F2E0096E45D /* HomeViewController+TableViewController.swift in Sources */,
 				103449B02A729D460096E45D /* AddViewController.swift in Sources */,
