@@ -170,16 +170,17 @@ class LoginView: UIView {
             make.height.equalTo(12)
         }
         
-        singedAndFeedbackView.addSubview(signedAndFeedbackStackView)
-        singedAndFeedbackView.snp.makeConstraints { make in
-            make.height.equalTo(27)
-        }
-        
-        signedAndFeedbackStackView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        
-        singedAndFeedbackView.setContentHuggingPriority(.init(252), for: .vertical)
+        // MEMO: 블라인드 처리
+//        singedAndFeedbackView.addSubview(signedAndFeedbackStackView)
+//        singedAndFeedbackView.snp.makeConstraints { make in
+//            make.height.equalTo(27)
+//        }
+//        
+//        signedAndFeedbackStackView.snp.makeConstraints { make in
+//            make.center.equalToSuperview()
+//        }
+//        
+//        singedAndFeedbackView.setContentHuggingPriority(.init(252), for: .vertical)
         
         addSubview(mainStackView)
         mainStackView.snp.makeConstraints { make in
