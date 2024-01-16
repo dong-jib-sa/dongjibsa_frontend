@@ -17,6 +17,8 @@ class Network {
     private let getMypostURL = "api/v1/my-page/posts"
     private let postURL = "api/v1/posts/new"
     private let postPhoneNumber = "/api/v1/users/verifyPhoneNumber"
+    private let postVerifyOAuthUser = "/api/v1/users/oauth2/verifyOAuthUser"
+    private let postRegisterOAuthUser = "/api/v1/users/oauth2/registerOAuthUser"
     
     private init() { }
     
@@ -192,6 +194,85 @@ class Network {
                 guard let loginInfo = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: String] else { return }
                 let result = loginInfo["result"]!
                 completion(result)
+                
+            } catch let error as NSError {
+                print("Error occur: error calling PATCH - \(error)")
+            }
+            
+        }.resume()
+    }
+    
+    func postVerifyOAuthUser(type: LoginType, email: String, id: String, completion: @escaping (String) -> Void) {
+        let strURL = baseURL + postVerifyOAuthUser
+        let parameters: [String: Any] = ["socialType": type.title, "email": email, "socialId": id]
+        
+        let configuration = URLSessionConfiguration.default
+        
+        guard let urlComponets = URLComponents(string: strURL) else { return }
+        guard let requestURL = urlComponets.url else { return }
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        request.httpBody = jsonData
+        
+        let session = URLSession(configuration: configuration)
+        session.dataTask(with: request) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode)  else {
+                print("Error: HTTP request failed \n --> response: \(response)")
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            do {
+                guard let loginInfo = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: String] else { return }
+                guard let result = loginInfo["result"] else { return }
+                completion(result)
+                
+            } catch let error as NSError {
+                print("Error occur: error calling PATCH - \(error)")
+            }
+            
+        }.resume()
+    }
+    
+    func postRegisterOAuthUserLogin(type: LoginType, email: String, id: String, nickName: String, completion: @escaping (Int) -> Void) {
+        let strURL = baseURL + postRegisterOAuthUser
+        let parameters: [String: Any] = ["socialType": type.title, "email": email, "socialId": id, "nickName": nickName]
+        
+        let configuration = URLSessionConfiguration.default
+        
+        guard let urlComponets = URLComponents(string: strURL) else { return }
+        guard let requestURL = urlComponets.url else { return }
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        request.httpBody = jsonData
+        
+        let session = URLSession(configuration: configuration)
+        session.dataTask(with: request) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode)  else {
+                print("Error: HTTP request failed \n --> response: \(response)")
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            do {
+                guard let loginInfo = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] else { return }
+                guard let result = loginInfo["result"] as? [String: Any] else { return }
+                guard let userId = result["memberId"] as? Int else { return }
+                completion(userId)
                 
             } catch let error as NSError {
                 print("Error occur: error calling PATCH - \(error)")

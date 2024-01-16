@@ -10,7 +10,11 @@ import UIKit
 class TermsOfServiceViewController: UIViewController {
     
     private let termsOfServiceView = TermsOfServiceView()
-
+    
+    var loginId: String = ""
+    var email: String = ""
+    var loginType: LoginType = .apple
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,6 +72,24 @@ class TermsOfServiceViewController: UIViewController {
 //        self.navigationController?.navigationBar.tintColor = .bodyColor
 //        self.navigationItem.backButtonDisplayMode = .minimal
 //        self.navigationController?.pushViewController(viewController, animated: true)
+        let nickName = NickNameRandom().getRandomNickName()
+        
+        if loginType == .apple || loginType == .kakao {
+            Network.shared.postRegisterOAuthUserLogin(type: loginType, email: email, id: loginId, nickName: nickName) { result in
+                // 로그아웃 및 회원탈퇴를 위해 저장
+                UserDefaults.standard.set(self.loginType, forKey: "LoginType")
+                // 유저 식별자 저장
+                let userId = result
+                UserDefaults.standard.set(userId, forKey: "UserId")
+                
+                DispatchQueue.main.async {
+                    let main = UIStoryboard.init(name: "Main", bundle: nil)
+                    let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+                    viewController.modalPresentationStyle = .fullScreen
+                    self.present(viewController, animated: false)
+                }
+            }
+        }
         
         let main = UIStoryboard.init(name: "Main", bundle: nil)
         let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController

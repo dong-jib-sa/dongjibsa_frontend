@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import KakaoSDKAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -26,6 +27,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let onboardingViewController = onboarding.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
         window.rootViewController = onboardingViewController
         window.makeKeyAndVisible()
+        
+//        if let urlContext = connectionOptions.urlContexts.first {
+//            let sendingAppID = urlContext.options.sourceApplication
+//            print("sendingAppID: \(sendingAppID ?? "Unknown")")
+//        }
+    }
+    
+    // 카카오톡으로 로그인을 위한 설정
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

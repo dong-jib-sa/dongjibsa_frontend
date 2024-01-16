@@ -9,6 +9,8 @@ import UIKit
 import FirebaseCore
 import UserNotifications
 import FirebaseAuth
+import KakaoSDKCommon
+import KakaoSDKAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.sound,.alert], completionHandler: { (granted,error) in })
         application.registerForRemoteNotifications()
+        // 카카오 SDK 초기화
+        let apiKey = Bundle.main.apiKey
+        KakaoSDK.initSDK(appKey: apiKey)
 
         return true
     }

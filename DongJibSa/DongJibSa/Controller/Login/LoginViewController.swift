@@ -7,6 +7,9 @@
 
 import UIKit
 import AuthenticationServices
+import KakaoSDKAuth
+import KakaoSDKCommon
+import KakaoSDKUser
 
 class LoginViewController: UIViewController {
     
@@ -45,7 +48,7 @@ class LoginViewController: UIViewController {
         loginView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+        loginView.kakaoLoginButton.addTarget(self, action: #selector(kakaoLoginButtonTapped), for: .touchUpInside)
         loginView.appleLoginButton.addTarget(self, action: #selector(appleLoginButtonTapped), for: .touchUpInside)
         loginView.phoneLoginButton.addTarget(self, action: #selector(phoneLoginButtonTapped), for: .touchUpInside)
     }
@@ -55,6 +58,15 @@ class LoginViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = .bodyColor
         self.navigationItem.backButtonDisplayMode = .minimal
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    @objc func kakaoLoginButtonTapped(_ sender: UIButton) {
+        // 카카오톡 설치 여부 확인
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            self.loginWithKakaoApp()
+        } else {
+            self.loginWithKakaoWeb()
+        }
     }
     
     @objc func appleLoginButtonTapped(_ sender: UIButton) {
@@ -73,6 +85,73 @@ class LoginViewController: UIViewController {
     }
 }
 
+// MARK: KAKAKO SNS Login
+extension LoginViewController {
+    func loginWithKakaoApp() {
+        UserApi.shared.loginWithKakaoTalk { (oauthToken, error) in
+            if let error = error {
+                print(error)
+            } else {
+                print("loginWithKakaoTalk() success.")
+
+                //do something
+                _ = oauthToken
+                self.userInfo()
+            }
+        }
+    }
+
+    func loginWithKakaoWeb() {
+        UserApi.shared.loginWithKakaoAccount(prompts: [.Login]) { (oauthToken, error) in
+            if let error = error {
+                print(error)
+            } else {
+                print("loginWithKakaoAccount() success")
+
+                // do something
+                _ = oauthToken
+                self.userInfo()
+            }
+        }
+    }
+
+    private func userInfo() {
+        UserApi.shared.me { (user, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                if let kakaoId = user?.id {
+                    guard let user = user,
+                          let kakaoAccount = user.kakaoAccount,
+                          let email = kakaoAccount.email
+                    else { return }
+                    // email, kakaoId, 로그인 타입을 서버로 전달
+                    // 서버에서 유저 조회 후 있으면 홈화면으로, 없으면 약관 동의 화면으로 화면전환
+                    Network.shared.postVerifyOAuthUser(type: .kakao, email: email, id: "\(kakaoId)") { result in
+                        if result == "신규 Kakao 로그인 유저입니다." {
+                            DispatchQueue.main.async {
+                                let viewController = TermsOfServiceViewController()
+                                viewController.email = email
+                                viewController.loginId = "\(kakaoId)"
+                                viewController.loginType = .kakao
+                                self.navigationController?.pushViewController(viewController, animated: true)
+                            }
+                        } else if result == "기존 Kakao 로그인 유저입니다." {
+                            DispatchQueue.main.async {
+                                let main = UIStoryboard.init(name: "Main", bundle: nil)
+                                let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+                                viewController.modalPresentationStyle = .fullScreen
+                                self.present(viewController, animated: false)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: Apple Login
 extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     // 로그인을 진행하는 화면
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
@@ -93,7 +172,25 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             print("User Email : \(email ?? "")")
             print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
             print("token : \(String(describing: tokeStr))")
-            // MEMO: 화면 전환
+            
+            Network.shared.postVerifyOAuthUser(type: .apple, email: email ?? "", id: "") { result in
+                
+                if result == "신규 Apple 로그인 유저입니다." {
+                    DispatchQueue.main.async {
+                        let viewController = TermsOfServiceViewController()
+                        viewController.email = email ?? ""
+                        viewController.loginType = .apple
+                        self.navigationController?.pushViewController(viewController, animated: true)
+                    }
+                } else if result == "기존 Apple 로그인 유저입니다." {
+                    DispatchQueue.main.async {
+                        let main = UIStoryboard.init(name: "Main", bundle: nil)
+                        let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+                        viewController.modalPresentationStyle = .fullScreen
+                        self.present(viewController, animated: false)
+                    }
+                }
+            }
             
         default:
             break
