@@ -16,9 +16,10 @@ class Network {
     private let getMypageURL = "api/v1/my-page/indicator"
     private let getMypostURL = "api/v1/my-page/posts"
     private let postURL = "api/v1/posts/new"
-    private let postPhoneNumber = "/api/v1/users/verifyPhoneNumber"
-    private let postVerifyOAuthUser = "/api/v1/users/oauth2/verifyOAuthUser"
-    private let postRegisterOAuthUser = "/api/v1/users/oauth2/registerOAuthUser"
+    private let postVeripyPhoneNumberUser = "api/v1/users/verifyPhoneNumberUser"
+    private let postRegisterPhoneNumberUser = "api/v1/users/registerPhoneNumberUser"
+    private let postVerifyOAuthUser = "api/v1/users/oauth2/verifyOAuthUser"
+    private let postRegisterOAuthUser = "api/v1/users/oauth2/registerOAuthUser"
     
     private init() { }
     
@@ -162,9 +163,9 @@ class Network {
         task.resume()
     }
     
-    func postPhoneNumber(number: String, completion: @escaping (String) -> Void) {
-        let strURL = baseURL + postPhoneNumber
-        let parameters: [String: Any] = ["phoneNumber": number]
+    func postVeripyPhoneNumber(number: String, nickName: String, completion: @escaping (String) -> Void) {
+        let strURL = baseURL + postVeripyPhoneNumberUser
+        let parameters: [String: Any] = ["phoneNumber": number, "nickName": nickName]
         
         let configuration = URLSessionConfiguration.default
         
@@ -194,6 +195,47 @@ class Network {
                 guard let loginInfo = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: String] else { return }
                 let result = loginInfo["result"]!
                 completion(result)
+                
+            } catch let error as NSError {
+                print("Error occur: error calling PATCH - \(error)")
+            }
+            
+        }.resume()
+    }
+    
+    func postRegisterPhoneNumber(number: String, nickName: String, completion: @escaping (String) -> Void) {
+        let strURL = baseURL + postRegisterPhoneNumberUser
+        let parameters: [String: Any] = ["phoneNumber": number, "nickName": nickName]
+        
+        let configuration = URLSessionConfiguration.default
+        
+        guard let urlComponets = URLComponents(string: strURL) else { return }
+        guard let requestURL = urlComponets.url else { return }
+        var request = URLRequest(url: requestURL)
+        
+        
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        request.httpBody = jsonData
+        
+        let session = URLSession(configuration: configuration)
+        session.dataTask(with: request) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode)  else {
+                print("Error: HTTP request failed \n --> response: \(response)")
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            do {
+                guard let loginInfo = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] else { return }
+                print(loginInfo)
+                let result = loginInfo["resultCode"]!
+                completion(result as! String)
                 
             } catch let error as NSError {
                 print("Error occur: error calling PATCH - \(error)")

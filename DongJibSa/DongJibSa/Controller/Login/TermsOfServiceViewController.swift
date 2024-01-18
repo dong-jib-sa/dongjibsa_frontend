@@ -77,7 +77,7 @@ class TermsOfServiceViewController: UIViewController {
         if loginType == .apple || loginType == .kakao {
             Network.shared.postRegisterOAuthUserLogin(type: loginType, email: email, id: loginId, nickName: nickName) { result in
                 // 로그아웃 및 회원탈퇴를 위해 저장
-                UserDefaults.standard.set(self.loginType, forKey: "LoginType")
+                UserDefaults.standard.set(self.loginType.title, forKey: "LoginType")
                 // 유저 식별자 저장
                 let userId = result
                 UserDefaults.standard.set(userId, forKey: "UserId")
@@ -89,11 +89,15 @@ class TermsOfServiceViewController: UIViewController {
                     self.present(viewController, animated: false)
                 }
             }
+        } else {
+            Network.shared.postRegisterPhoneNumber(number: "01045674567", nickName: nickName) { result in
+                DispatchQueue.main.async {
+                    let main = UIStoryboard.init(name: "Main", bundle: nil)
+                    let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+                    viewController.modalPresentationStyle = .fullScreen
+                    self.present(viewController, animated: false)
+                }
+            }
         }
-        
-        let main = UIStoryboard.init(name: "Main", bundle: nil)
-        let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
-        viewController.modalPresentationStyle = .fullScreen
-        self.present(viewController, animated: false)
     }
 }

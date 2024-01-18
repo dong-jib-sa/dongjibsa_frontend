@@ -166,22 +166,22 @@ class PhoneCertifyViewController: UIViewController {
                 self.phoneCertifyView.helpMessageLabel.textColor = .systemRed
                 self.phoneCertifyView.certificationNumberTextField.layer.borderColor = UIColor.systemRed.cgColor
             } else {
-                // User is signed in
-                print(authResult)
                 // MEMO: 화면전환 -> 전화번호 ? 있음(홈 화면) : 없음(약관)
                 // MARK: 입력받은 번호로 저장하는 걸로 수정하기 -> 엔드포인트 구현 후에
-                Network.shared.postPhoneNumber(number: "01012341237") { result in
+                let nickName = NickNameRandom().getRandomNickName()
+                Network.shared.postVeripyPhoneNumber(number: "01045674567", nickName: nickName) { result in
                     switch result {
-                    case "이미 회원입니다.":
+                    case "이미 존재하는 회원입니다.":
                         DispatchQueue.main.async {
                             let main = UIStoryboard.init(name: "Main", bundle: nil)
                             let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
                             viewController.modalPresentationStyle = .fullScreen
                             self.present(viewController, animated: false)
                         }
-                    case "회원으로 등록했습니다.":
+                    case "신규 회원입니다. 약관 동의 후 회원 가입을 진행합니다.":
                         DispatchQueue.main.async {
                             let viewController = TermsOfServiceViewController()
+                            viewController.loginType = .phoneNumber
                             self.navigationController?.pushViewController(viewController, animated: true)
                         }
                     default:
