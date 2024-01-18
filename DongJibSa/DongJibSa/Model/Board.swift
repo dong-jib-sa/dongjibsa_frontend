@@ -7,14 +7,19 @@
 
 import Foundation
 
+struct ResultData: Decodable {
+    var resultCode: String
+    var result: [Board]
+}
+
 struct Board: Codable {
     var id: Int?
     var title: String
     var content: String
-    var userName: String
     var expectingPrice: Int
     var pricePerOne: Int
-    var calorie: Double?
+    var member: User?
+    var recipeCalorie: RecipeCalorie?
     var peopleCount: Int
     var recipeIngredients: [RecipeIngredients]
     var imgUrl: String
@@ -24,8 +29,28 @@ struct Board: Codable {
 }
 
 struct RecipeIngredients: Codable {
+    var id: Int?
+    var postId: Int?
+    var ingredientId: Int?
     var ingredientName: String
     var totalQty: Double
     var requiredQty: Double
     var sharingAvailableQty: Double
+}
+
+struct RecipeCalorie: Codable {
+    var id: Int
+    var recipeName: String
+    var calorie: Double
+}
+
+extension ResultData {
+    init(from service: ResultData) {
+        resultCode = service.resultCode
+        result = []
+        
+        for board in service.result {
+            result.append(board)
+        }
+    }
 }

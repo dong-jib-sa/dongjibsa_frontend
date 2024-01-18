@@ -179,7 +179,7 @@ class AddRecipeViewController: UIViewController {
                 recipeIngredientsResult.append(recipeIngredient)
             }
             
-            let recipeInfo: Board = Board(title: "\(self.recipe["title"] ?? "제목")", content: "\(self.recipe["content"] ?? "알배추, 청경채, 깻잎, 소고기 목심, 팽이랑 표고버섯 구매할 건데 재료가 너무 많이 남을거 같아서요~ㅠ같이 공구하실 분 구합니다~!")", userName: userName, expectingPrice: Int("\(self.recipe["expectingPrice"] ?? 0)")!, pricePerOne: pricePerOne!, peopleCount: Int("\(self.recipe["peopleCount"] ?? 4)")!, recipeIngredients: recipeIngredientsResult, imgUrl: "\(self.recipe["imgUrl"] ?? imageUrl)", createdAt: createdAt)
+            let recipeInfo: Board = Board(title: "\(self.recipe["title"] ?? "제목")", content: "\(self.recipe["content"] ?? "알배추, 청경채, 깻잎, 소고기 목심, 팽이랑 표고버섯 구매할 건데 재료가 너무 많이 남을거 같아서요~ㅠ같이 공구하실 분 구합니다~!")", expectingPrice: Int("\(self.recipe["expectingPrice"] ?? 0)")!, pricePerOne: pricePerOne!, peopleCount: Int("\(self.recipe["peopleCount"] ?? 4)")!, recipeIngredients: recipeIngredientsResult, imgUrl: "\(self.recipe["imgUrl"] ?? imageUrl)", createdAt: createdAt)
             
             DispatchQueue.main.async {
                 self.dismiss(animated: true) {

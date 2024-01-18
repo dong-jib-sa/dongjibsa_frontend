@@ -12,7 +12,7 @@ class Network {
     
     private let baseURL = "http://ec2-43-201-22-238.ap-northeast-2.compute.amazonaws.com:8080/"
     private let test = "api/v1/cicdTest"
-    private let getURL = "api/v1/posts/"
+    private let getURL = "api/v1/posts"
     private let getMypageURL = "api/v1/my-page/indicator"
     private let getMypostURL = "api/v1/my-page/posts"
     private let postURL = "api/v1/posts/new"
@@ -54,12 +54,9 @@ class Network {
     
     func getRecipes(completion: @escaping ([Board]) -> Void) {
         let configuration = URLSessionConfiguration.default
-        
         let session = URLSession(configuration: configuration)
-        
-        let myDong: String = UserDefaults.standard.string(forKey: "myLocation") ?? "정릉4동"
-        
-        guard let urlComponents = URLComponents(string: baseURL + getURL + myDong) else {
+                
+        guard let urlComponents = URLComponents(string: baseURL + getURL) else {
             return
         }
         guard let requestURL = urlComponents.url else {
@@ -80,7 +77,8 @@ class Network {
             
             do {
                 let decoder = JSONDecoder()
-                let boardList = try decoder.decode([Board].self, from: data)
+                let resultData = try decoder.decode(ResultData.self, from: data)
+                let boardList = resultData.result.map { $0 }
                 completion(boardList)
                 
             } catch let error as NSError {

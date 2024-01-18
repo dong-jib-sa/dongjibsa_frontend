@@ -103,7 +103,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             
             let userNameLabel: UILabel = {
                 let label = UILabel()
-                label.text = recipeInfo?.userName
+                label.text = recipeInfo?.member?.nickName
                 label.font = .boldSystemFont(ofSize: 16)
                 return label
             }()

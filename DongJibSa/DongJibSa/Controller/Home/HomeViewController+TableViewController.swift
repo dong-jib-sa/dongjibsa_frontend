@@ -18,12 +18,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let imageURL = recipeList[indexPath.row].imgUrl
         cell.recipeImage.setImageURL(imageURL)
         cell.titleLabel.text = recipeList[indexPath.row].title
-        cell.locationLabel.text = recipeList[indexPath.row].userName
+        cell.locationLabel.text = recipeList[indexPath.row].member?.nickName
         cell.participantLabel.text = "1/\(recipeList[indexPath.row].peopleCount)명"
         cell.priceLabel.text = "1인당 예상가 \(recipeList[indexPath.row].pricePerOne)원"
         var recipeIngredients: [String] = []
         for i in 0..<recipeList[indexPath.row].recipeIngredients.count {
-            var name: String = recipeList[indexPath.row].recipeIngredients[i].ingredientName
+            let name: String = recipeList[indexPath.row].recipeIngredients[i].ingredientName
             recipeIngredients.append("#\(name) ")
         }
         cell.tagListLabel.text = recipeIngredients.reduce("", +)
