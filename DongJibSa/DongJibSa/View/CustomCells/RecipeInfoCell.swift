@@ -98,6 +98,36 @@ class RecipeInfoCell: UITableViewCell {
         return stackView
     }()
     
+    let calorieInfoLabel: UILabel = {
+        let label = UILabel()
+        label.text = "칼로리 정보"
+        label.font = .systemFont(ofSize: 16)
+        return label
+    }()
+    
+    let calorieDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "칼로리가 등록된 레시피에요"
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .gray
+        return label
+    }()
+    
+    let calorieDescriptionButton: UIButton = {
+        let button = UIButton()
+        button.tintColor = .gray
+        button.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
+        return button
+    }()
+    
+    let toolTipView = ToolTipView(title: "칼로리가 등록된 레시피는 평균 칼로리 계산 시 사용할 수 있습니다.")
+    
+    lazy var calorieDescriptionStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [calorieInfoLabel, calorieDescriptionLabel, calorieDescriptionButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        return stackView
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -120,6 +150,8 @@ class RecipeInfoCell: UITableViewCell {
         cellView.addSubview(timeLineStackView)
         cellView.addSubview(detailLabel)
         cellView.addSubview(descriptionStackView)
+        cellView.addSubview(calorieDescriptionStackView)
+        cellView.addSubview(toolTipView)
         
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -147,6 +179,25 @@ class RecipeInfoCell: UITableViewCell {
             make.top.equalTo(detailLabel.snp.bottom).offset(20)
             make.left.right.equalToSuperview()
             make.height.equalTo(80)
+        }
+        
+        calorieInfoLabel.setContentHuggingPriority(.init(251), for: .horizontal)
+        calorieInfoLabel.setContentCompressionResistancePriority(.init(751), for: .horizontal)
+        calorieDescriptionLabel.setContentHuggingPriority(.init(250), for: .horizontal)
+        calorieDescriptionLabel.setContentCompressionResistancePriority(.init(750), for: .horizontal)
+        calorieDescriptionButton.setContentHuggingPriority(.init(251), for: .horizontal)
+        calorieDescriptionButton.setContentCompressionResistancePriority(.init(751), for: .horizontal)
+        
+        calorieDescriptionStackView.snp.makeConstraints { make in
+            make.top.equalTo(descriptionStackView.snp.bottom).offset(20)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(24)
+        }
+        
+        toolTipView.snp.makeConstraints { make in
+            make.top.equalTo(calorieDescriptionStackView.snp.bottom)
+            make.height.equalTo(60)
+            make.width.equalTo(240)
         }
     }
 }

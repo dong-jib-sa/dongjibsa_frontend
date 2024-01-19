@@ -37,6 +37,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             cell.priceLabel.text = "예상가: \(recipeInfo?.expectingPrice ?? 0)원"
             cell.participantLabel.text = "파티원: \(recipeInfo?.peopleCount ?? 4)명"
             cell.pricePerPersonLabel.text = "1인당 예상 구매가: \(recipeInfo?.pricePerOne ?? 0)원"
+            cell.calorieDescriptionButton.addTarget(self, action: #selector(calorieDescriptionButtonTapped), for: .touchUpInside)
             cell.selectionStyle = .none
             return cell
         case 1:
@@ -59,9 +60,16 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    @objc func calorieDescriptionButtonTapped(_ sender: UIButton) {
+        sender.isSelected = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            sender.isSelected = false
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-          return 250
+          return 275
         } else if indexPath.section == 1 {
             return 44
         } else if indexPath.section == 2 {
