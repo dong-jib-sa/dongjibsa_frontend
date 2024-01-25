@@ -60,13 +60,8 @@ class UpdateAndDeleteViewController: UIViewController {
         return stackView
     }()
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var postDto: PostDto?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,9 +98,76 @@ class UpdateAndDeleteViewController: UIViewController {
     
     @objc func updateButtonTapped(_ sender: UIButton) {
         print("게시글 수정")
+        guard let postDto = postDto else { return }
+        let recipt = postDto.postDto
+        
+//        self.dismiss(animated: true) {
+            
+            let addViewController = AddRecipeViewController(navigationController: self.navigationController)
+            
+            let navigationController = UINavigationController(rootViewController: addViewController)
+            navigationController.modalPresentationStyle = .fullScreen
+            addViewController.navigationItem.title = NSLocalizedString("레시피 파티원 모집하기", comment: "")
+            addViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(self.closeAddViewController))
+            // image URL -> UIImage
+            addViewController.putRecipe = true
+            let imageURL = recipt.imgUrls
+            addViewController.photoList = self.setImageView(with: imageURL ?? [])
+            addViewController.table = recipt.recipeIngredients.count
+            addViewController.putRecipeInfo = postDto
+            var recipeIngredients: [[String: Any]] = []
+            var recipeIngredient: [String: Any] = [:]
+            for i in 0..<recipt.recipeIngredients.count {
+                recipeIngredient["ingredientName"] = recipt.recipeIngredients[i].ingredientName
+                recipeIngredient["totalQty"] = Int(ceil(recipt.recipeIngredients[i].totalQty))
+                recipeIngredient["requiredQty"] = Int(ceil(recipt.recipeIngredients[i].requiredQty))
+                recipeIngredient["sharingAvailableQty"] = Int(ceil(recipt.recipeIngredients[i].sharingAvailableQty))
+                recipeIngredients.append(recipeIngredient)
+                recipeIngredient.removeAll()
+            }
+            addViewController.recipeIngredients = recipeIngredients
+            
+            navigationController.navigationBar.tintColor = .bodyColor
+            self.present(navigationController, animated: true)
+//        }
     }
     
     @objc func deleteButtonTapped(_ sender: UIButton) {
         print("게시글 삭제")
+        
+        // MARK: 삭제 알럿
+        // ["result": "9번 게시글이 삭제되었습니다.", "resultCode": "SUCCESS!"]
+        guard let postId = postDto?.postDto.id else { return }
+        Network.shared.deleteMyRecipe(postId: postId)
+        self.dismiss(animated: true)
+    }
+    
+    @objc func closeAddViewController() {
+        self.dismiss(animated: true) {
+            self.dismiss(animated: true)
+        }
+    }
+}
+
+extension UpdateAndDeleteViewController {
+    func setImageView(with urlStrs: [String]) -> [UIImage] {
+        var imageList: [UIImage] = []
+        for urlStr in urlStrs {
+            guard let url = URL(string: urlStr) else { return [] }
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                guard let data = data, let _ = error else { return }
+//                if let image = UIImage(data: data) {
+//                    imageList.append(image)
+//                }
+//            }.resume()
+            do {
+                guard let data = try? Data(contentsOf: url) else { return [] }
+                guard let image = UIImage(data: data) else { return [] }
+                imageList.append(image)
+            } catch {
+                print("이미지를 불러올 수 없습니다.")
+            }
+        }
+        return imageList
     }
 }

@@ -13,7 +13,7 @@ struct ResultData: Decodable {
 }
 
 struct Board: Codable {
-    var id: Int?
+    var id: Int
     var title: String
     var content: String
     var expectingPrice: Int
@@ -22,7 +22,7 @@ struct Board: Codable {
     var recipeCalorie: RecipeCalorie?
     var peopleCount: Int
     var recipeIngredients: [RecipeIngredients]
-    var imgUrl: String
+    var imgUrls: [String]?
     var commentsCount: Int?
     var createdAt: String?
     var updatedAt: String?
@@ -41,7 +41,7 @@ struct RecipeIngredients: Codable {
 struct RecipeCalorie: Codable {
     var id: Int
     var recipeName: String
-    var calorie: Double
+    var calorie: Double?
 }
 
 extension ResultData {

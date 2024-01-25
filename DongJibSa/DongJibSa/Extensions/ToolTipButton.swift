@@ -8,7 +8,7 @@
 import UIKit
 
 class ToolTipButton: UIButton {
-    private let toolTipView = RecipeInfoCell()
+    private let toolTipView = CalorieCell()
     
     override var isEnabled: Bool {
         didSet {

@@ -78,9 +78,10 @@ class TermsOfServiceViewController: UIViewController {
             Network.shared.postRegisterOAuthUserLogin(type: loginType, email: email, id: loginId, nickName: nickName) { result in
                 // 로그아웃 및 회원탈퇴를 위해 저장
                 UserDefaults.standard.set(self.loginType.title, forKey: "LoginType")
-                // 유저 식별자 저장
+                // 유저 식별자와 닉네임 저장
                 let userId = result
                 UserDefaults.standard.set(userId, forKey: "UserId")
+                UserDefaults.standard.set(nickName, forKey: "UserNickName")
                 
                 DispatchQueue.main.async {
                     let main = UIStoryboard.init(name: "Main", bundle: nil)

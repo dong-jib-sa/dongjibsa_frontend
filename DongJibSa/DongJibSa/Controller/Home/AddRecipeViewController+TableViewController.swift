@@ -9,8 +9,9 @@ import UIKit
 
 extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 9
+        return 10
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 5 {
             return table
@@ -22,22 +23,42 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldCell.cellId, for: indexPath) as! TextFieldCell
-            cell.textField.placeholder = "레시피 명을 입력해주세요. (예시: 낚지볶음)"
+            if self.putRecipe {
+                guard let putRecipeInfo = putRecipeInfo else { return cell }
+                cell.textField.text = putRecipeInfo.postDto.recipeCalorie?.recipeName
+                
+            } else {
+                cell.textField.placeholder = "레시피 명을 입력해주세요. (예시: 낚지볶음)"
+            }
             cell.textField.delegate = self
             cell.textField.tag = indexPath.section
+            cell.textField.addTarget(self, action: #selector(limitedTextFieldDidChange), for: .editingChanged)
             cell.selectionStyle = .none
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldCell.cellId, for: indexPath) as! TextFieldCell
-            cell.textField.placeholder = "예상가격을 입력해주세요."
+            if self.putRecipe {
+                guard let putRecipeInfo = putRecipeInfo else { return cell }
+                cell.textField.text = "\(putRecipeInfo.postDto.expectingPrice)"
+                
+            } else {
+                cell.textField.placeholder = "예상가격을 입력해주세요."
+            }
             cell.textField.keyboardType = .numberPad
             cell.textField.delegate = self
             cell.textField.tag = indexPath.section
+            cell.textField.addTarget(self, action: #selector(limitedTextFieldDidChange), for: .editingChanged)
             cell.selectionStyle = .none
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldCell.cellId, for: indexPath) as! TextFieldCell
-            cell.textField.placeholder = "모집할 인원수를 입력해주세요."
+            if self.putRecipe {
+                guard let putRecipeInfo = putRecipeInfo else { return cell }
+                cell.textField.text = "\(putRecipeInfo.postDto.peopleCount)"
+                
+            } else {
+                cell.textField.placeholder = "인원수는 최대 4명까지만 입력 가능해요."
+            }
             cell.textField.keyboardType = .numberPad
             cell.textField.delegate = self
             cell.textField.tag = indexPath.section
@@ -53,7 +74,21 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textField.isEnabled = false
             return cell
         case 5:
+            let cell = tableView.dequeueReusableCell(withIdentifier: IngredientListCell.cellId, for: indexPath) as! IngredientListCell
+            cell.titleLabel.text = "\(self.recipeIngredients[indexPath.row]["ingredientName"]!)"
+            cell.buyLabel.text = "\(self.recipeIngredients[indexPath.row]["totalQty"]!)"
+            cell.needLabel.text = "\(self.recipeIngredients[indexPath.row]["requiredQty"]!)"
+            cell.shareLabel.text = "\(self.recipeIngredients[indexPath.row]["sharingAvailableQty"]!)"
+            cell.selectionStyle = .none
+            return cell
+        case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: IngredientsCell.cellID, for: indexPath) as! IngredientsCell
+            if self.putRecipe {
+//                cell.titleTextField.text = "\(self.recipeIngredients[indexPath.row]["ingredientName"] ?? "")"
+//                cell.buyTextField.text = "\(self.recipeIngredients[indexPath.row]["totalQty"] ?? "")"
+//                cell.needTextField.text = "\(self.recipeIngredients[indexPath.row]["requiredQty"] ?? "")"
+//                cell.shareTextField.text = "\(self.recipeIngredients[indexPath.row]["sharingAvailableQty"] ?? "")"
+            }
             cell.titleTextField.delegate = self
             cell.buyTextField.delegate = self
             cell.needTextField.delegate = self
@@ -62,38 +97,75 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             cell.buyTextField.tag = 6
             cell.needTextField.tag = 7
             cell.shareTextField.tag = 8
-            cell.selectionStyle = .none
-            return cell
-        case 6:
-            let cell = tableView.dequeueReusableCell(withIdentifier: EmptyCell.cellId, for: indexPath) as! EmptyCell
+            cell.buyTextField.keyboardType = .numberPad
+            cell.needTextField.keyboardType = .numberPad
+            cell.shareTextField.keyboardType = .numberPad
+            cell.titleTextField.addTarget(self, action: #selector(limitedTitleTextFieldDidChange), for: .editingChanged)
+            cell.buyTextField.addTarget(self, action: #selector(QtyTextFieldDidChange), for: .editingChanged)
+            cell.needTextField.addTarget(self, action: #selector(QtyTextFieldDidChange), for: .editingChanged)
+            cell.shareTextField.addTarget(self, action: #selector(QtyTextFieldDidChange), for: .editingChanged)
             cell.selectionStyle = .none
             return cell
         case 7:
+            let cell = tableView.dequeueReusableCell(withIdentifier: EmptyCell.cellId, for: indexPath) as! EmptyCell
+            cell.selectionStyle = .none
+            return cell
+        case 8:
             let cell = tableView.dequeueReusableCell(withIdentifier: DetailTextViewCell.cellId, for: indexPath) as! DetailTextViewCell
             cell.selectionStyle = .none
             cell.detailTextView.delegate = self
+            if self.putRecipe {
+                guard let putRecipeInfo = putRecipeInfo else { return cell }
+                cell.detailTextView.text = "\(putRecipeInfo.postDto.content)"
+            }
             return cell
-        case 8:
+        case 9:
             let cell = tableView.dequeueReusableCell(withIdentifier: DoneButtonCell.cellId, for: indexPath) as! DoneButtonCell
             cell.selectionStyle = .none
             cell.doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+            if self.putRecipe {
+                cell.doneButton.setTitle("수정완료", for: .normal)
+            }
             return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: TextFieldCell.cellId, for: indexPath) as! TextFieldCell
             cell.textField.tag = indexPath.section
             cell.textField.delegate = self
+            cell.textField.addTarget(self, action: #selector(limitedTextFieldDidChange), for: .editingChanged)
             cell.selectionStyle = .none
+            if self.putRecipe {
+                guard let putRecipeInfo = putRecipeInfo else { return cell }
+                cell.textField.text = "\(putRecipeInfo.postDto.title)"
+            }
             return cell
+        }
+    }
+    
+    @objc func limitedTextFieldDidChange(_ textField: UITextField) {
+        if textField.text!.count < 100 {
+            
+        } else {
+            textField.deleteBackward()
+        }
+    }
+    
+    @objc func limitedTitleTextFieldDidChange(_ textField: UITextField) {
+        if textField.text!.count < 15 {
+            
+        } else {
+            textField.deleteBackward()
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 5 {
             return 44
-        } else if indexPath.section == 7 {
-            return 160
         } else if indexPath.section == 6 {
+            return 44
+        } else if indexPath.section == 7 {
             return 0
+        } else if indexPath.section == 8 {
+            return 160
         }
         return 60
     }
@@ -103,6 +175,7 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch section {
         case 0:
+            
             let pricePerPersonLabel: UILabel = {
                 let label = UILabel()
                 label.text = "게시글 제목"
@@ -216,17 +289,18 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             return headerView
-        case 6:
-            let addButton: UIButton = {
-                let button = UIButton()
-                button.backgroundColor = .systemGray6
-                button.setImage(UIImage(systemName: "plus"), for: .normal)
-                button.layer.borderWidth = 0.5
-                button.layer.borderColor = UIColor.systemGray3.cgColor
-                button.layer.cornerRadius = 10
-                button.tintColor = .black
-                return button
-            }()
+        case 7:
+//            let addButton: UIButton = {
+//                let button = UIButton()
+//                button.backgroundColor = .systemGray6
+//                button.setImage(UIImage(systemName: "plus"), for: .normal)
+//                button.layer.borderWidth = 0.5
+//                button.layer.borderColor = UIColor.systemGray3.cgColor
+//                button.layer.cornerRadius = 10
+//                button.tintColor = .black
+//                button.isEnabled = false
+//                return button
+//            }()
             
             headerView.addSubview(addButton)
             addButton.snp.makeConstraints { make in
@@ -237,7 +311,7 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
             
             return headerView
-        case 7:
+        case 8:
             let pricePerPersonLabel: UILabel = {
                 let label = UILabel()
                 label.text = "상세내용"
@@ -253,7 +327,7 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
                 make.height.equalTo(20)
             }
             return headerView
-        default:
+        case 9:
             let pricePerPersonLabel: UILabel = {
                 let label = UILabel()
                 label.text = "우리 서비스는 제로웨이스트를 지향하고 있습니다.\n소분을 위한 용기를 미리 준비해주세요."
@@ -271,11 +345,21 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
                 make.left.right.equalToSuperview().inset(16)
             }
             return headerView
+        default:
+            return headerView
         }
     }
     
     @objc func partyTextFieldDidChange(_ textField: UITextField) {
         if textField.text!.count < 2 {
+            // MARK: 최대 4명
+        } else {
+            textField.deleteBackward()
+        }
+    }
+    
+    @objc func QtyTextFieldDidChange(_ textField: UITextField) {
+        if textField.text!.count <= 2 {
             
         } else {
             textField.deleteBackward()
@@ -287,12 +371,36 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
         case 5:
             return 40
         case 6:
+            return 8
+        case 7:
             return 60
-        case 8:
+        case 9:
             return 100
         default:
             return 30
         }
+    }
+    
+    // 재료 리스트에 관하여 스와이프하여 삭제하는 기능
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        guard let currentCell = tableView.cellForRow(at: indexPath) as? IngredientListCell else {
+            return .none
+        }
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        self.recipeIngredients.remove(at: indexPath.row)
+        self.table -= 1
+        tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let currentCell = tableView.cellForRow(at: indexPath) as? IngredientListCell else {
+            return
+        }
+        currentRow = indexPath.row
     }
 }
 
@@ -314,25 +422,55 @@ extension AddRecipeViewController: UITextFieldDelegate {
                 self.recipe["pricePerOne"] = Int(textField.text ?? "0") ?? 0
             }
         case 5:
-            self.ingredientName = textField.text ?? ""
+            guard let ingredientName = textField.text else { return }
+            // MARK: 다른 열을 추가한 후에 전의 열에 있는 데이터를 수정하려고 하면 데이터가 중복 저장이됨 - 열을 구분할 수 있는 것이 필요함
+//            print("현재 row \(currentRow)")
+            if !ingredientName.isEmpty {
+//                if currentRow == self.recipeIngredients.count {
+                self.recipeIngredient.updateValue(ingredientName, forKey: "ingredientName")
+//                } else {
+//                    self.recipeIngredients[currentRow]["ingredientName"] = ingredientName
+//                }
+            } else {
+//                if currentRow == self.recipeIngredients.count {
+                self.recipeIngredient.removeValue(forKey: "ingredientName")
+//                } else if currentRow == self.recipeIngredient.count {
+//                    self.recipeIngredients[currentRow]["ingredientName"] = ingredientName
+//                }
+            }
         case 6:
-            let totalQ = exChange(value: textField.text ?? "0")
-            self.totalQty = totalQ
+            guard let totalQ = textField.text else { return }
+            if !totalQ.isEmpty {
+                let totalQty = exChange(value: totalQ)
+                self.recipeIngredient.updateValue(totalQty, forKey: "totalQty")
+            } else {
+                self.recipeIngredient.removeValue(forKey: "totalQty")
+            }
         case 7:
-            let requiredQ = exChange(value: textField.text ?? "0")
-            self.requiredQty = requiredQ
+            guard let requiredQ = textField.text else { return }
+            if !requiredQ.isEmpty {
+                let requiredQty = exChange(value: requiredQ)
+                self.recipeIngredient.updateValue(requiredQty, forKey: "requiredQty")
+            } else {
+                self.recipeIngredient.removeValue(forKey: "requiredQty")
+            }
         case 8:
-            let sharingAvailableQ = exChange(value: textField.text ?? "0")
-            self.sharingAvailableQty = sharingAvailableQ
-            
-//            self.recipeIngredients.append(["ingredientName": self.ingredientName, "totalQty": self.totalQty, "requiredQty": self.requiredQty, "sharingAvailableQty": self.sharingAvailableQty])
-//            self.ingredientName = ""
-//            self.totalQty = 0.0
-//            self.requiredQty = 0.0
-//            self.sharingAvailableQty = 0.0
-            
+            guard let sharingAvailableQ = textField.text else { return }
+            if !sharingAvailableQ.isEmpty {
+                let sharingAvailableQty = exChange(value: sharingAvailableQ)
+                self.recipeIngredient.updateValue(sharingAvailableQty, forKey: "sharingAvailableQty")
+            } else {
+                self.recipeIngredient.removeValue(forKey: "sharingAvailableQty")
+            }
         default:
             print("")
+        }
+        
+        if self.recipeIngredient.count == 4 {
+            self.addButton.isEnabled = true
+            self.recipeIngredients.append(self.recipeIngredient)
+        } else {
+            self.addButton.isEnabled = false
         }
     }
     

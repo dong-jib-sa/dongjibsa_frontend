@@ -16,53 +16,53 @@ class RecipeInfoCell: UITableViewCell {
         return view
     }()
     
+//    let titleLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "새우 부추전 파티원 모집합니다."
+//        label.font = .boldSystemFont(ofSize: 19)
+//        return label
+//    }()
+//    
+//    let writeDateLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "2023.08.06."
+//        label.font = .systemFont(ofSize: 14)
+//        label.textAlignment = .left
+//        label.textColor = .gray
+//        return label
+//    }()
+//    
+//    let timeLabel: UILabel = {
+//        let label = UILabel()
+////        label.text = "1시간 전"
+//        label.text = "방금"
+//        label.font = .systemFont(ofSize: 14)
+//        label.textAlignment = .right
+//        label.textColor = .gray
+//        return label
+//    }()
+//    
+//    lazy var timeLineStackView: UIStackView = {
+//        let stackView = UIStackView(arrangedSubviews: [writeDateLabel, timeLabel])
+//        stackView.axis = .horizontal
+//        stackView.distribution = .fillEqually
+//        stackView.alignment = .fill
+//        return stackView
+//    }()
+//    
+//    let detailLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "양배추랑 돼지고기가 많이 남는데 필요하신 분 있나요? 재료 나눔합니다~"
+//        label.numberOfLines = 0
+//        label.setLineSpacing(spacing: 4)
+//        label.font = .systemFont(ofSize: 16)
+//        return label
+//    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "새우 부추전 파티원 모집합니다."
-        label.font = .boldSystemFont(ofSize: 19)
-        return label
-    }()
-    
-    let writeDateLabel: UILabel = {
-        let label = UILabel()
-        label.text = "2023.08.06."
-        label.font = .systemFont(ofSize: 14)
-        label.textAlignment = .left
-        label.textColor = .gray
-        return label
-    }()
-    
-    let timeLabel: UILabel = {
-        let label = UILabel()
-//        label.text = "1시간 전"
-        label.text = "방금"
-        label.font = .systemFont(ofSize: 14)
-        label.textAlignment = .right
-        label.textColor = .gray
-        return label
-    }()
-    
-    lazy var timeLineStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [writeDateLabel, timeLabel])
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .fill
-        return stackView
-    }()
-    
-    let detailLabel: UILabel = {
-        let label = UILabel()
-        label.text = "양배추랑 돼지고기가 많이 남는데 필요하신 분 있나요? 재료 나눔합니다~"
-        label.numberOfLines = 0
-        label.setLineSpacing(spacing: 4)
-        label.font = .systemFont(ofSize: 16)
-        return label
-    }()
-    
-    let recipeInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "레시피 정보"
-        label.font = .systemFont(ofSize: 16)
+        label.text = "게시글 정보"
+        label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
     
@@ -90,44 +90,44 @@ class RecipeInfoCell: UITableViewCell {
         return label
     }()
     
-    lazy var descriptionStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [recipeInfoLabel, priceLabel, participantLabel, pricePerPersonLabel])
+    lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, priceLabel, participantLabel, pricePerPersonLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
         return stackView
     }()
     
-    let calorieInfoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "칼로리 정보"
-        label.font = .systemFont(ofSize: 16)
-        return label
-    }()
-    
-    let calorieDescriptionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "칼로리가 등록된 레시피에요"
-        label.font = .systemFont(ofSize: 16)
-        label.textColor = .gray
-        return label
-    }()
-    
-    let calorieDescriptionButton: UIButton = {
-        let button = UIButton()
-        button.tintColor = .gray
-        button.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
-        return button
-    }()
-    
-    let toolTipView = ToolTipView(title: "칼로리가 등록된 레시피는 평균 칼로리 계산 시 사용할 수 있습니다.")
-    
-    lazy var calorieDescriptionStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [calorieInfoLabel, calorieDescriptionLabel, calorieDescriptionButton])
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        return stackView
-    }()
+//    let calorieInfoLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "칼로리 정보"
+//        label.font = .systemFont(ofSize: 16)
+//        return label
+//    }()
+//    
+//    let calorieDescriptionLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "칼로리가 등록된 레시피에요"
+//        label.font = .systemFont(ofSize: 16)
+//        label.textColor = .gray
+//        return label
+//    }()
+//    
+//    let calorieDescriptionButton: UIButton = {
+//        let button = UIButton()
+//        button.tintColor = .gray
+//        button.setImage(UIImage(systemName: "exclamationmark.circle"), for: .normal)
+//        return button
+//    }()
+//    
+//    let toolTipView = ToolTipView(title: "칼로리가 등록된 레시피는 평균 칼로리 계산 시 사용할 수 있습니다.")
+//    
+//    lazy var calorieDescriptionStackView: UIStackView = {
+//        let stackView = UIStackView(arrangedSubviews: [calorieInfoLabel, calorieDescriptionLabel, calorieDescriptionButton])
+//        stackView.axis = .horizontal
+//        stackView.spacing = 10
+//        return stackView
+//    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -146,58 +146,56 @@ class RecipeInfoCell: UITableViewCell {
     private func setupCell() {
         
         self.contentView.addSubview(cellView)
-        cellView.addSubview(titleLabel)
-        cellView.addSubview(timeLineStackView)
-        cellView.addSubview(detailLabel)
-        cellView.addSubview(descriptionStackView)
-        cellView.addSubview(calorieDescriptionStackView)
-        cellView.addSubview(toolTipView)
+//        cellView.addSubview(titleLabel)
+//        cellView.addSubview(timeLineStackView)
+//        cellView.addSubview(detailLabel)
+        cellView.addSubview(stackView)
+//        cellView.addSubview(calorieDescriptionStackView)
+//        cellView.addSubview(toolTipView)
         
         cellView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.edges.equalToSuperview()
+        }
+        
+//        titleLabel.snp.makeConstraints { make in
+//            make.top.equalToSuperview().offset(20)
+//            make.left.right.equalToSuperview()
+//            make.height.equalTo(24)
+//        }
+//        
+//        timeLineStackView.snp.makeConstraints { make in
+//            make.centerY.equalTo(titleLabel.snp.bottom).offset(16)
+//            make.left.right.equalToSuperview()
+//        }
+//        
+//        detailLabel.snp.makeConstraints { make in
+//            make.top.equalTo(timeLineStackView.snp.bottom).offset(20)
+//            make.left.right.equalToSuperview()
+//        }
+        
+        stackView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
             make.left.right.equalToSuperview().inset(16)
-            make.height.equalTo(250)
+//            make.height.equalTo(80)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(20)
-            make.left.right.equalToSuperview()
-            make.height.equalTo(24)
-        }
-        
-        timeLineStackView.snp.makeConstraints { make in
-            make.centerY.equalTo(titleLabel.snp.bottom).offset(16)
-            make.left.right.equalToSuperview()
-        }
-        
-        detailLabel.snp.makeConstraints { make in
-            make.top.equalTo(timeLineStackView.snp.bottom).offset(20)
-            make.left.right.equalToSuperview()
-        }
-        
-        descriptionStackView.snp.makeConstraints { make in
-            make.top.equalTo(detailLabel.snp.bottom).offset(20)
-            make.left.right.equalToSuperview()
-            make.height.equalTo(80)
-        }
-        
-        calorieInfoLabel.setContentHuggingPriority(.init(251), for: .horizontal)
-        calorieInfoLabel.setContentCompressionResistancePriority(.init(751), for: .horizontal)
-        calorieDescriptionLabel.setContentHuggingPriority(.init(250), for: .horizontal)
-        calorieDescriptionLabel.setContentCompressionResistancePriority(.init(750), for: .horizontal)
-        calorieDescriptionButton.setContentHuggingPriority(.init(251), for: .horizontal)
-        calorieDescriptionButton.setContentCompressionResistancePriority(.init(751), for: .horizontal)
-        
-        calorieDescriptionStackView.snp.makeConstraints { make in
-            make.top.equalTo(descriptionStackView.snp.bottom).offset(20)
-            make.left.right.equalToSuperview()
-            make.height.equalTo(24)
-        }
-        
-        toolTipView.snp.makeConstraints { make in
-            make.top.equalTo(calorieDescriptionStackView.snp.bottom)
-            make.height.equalTo(60)
-            make.width.equalTo(240)
-        }
+//        calorieInfoLabel.setContentHuggingPriority(.init(251), for: .horizontal)
+//        calorieInfoLabel.setContentCompressionResistancePriority(.init(751), for: .horizontal)
+//        calorieDescriptionLabel.setContentHuggingPriority(.init(250), for: .horizontal)
+//        calorieDescriptionLabel.setContentCompressionResistancePriority(.init(750), for: .horizontal)
+//        calorieDescriptionButton.setContentHuggingPriority(.init(251), for: .horizontal)
+//        calorieDescriptionButton.setContentCompressionResistancePriority(.init(751), for: .horizontal)
+//        
+//        calorieDescriptionStackView.snp.makeConstraints { make in
+//            make.top.equalTo(stackView.snp.bottom).offset(20)
+//            make.left.right.equalToSuperview()
+//            make.height.equalTo(24)
+//        }
+//        
+//        toolTipView.snp.makeConstraints { make in
+//            make.top.equalTo(calorieDescriptionStackView.snp.bottom)
+//            make.height.equalTo(60)
+//            make.width.equalTo(240)
+//        }
     }
 }

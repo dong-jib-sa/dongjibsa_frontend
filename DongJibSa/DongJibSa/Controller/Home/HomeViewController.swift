@@ -25,12 +25,11 @@ class HomeViewController: UIViewController {
     }()
     
     var recipeList: [Board] = []
-    var myLocation: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        setupNavigationBar()
+        setupNavigationBar()
         setupView()
     }
     
@@ -47,20 +46,9 @@ class HomeViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        self.myLocation = UserDefaults.standard.string(forKey: "myLocation") ?? "정릉4동"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "\(myLocation)", style: .plain, target: self, action: #selector(locationButtonTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "우리동네 장바구니", style: .plain, target: self, action: nil)
+//        navigationItem.leftBarButtonItem?.isEnabled = false
         navigationController?.navigationBar.tintColor = .headerColor
-    }
-    
-    @objc private func locationButtonTapped(_ sender: UIButton) {
-        let viewController = LocationSettingViewController(selectLocation: [myLocation])
-        
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
-        navigationController.navigationBar.tintColor = .bodyColor
-        
-        self.present(navigationController, animated: true)
     }
     
     @objc private func closeButtonTapped(_ sender: UIButton) {
@@ -72,6 +60,7 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(RecipeCell.self, forCellReuseIdentifier: RecipeCell.cellId)
         tableView.separatorStyle = .none
+        tableView.showsHorizontalScrollIndicator = false
         
         self.view.addSubview(floatingActionButton)
         self.view.bringSubviewToFront(floatingActionButton)
@@ -104,9 +93,8 @@ class HomeViewController: UIViewController {
         guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
             return
         }
-        viewController.recipeInfo = recipeInfo
+        viewController.recipeId = recipeInfo.id
         viewController.hidesBottomBarWhenPushed = true
-        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
         navigationController?.pushViewController(viewController, animated: true)
         navigationItem.backButtonDisplayMode = .minimal
     }

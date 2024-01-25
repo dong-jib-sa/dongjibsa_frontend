@@ -12,8 +12,8 @@ struct User: Codable {
     var nickName: String
     var email: String?
     var phoneNumber: String?
-    var calorieAvg: Double
-    var totalSharingNum: Int
+    var calorieAvg: Double?
+    var totalSharingNum: Int?
     var totalSharingNumPerRecipe: Int?
     var socialId: String?
     var socialType: String?

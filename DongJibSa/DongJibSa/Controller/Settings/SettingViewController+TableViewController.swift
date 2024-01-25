@@ -52,7 +52,7 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate, Cus
             print("로그아웃되었습니다.")
         case 3:
             // MEMO: 회원탈퇴
-            let viewController = CustomAlertViewController(title: "정말 탈퇴 하시겠어요?", content: "• 탈퇴하면 모든 정보(게시글, 댓글)가 삭제되며 복구되지 않습니다.\n• 연동된 SNS 계정은 함께 탈퇴됩니다.\n• 단, 관련 법령에 의거하여 일정 기간 정보를 보유할 필요가 있을 경우 법이 정한 기간 동안 해당 정보를 보유합니다.", greenColorButtonTitle: "아니요", grayColorButtonTitle: "탈퇴하기", customAlertType: .doneAndCancel, alertHeight: 300)
+            let viewController = CustomAlertViewController(title: "정말 탈퇴 하시겠어요?", content: "• 탈퇴하면 모든 정보(계정, 게시글)가 삭제되며 복구되지 않습니다.\n• 작성한 댓글은 삭제되지 않습니다.\n• 연동된 SNS 계정은 함께 탈퇴됩니다.\n• 단, 관련 법령에 의거하여 일정 기간 정보를 보유할 필요가 있을 경우 법이 정한 기간 동안 해당 정보를 보유합니다.", greenColorButtonTitle: "아니요", grayColorButtonTitle: "탈퇴하기", customAlertType: .doneAndCancel, alertHeight: 320)
             viewController.delegate = self
             viewController.modalTransitionStyle = .crossDissolve
             viewController.modalPresentationStyle = .overFullScreen
@@ -63,6 +63,8 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate, Cus
     }
     
     func action() {
+        // ["result": 3번 회원의 탈퇴가 완료되었습니다., "resultCode": SUCCESS!]
+        Network.shared.deleteUserLogout()
 //        let params: [String: Any] = ["is_active": false]
 //        NetworkService.shared.patchUserIsActiveRequest(parameters: params)
 //

@@ -62,6 +62,13 @@ class MyRecipeCell: UITableViewCell {
         return label
     }()
     
+    var moreButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        button.tintColor = .black
+        return button
+    }()
+    
     var separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray4
@@ -89,6 +96,7 @@ class MyRecipeCell: UITableViewCell {
         cellView.addSubview(titleLabel)
         cellView.addSubview(locationLabel)
         cellView.addSubview(priceLabel)
+        cellView.addSubview(moreButton)
         cellView.addSubview(separatorView)
         
         cellView.snp.makeConstraints { make in
@@ -129,6 +137,11 @@ class MyRecipeCell: UITableViewCell {
             make.left.equalTo(recipeImage.snp.right).offset(20)
             make.right.equalToSuperview()
             make.height.equalTo(15)
+        }
+        
+        moreButton.snp.makeConstraints { make in
+            make.top.right.equalToSuperview().inset(20)
+            make.height.width.equalTo(20)
         }
         
         separatorView.snp.makeConstraints { make in

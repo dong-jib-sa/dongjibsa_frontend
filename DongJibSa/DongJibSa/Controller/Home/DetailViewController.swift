@@ -13,28 +13,36 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var recipeViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
+    internal let profileHeaderView = ProfileHeaderView()
+    internal let ingredientHeaderView = IngredientHeaderView()
+    internal let commentHeaderView = CommentHeaderView()
+    internal let commentTextFieldHeaderView = CommentTextFieldHeaderView()
+    
+    let recipeImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .primaryColor
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.image = UIImage(named: "boardDefaultImage")
+        return imageView
+    }()
+    
     var maxTopHeight: CGFloat = 375
     lazy var minTopHeight: CGFloat = 44 + (self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height)!
     
     var table: Int = 3
-    var recipeInfo: Board?
+    var recipe: PostDto?
     var commentCount: Int = 0
     var comment: String = ""
-    
-    let commentTextField: UITextField = {
-        let textField = UITextField()
-        textField.toStyledTextField(textField)
-        textField.placeholder = "댓글을 입력하세요..."
-        textField.addPadding(width: 10)
-        return textField
-    }()
+    var recipeId: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
+        setNavigationBar()
         keyboardNotification()
-        commentTextField.delegate = self
+        commentTextFieldHeaderView.commentTextField.delegate = self
     }
     
     private func keyboardNotification() {
@@ -63,32 +71,45 @@ class DetailViewController: UIViewController {
         tableView.contentInset = .zero
     }
     
-    @objc func addButtonTapped(_ sender: UIButton) {
+    @objc func commentAddButtonTapped(_ sender: UIButton) {
         self.view.endEditing(true)
-        if self.commentTextField.text == "" {
+        if commentTextFieldHeaderView.commentTextField.text == "" {
             
         } else {
-            self.commentTextField.text = ""
+            commentTextFieldHeaderView.commentTextField.text = ""
             commentCount += 1
-            self.tableView.insertRows(at: [IndexPath(row: commentCount - 1, section: 2)], with: .middle)
+            self.tableView.insertRows(at: [IndexPath(row: commentCount - 1, section: 4)], with: .middle)
             self.tableView.reloadData()
         }
+    }
+    
+    private func setNavigationBar() {
+        let backButton = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 23))
+        backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        backButton.setPreferredSymbolConfiguration(.init(pointSize: 20), forImageIn: .normal)
+        backButton.tintColor = .bodyColor
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        
+        let backItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.leftBarButtonItem = backItem
     }
     
     private func setupView() {
         self.view.backgroundColor = .white
         recipeView.backgroundColor = .white
         
-        let recipeImageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.backgroundColor = .primaryColor
-            imageView.contentMode = .scaleAspectFill
-            imageView.layer.masksToBounds = true
-            imageView.image = UIImage(systemName: "boardDefaultImage")
-            return imageView
-        }()
-        let imageURL = recipeInfo?.imgUrl ?? ""
-        recipeImageView.setImageURL(imageURL)
+//        let recipeImageView: UIImageView = {
+//            let imageView = UIImageView()
+//            imageView.backgroundColor = .primaryColor
+//            imageView.contentMode = .scaleAspectFill
+//            imageView.layer.masksToBounds = true
+//            imageView.image = UIImage(named: "boardDefaultImage")
+//            return imageView
+//        }()
+        if recipe?.postDto.imgUrls?[0] != nil {
+            let imageURL = recipe?.postDto.imgUrls?[0] ?? ""
+            recipeImageView.setImageURL(imageURL)
+        } 
         
         recipeView.addSubview(recipeImageView)
         recipeImageView.snp.makeConstraints { make in
@@ -102,8 +123,29 @@ class DetailViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(CommentCell.self, forCellReuseIdentifier: CommentCell.cellId)
         tableView.register(IngredientsInfoCell.self, forCellReuseIdentifier: IngredientsInfoCell.cellId)
+        tableView.register(RecipeTitleCell.self, forCellReuseIdentifier: RecipeTitleCell.cellId)
+        tableView.register(RecipeContentCell.self, forCellReuseIdentifier: RecipeContentCell.cellId)
         tableView.register(RecipeInfoCell.self, forCellReuseIdentifier: RecipeInfoCell.cellId)
+        tableView.register(CalorieCell.self, forCellReuseIdentifier: CalorieCell.cellId)
         tableView.register(EmptyCell.self, forCellReuseIdentifier: EmptyCell.cellId)
+        
+        guard let recipeId = self.recipeId else { return }
+        
+        Network.shared.getRecipe(recipeId: recipeId) { result in
+            self.recipe = result
+            DispatchQueue.main.sync {
+                self.tableView.reloadData()
+                
+                if self.recipe?.postDto.imgUrls?[0] != nil {
+                    let imageURL = self.recipe?.postDto.imgUrls?[0] ?? ""
+                    self.recipeImageView.setImageURL(imageURL)
+                }
+            }
+        }
+    }
+    
+    @objc func backButtonTapped(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -124,6 +166,7 @@ extension DetailViewController: UIScrollViewDelegate {
 
 extension DetailViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
+        // MARK: 댓글은 파이어베이스 연동 -> 맨 나중에
         self.comment = textField.text ?? ""
     }
 }

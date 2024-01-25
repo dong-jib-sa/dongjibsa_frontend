@@ -25,12 +25,13 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             cell.itemImageView.image = UIImage(named: myPractice[indexPath.row].item)
             cell.descriptionLabel.text = myPractice[indexPath.row].description
             cell.resultLabel.text = myPractice[indexPath.row].result
+            guard let indicator = indicator else { return cell }
             if indexPath.row == 0 {
-                let calorie: Int = Int(my[indexPath.row])
-                cell.resultLabel.text = "\(calorie * 10)kcal"
+                let calorie: Double = indicator.calorieAvg
+                cell.resultLabel.text = "\(calorie)kcal"
             } else {
-                let sum: Int = Int(my[indexPath.row])
-                cell.resultLabel.text = "\(sum / 100)개"
+                let sum: Double = indicator.sumOfSharingAvailableQty
+                cell.resultLabel.text = "\(sum)개"
             }
             cell.selectionStyle = .none
             return cell
@@ -38,18 +39,20 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: MyRecipeCell.cellId, for: indexPath) as! MyRecipeCell
 //            if let imageURL = URL(string: boardList[indexPath.row].imgUrl) {
 //                if let imageData = try? Data(contentsOf: imageURL) {
-                    cell.recipeImage.setImageURL(recipeList[indexPath.row].imgUrl)
+            cell.recipeImage.setImageURL(recipeList[indexPath.row].postDto.imgUrls?[0] ?? "")
 //                }
 //            }
-            cell.titleLabel.text = recipeList[indexPath.row].title
-            cell.locationLabel.text = "집밥이지"
-            cell.priceLabel.text = "1인당 예상가 \(recipeList[indexPath.row].pricePerOne)원"
+            cell.titleLabel.text = recipeList[indexPath.row].postDto.title
+            let nickName = UserDefaults.standard.string(forKey: "UserNickName")
+            cell.locationLabel.text = nickName
+            cell.priceLabel.text = "1인당 예상가 \(recipeList[indexPath.row].postDto.pricePerOne)원"
             var recipeIngredients: [String] = []
-            for i in 0..<recipeList[indexPath.row].recipeIngredients.count {
-                var name: String = recipeList[indexPath.row].recipeIngredients[i].ingredientName
+            for i in 0..<recipeList[indexPath.row].postDto.recipeIngredients.count {
+                var name: String = recipeList[indexPath.row].postDto.recipeIngredients[i].ingredientName
                 recipeIngredients.append("#\(name) ")
             }
             cell.tagListLabel.text = recipeIngredients.reduce("", +)
+            cell.moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
             cell.selectionStyle = .none
             return cell
         }
@@ -96,6 +99,14 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         self.myTableView.reloadData()
     }
     
+    @objc func moreButtonTapped(_ sender: UIButton) {
+        let viewController = UpdateAndDeleteViewController()
+        viewController.modalTransitionStyle = .crossDissolve
+        viewController.modalPresentationStyle = .overFullScreen
+//        viewController.postId = 0
+        self.present(viewController, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             return 65
@@ -110,5 +121,18 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             return 140
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let currentCell = tableView.cellForRow(at: indexPath) as? MyRecipeCell else {
+            return
+        }
+        let row = indexPath.row
+        let viewController = UpdateAndDeleteViewController()
+        viewController.modalTransitionStyle = .crossDissolve
+        viewController.modalPresentationStyle = .overFullScreen
+        viewController.postDto = recipeList[row]
+        self.present(viewController, animated: true)
+        
     }
 }

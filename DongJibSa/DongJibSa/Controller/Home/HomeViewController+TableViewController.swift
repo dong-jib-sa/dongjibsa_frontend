@@ -15,8 +15,9 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecipeCell.cellId, for: indexPath) as! RecipeCell
         cell.selectionStyle = .none
-        let imageURL = recipeList[indexPath.row].imgUrl
-        cell.recipeImage.setImageURL(imageURL)
+        if let imageURL = recipeList[indexPath.row].imgUrls {
+            cell.recipeImage.setImageURL(imageURL[0])
+        }
         cell.titleLabel.text = recipeList[indexPath.row].title
         cell.locationLabel.text = recipeList[indexPath.row].member?.nickName
         cell.participantLabel.text = "1/\(recipeList[indexPath.row].peopleCount)명"

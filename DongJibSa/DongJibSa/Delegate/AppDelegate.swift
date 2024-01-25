@@ -26,6 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 카카오 SDK 초기화
         let apiKey = Bundle.main.apiKey
         KakaoSDK.initSDK(appKey: apiKey)
+        
+        // 탭바 배경 구분선 보이도록 표시
+        if #available(iOS 15, *) {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
 
         return true
     }
