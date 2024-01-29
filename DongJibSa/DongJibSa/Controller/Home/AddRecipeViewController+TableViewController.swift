@@ -473,6 +473,20 @@ extension AddRecipeViewController: UITextFieldDelegate {
             self.addButton.isEnabled = false
         }
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.tag {
+        case 5:
+            textField.text?.removeAll()
+        case 6:
+            textField.text?.removeAll()
+        case 7:
+            textField.text?.removeAll()
+        case 8:
+            textField.text?.removeAll()
+        default:
+            print()
+        }
+    }
     
     // 값을 분수(1/2)로 받았을때와
     // 소수점으로 받았을때는 잘 들어옴

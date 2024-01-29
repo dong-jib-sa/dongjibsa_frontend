@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -16,7 +17,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 3 {
             return (recipe?.postDto.recipeIngredients.count ?? 0)
         } else if section == 4 {
-            return commentCount
+            return comment.count
         } else if section == 5 {
             return 0
         } else {
@@ -62,8 +63,18 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.cellId, for: indexPath) as! CommentCell
-            cell.commentLabel.text = self.comment
+            cell.userNameLabel.text = self.comment[indexPath.row]["userName"]
+            cell.commentLabel.text = self.comment[indexPath.row]["comment"]
+//            cell.timeLabel.text = self.comment[indexPath.row]["createdAt"]]
+            if let dateTime = self.comment[indexPath.item]["createdAt"]!.dateLong as? Date {
+                cell.timeLabel.text = dateTime.dayAndTimeText
+            }
             cell.selectionStyle = .none
+//            cell.indexPath = indexPath
+//            cell.delegate = self
+//            let cell = tableView.dequeueReusableCell(withIdentifier: CollectionCommentCell.cellId, for: indexPath) as! CollectionCommentCell
+//            cell.items = comment
+//            cell.collectionView.reloadData()
             return cell
         default:
 //            let cell = tableView.dequeueReusableCell(withIdentifier: EmptyCell.cellId, for: indexPath) as! EmptyCell
@@ -89,7 +100,8 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 3 {
             return 44
         } else if indexPath.section == 4 {
-            return 100
+//            return 100
+            return UITableView.automaticDimension
         } else {
             return 0
         }
@@ -136,7 +148,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             commentHeaderView.snp.makeConstraints { make in
                 make.edges.equalToSuperview()
             }
-            
+            commentHeaderView.talkLabel.text = "\(commentCount)"
             return headerView
             
         } else if section == 5 {

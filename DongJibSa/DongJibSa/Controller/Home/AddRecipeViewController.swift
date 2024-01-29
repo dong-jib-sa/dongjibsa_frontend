@@ -163,7 +163,7 @@ class AddRecipeViewController: UIViewController {
             table += 1
             tableView.insertRows(at: [IndexPath(row: table - 1, section: 5)], with: .none)
             tableView.reloadRows(at: [IndexPath(row: table - 1, section: 5)], with: .none)
-            tableView.reloadRows(at: [IndexPath(row: table + 1, section: 6)], with: .none) // 수정해야할 사항 - 열 추가하고 나면 필드 초기화
+//            tableView.reloadRows(at: [IndexPath(row: table - 1, section: 6)], with: .none) // 수정해야할 사항 - 열 추가하고 나면 필드 초기화
             sender.isEnabled.toggle()
         }
     }
@@ -171,32 +171,41 @@ class AddRecipeViewController: UIViewController {
     @objc func doneButtonTapped(_ sender: UIButton) {
         
         if self.putRecipe == false {
-            guard let filename = recipe["title"] as? String else { return }
-            let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
-            var imageDatas: [Data] = []
-            if self.imageData.isEmpty {
-                guard let image = UIImage(named: "boardDefaultImage") else { return }
-                guard let imageData = image.jpegData(compressionQuality: 0.7) else { return }
-                imageDatas.append(imageData)
+            // MARK: 필드가 비어있을 시 작성 버튼 disable
+            if self.recipe["title"] == nil || self.recipe["recipeName"] == nil || self.recipe["expectingPrice"] == nil || self.recipe["peopleCount"] == nil || self.recipe["content"] == nil || self.recipeIngredients.isEmpty  {
+                let alert = UIAlertController(title: "빠짐없이 작성했는지 확인해주세요.", message: nil, preferredStyle: .alert)
+                let doneAction = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(doneAction)
+                present(alert, animated: true)
             } else {
-                imageDatas = self.imageData
-            }
-            
-            Network.shared.postRecipe(images: imageDatas, filename: filename, memberId: memberId, recipe: self.recipe, recipeIngredients: self.recipeIngredients, completion: { result in
-                
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true) {
-                        let detail = UIStoryboard.init(name: "Detail", bundle: nil)
-                        guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
-                            return
-                        }
-                        viewController.recipe = result
-                        viewController.hidesBottomBarWhenPushed = true
-                        self.navigation?.navigationItem.backButtonDisplayMode = .minimal
-                        self.navigation?.pushViewController(viewController, animated: false)
-                    }
+                guard let filename = recipe["title"] as? String else { return }
+                let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
+                var imageDatas: [Data] = []
+                if self.imageData.isEmpty {
+                    guard let image = UIImage(named: "boardDefaultImage") else { return }
+                    guard let imageData = image.jpegData(compressionQuality: 0.7) else { return }
+                    imageDatas.append(imageData)
+                } else {
+                    imageDatas = self.imageData
                 }
-            })
+                
+                Network.shared.postRecipe(images: imageDatas, filename: filename, memberId: memberId, recipe: self.recipe, recipeIngredients: self.recipeIngredients, completion: { result in
+                    
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true) {
+                            let detail = UIStoryboard.init(name: "Detail", bundle: nil)
+                            guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
+                                return
+                            }
+                            viewController.recipe = result
+                            viewController.hidesBottomBarWhenPushed = true
+                            self.navigation?.navigationItem.backButtonDisplayMode = .minimal
+                            self.navigation?.pushViewController(viewController, animated: false)
+                        }
+                    }
+                })
+                
+            }
         }
         if self.putRecipe {
             guard let putRecipeInfo = putRecipeInfo else { return }
@@ -222,6 +231,12 @@ class AddRecipeViewController: UIViewController {
             guard let filename = recipe["title"] as? String else { return }
             let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
             var imageDatas: [Data] = []
+            if !self.photoList.isEmpty {
+                for image in self.photoList {
+                    guard let imageDatas = image.jpegData(compressionQuality: 0.7) else { return }
+                    self.imageData.append(imageDatas)
+                }
+            }
             if self.imageData.isEmpty {
                 guard let image = UIImage(named: "boardDefaultImage") else { return }
                 guard let imageData = image.jpegData(compressionQuality: 0.7) else { return }
@@ -233,15 +248,18 @@ class AddRecipeViewController: UIViewController {
             Network.shared.putRecipe(postId: putRecipeInfo.postDto.id, images: imageDatas, filename: filename, memberId: memberId, recipe: self.recipe, recipeIngredients: self.recipeIngredients) { result in
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
-                        let detail = UIStoryboard.init(name: "Detail", bundle: nil)
-                        guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
-                            return
+                        self.dismiss(animated: true) {
+                            let detail = UIStoryboard.init(name: "Detail", bundle: nil)
+                            guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
+                                return
+                            }
+                            viewController.recipe = result
+                            //                        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
+                            viewController.hidesBottomBarWhenPushed = true
+                            self.navigation?.navigationItem.backButtonDisplayMode = .minimal
+                            self.navigation?.pushViewController(viewController, animated: false)
+                            //                        self.present(viewController, animated: true)
                         }
-                        viewController.recipe = result
-                        //                        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
-                        viewController.hidesBottomBarWhenPushed = true
-                        self.navigation?.navigationItem.backButtonDisplayMode = .minimal
-                        self.navigation?.pushViewController(viewController, animated: false)
                         
                     }
                 }

@@ -63,10 +63,18 @@ class UpdateAndDeleteViewController: UIViewController {
     
     var postDto: PostDto?
     
+    let dismissUpdateAndDeleteView: Notification.Name = Notification.Name("DismissUpdateAndDeleteView")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.post(name: dismissUpdateAndDeleteView, object: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -136,16 +144,25 @@ class UpdateAndDeleteViewController: UIViewController {
         print("게시글 삭제")
         
         // MARK: 삭제 알럿
+        let alert = UIAlertController(title: "게시글을 정말 삭제 하시겠어요?", message: "삭제한 게시글은 복구되지 않습니다.", preferredStyle: .alert)
+        let doneAction = UIAlertAction(title: "취소", style: .default)
+        let deleteAction = UIAlertAction(title: "삭제하기", style: .default) { _ in
+            guard let postId = self.postDto?.postDto.id else { return }
+            Network.shared.deleteMyRecipe(postId: postId)
+            self.dismiss(animated: true) {
+                NotificationCenter.default.post(name: self.dismissUpdateAndDeleteView, object: nil)
+            }
+        }
+        alert.addAction(doneAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
         // ["result": "9번 게시글이 삭제되었습니다.", "resultCode": "SUCCESS!"]
-        guard let postId = postDto?.postDto.id else { return }
-        Network.shared.deleteMyRecipe(postId: postId)
-        self.dismiss(animated: true)
+        
+        
     }
     
     @objc func closeAddViewController() {
-        self.dismiss(animated: true) {
-            self.dismiss(animated: true)
-        }
+        self.dismiss(animated: true)
     }
 }
 

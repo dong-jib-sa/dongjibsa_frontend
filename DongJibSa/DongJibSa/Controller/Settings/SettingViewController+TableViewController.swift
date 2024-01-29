@@ -7,6 +7,8 @@
 
 import UIKit
 import SafariServices
+import KakaoSDKUser
+import FirebaseAuth
 
 extension SettingViewController: UITableViewDataSource, UITableViewDelegate, CustomAlertDelegate {
     
@@ -38,21 +40,25 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate, Cus
         switch indexPath.row {
         case 0:
             // MEMO: 약관 및 정책
-            guard let url = URL(string: "https://www.google.com") else { return }
+            guard let url = URL(string: "https://silicon-planarian-e5b.notion.site/c0a06cd9119242708ab55839192df8b6") else { return }
             let safari = SFSafariViewController(url: url)
             present(safari, animated: true)
         case 2:
             // MEMO: 로그아웃
-//            for key in UserDefaults.standard.dictionaryRepresentation().keys {
-//                UserDefaults.standard.removeObject(forKey: key.description)
-//            }
-            let viewController = UIStoryboard.init(name: "Onboarding", bundle: nil)
-            let onboardingViewController = viewController.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
+            let viewController = UIStoryboard.init(name: "Login", bundle: nil)
+            let loginViewController = viewController.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+    //
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+                let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+                guard let rootViewController = sceneDelegate.window?.rootViewController as? LoginViewController else { return }
+            })
+//            let viewController = UIStoryboard.init(name: "Onboarding", bundle: nil)
+//            let onboardingViewController = viewController.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
 //            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.setRootViewController(onboardingViewController)
             print("로그아웃되었습니다.")
         case 3:
             // MEMO: 회원탈퇴
-            let viewController = CustomAlertViewController(title: "정말 탈퇴 하시겠어요?", content: "• 탈퇴하면 모든 정보(계정, 게시글)가 삭제되며 복구되지 않습니다.\n• 작성한 댓글은 삭제되지 않습니다.\n• 연동된 SNS 계정은 함께 탈퇴됩니다.\n• 단, 관련 법령에 의거하여 일정 기간 정보를 보유할 필요가 있을 경우 법이 정한 기간 동안 해당 정보를 보유합니다.", greenColorButtonTitle: "아니요", grayColorButtonTitle: "탈퇴하기", customAlertType: .doneAndCancel, alertHeight: 320)
+            let viewController = CustomAlertViewController(title: "정말 탈퇴 하시겠어요?", greenColorButtonTitle: "아니요", grayColorButtonTitle: "탈퇴하기", customAlertType: .doneAndCancel, alertHeight: 320)
             viewController.delegate = self
             viewController.modalTransitionStyle = .crossDissolve
             viewController.modalPresentationStyle = .overFullScreen
@@ -65,18 +71,47 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate, Cus
     func action() {
         // ["result": 3번 회원의 탈퇴가 완료되었습니다., "resultCode": SUCCESS!]
         Network.shared.deleteUserLogout()
+        guard let loginType = UserDefaults.standard.string(forKey: "LoginType") else { return }
+        switch loginType {
+        case LoginType.apple.title:
+            print()
+        case LoginType.kakao.title:
+            UserApi.shared.unlink {(error) in
+                if let error = error {
+                    print(error)
+                }
+                else {
+                    print("unlink() success.")
+                }
+            }
+        case LoginType.phoneNumber.title:
+            let firebaseAuth = Auth.auth()
+            do {
+              try firebaseAuth.signOut()
+            } catch let signOutError as NSError {
+              print("Error signing out: %@", signOutError)
+            }
+        default:
+            print()
+        }
+        
+        for key in UserDefaults.standard.dictionaryRepresentation().keys {
+            UserDefaults.standard.removeObject(forKey: key.description)
+        }
+        
 //        let params: [String: Any] = ["is_active": false]
 //        NetworkService.shared.patchUserIsActiveRequest(parameters: params)
 //
 //        for key in UserDefaults.standard.dictionaryRepresentation().keys {
 //            UserDefaults.standard.removeObject(forKey: key.description)
 //        }
+        let viewController = UIStoryboard.init(name: "Login", bundle: nil)
+        let loginViewController = viewController.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
 //
-//        self.view.window?.rootViewController?.dismiss(animated: true, completion: {
-//            let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
-//            guard let rootViewController = sceneDelegate.window?.rootViewController as? MainViewController else { return }
-//            rootViewController.getLoginViewController()
-//        })
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+            let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+            guard let rootViewController = sceneDelegate.window?.rootViewController as? LoginViewController else { return }
+        })
     }
 
     func exit() {

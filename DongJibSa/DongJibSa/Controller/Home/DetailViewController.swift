@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class DetailViewController: UIViewController {
     
@@ -31,11 +32,37 @@ class DetailViewController: UIViewController {
     lazy var minTopHeight: CGFloat = 44 + (self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height)!
     
     var table: Int = 3
-    var recipe: PostDto?
+    var recipe: PostDto? 
+//    {
+//        didSet {
+////            onChange(recipe)
+//        }
+//    }
+//    var onChange: (PostDto) -> Void
     var commentCount: Int = 0
-    var comment: String = ""
+    var comment: [[String: String]] = []
     var recipeId: Int?
-
+    
+    var writer: Bool = false
+    
+//    init(recipeView: UIView!, recipeViewHeight: NSLayoutConstraint!, tableView: UITableView!, maxTopHeight: CGFloat, table: Int, recipe: PostDto, onChange: @escaping (PostDto) -> Void, commentCount: Int, comment: [[String : String]], recipeId: Int? = nil, writer: Bool) {
+//        self.recipeView = recipeView
+//        self.recipeViewHeight = recipeViewHeight
+//        self.tableView = tableView
+//        self.maxTopHeight = maxTopHeight
+//        self.table = table
+//        self.recipe = recipe
+//        self.onChange = onChange
+//        self.commentCount = commentCount
+//        self.comment = comment
+//        self.recipeId = recipeId
+//        self.writer = writer
+//    }
+    
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,6 +70,7 @@ class DetailViewController: UIViewController {
         setNavigationBar()
         keyboardNotification()
         commentTextFieldHeaderView.commentTextField.delegate = self
+        getdateNetwork()
     }
     
     private func keyboardNotification() {
@@ -76,9 +104,19 @@ class DetailViewController: UIViewController {
         if commentTextFieldHeaderView.commentTextField.text == "" {
             
         } else {
-            commentTextFieldHeaderView.commentTextField.text = ""
+            let memberId = "\(UserDefaults.standard.integer(forKey: "UserId"))"
+            guard let recipeId = recipeId as? Int else { return }
+            let userName = UserDefaults.standard.string(forKey: "UserNickName")
+            let createdAt = Date().dateLongFormat
+            let commentId = UUID().uuidString
+            var ref: DatabaseReference
+            ref = Database.database().reference()
+            ref.child("\(recipeId)").child(commentId).setValue(["userName": "\(userName!)", "comment":"\(commentTextFieldHeaderView.commentTextField.text!)", "createdAt": "\(createdAt)"])
+            
             commentCount += 1
-            self.tableView.insertRows(at: [IndexPath(row: commentCount - 1, section: 4)], with: .middle)
+            comment.append(["userName": "\(userName!)", "comment":"\(commentTextFieldHeaderView.commentTextField.text!)", "createdAt": "\(createdAt)"])
+            commentTextFieldHeaderView.commentTextField.text = ""
+//            self.tableView.insertRows(at: [IndexPath(row: commentCount - 1, section: 4)], with: .middle)
             self.tableView.reloadData()
         }
     }
@@ -92,6 +130,26 @@ class DetailViewController: UIViewController {
         
         let backItem = UIBarButtonItem(customView: backButton)
         self.navigationItem.leftBarButtonItem = backItem
+        
+//        if writer {
+//            let updateAndDeleteButton = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 23))
+//            updateAndDeleteButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+//            updateAndDeleteButton.setPreferredSymbolConfiguration(.init(pointSize: 20), forImageIn: .normal)
+//            updateAndDeleteButton.tintColor = .bodyColor
+//            updateAndDeleteButton.addTarget(self, action: #selector(updateAndDeleteButtonTapped), for: .touchUpInside)
+//            let updateAndDeleteItem = UIBarButtonItem(customView: updateAndDeleteButton)
+//            self.navigationItem.rightBarButtonItem = updateAndDeleteItem
+//            
+//        }
+    }
+    
+    @objc func updateAndDeleteButtonTapped(_ sender: UIButton) {
+        let viewController = UpdateAndDeleteViewController()
+        viewController.modalTransitionStyle = .crossDissolve
+        viewController.modalPresentationStyle = .overFullScreen
+        guard let recipe = recipe else { return }
+        viewController.postDto = recipe
+        self.present(viewController, animated: true)
     }
     
     private func setupView() {
@@ -128,7 +186,26 @@ class DetailViewController: UIViewController {
         tableView.register(RecipeInfoCell.self, forCellReuseIdentifier: RecipeInfoCell.cellId)
         tableView.register(CalorieCell.self, forCellReuseIdentifier: CalorieCell.cellId)
         tableView.register(EmptyCell.self, forCellReuseIdentifier: EmptyCell.cellId)
+        tableView.register(CollectionCommentCell.self, forCellReuseIdentifier: CollectionCommentCell.cellId)
         
+//        let keyboardView = UIView()
+//        keyboardView.backgroundColor = .green
+//        self.view.addSubview(keyboardView)
+//        keyboardView.snp.makeConstraints { make in
+//            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+//            make.left.right.equalToSuperview()
+//            make.height.equalTo(80)
+//        }
+//        getdateNetwork()
+        
+        
+    }
+    
+    @objc func backButtonTapped(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func getdateNetwork() {
         guard let recipeId = self.recipeId else { return }
         
         Network.shared.getRecipe(recipeId: recipeId) { result in
@@ -142,10 +219,29 @@ class DetailViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    @objc func backButtonTapped(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        
+        // MARK: 댓글 파이어베이스 데이터베이스에서 읽어오기
+        var ref: DatabaseReference
+        ref = Database.database().reference()
+        guard let recipeId = recipeId as? Int else { return }
+        ref.child("\(recipeId)").getData(completion: { error, snapshot in
+            guard let snapshot = snapshot else { return }
+            guard let comment = snapshot.value as? [String: Any] else { return }
+            print(comment)
+            do {
+                let data = try JSONSerialization.data(withJSONObject: Array(comment.values), options: [])
+                let decoder = JSONDecoder()
+                let comments = try decoder.decode([[String: String]].self, from: data)
+                for item in comments {
+                    self.comment.append(item)
+                }
+                self.commentCount = comment.count ?? 0
+                self.tableView.reloadData()
+                
+            } catch {
+                
+            }
+        })
     }
 }
 
@@ -167,6 +263,18 @@ extension DetailViewController: UIScrollViewDelegate {
 extension DetailViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         // MARK: 댓글은 파이어베이스 연동 -> 맨 나중에
-        self.comment = textField.text ?? ""
+//        let userName: String = UserDefaults.standard.string(forKey: "UserNickName")!
+//        self.comment.append(["\(userName)\(commentCount)":"\(commentTextFieldHeaderView.commentTextField.text)"])
     }
 }
+
+//extension DetailViewController: ButtonTappedDelegate {
+//    func cellButtonTapped(for cell: CommentCell) {
+//        guard let indexPath = cell.indexPath else { return }
+//        let section = indexPath.section
+//        let row = indexPath.row
+//        commentTextFieldHeaderView.commentTextField.becomeFirstResponder()
+//        self.tableView.insertRows(at: [IndexPath(row: row, section: section)], with: .middle)
+//        self.tableView.reloadData()
+//    }
+//}

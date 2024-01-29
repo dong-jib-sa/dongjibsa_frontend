@@ -18,7 +18,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setNavigationBar()
+//        setNavigationBar()
         setupView()
     }
     
@@ -173,6 +173,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
             print("token : \(String(describing: tokeStr))")
             
+            UserDefaults.standard.setValue(userIdentifier, forKey: "AppleUserId")
             Network.shared.postVerifyOAuthUser(type: .apple, email: email ?? "", id: "") { result in
                 
                 if result == "신규 Apple 로그인 유저입니다." {

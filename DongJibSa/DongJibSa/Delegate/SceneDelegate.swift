@@ -7,6 +7,7 @@
 
 import UIKit
 import KakaoSDKAuth
+import AuthenticationServices
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -32,6 +33,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            let sendingAppID = urlContext.options.sourceApplication
 //            print("sendingAppID: \(sendingAppID ?? "Unknown")")
 //        }
+        
+        // apple 로그인 분기처리
+        guard let userID = UserDefaults.standard.string(forKey: "AppleUserId") else { return }
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: userID) { credentialState, error in
+            switch credentialState {
+            case .authorized:
+                print("authorized")
+                let main = UIStoryboard.init(name: "Main", bundle: nil)
+                let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+                window.rootViewController = onboardingViewController
+                window.makeKeyAndVisible()
+            case .revoked:
+                print("revoked")
+            case .notFound:
+                print("notFound")
+            case .transferred:
+                print("transferred")
+            @unknown default:
+                fatalError()
+            }
+        }
     }
     
     // 카카오톡으로 로그인을 위한 설정

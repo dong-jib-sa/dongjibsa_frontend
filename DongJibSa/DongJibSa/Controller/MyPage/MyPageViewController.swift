@@ -37,9 +37,21 @@ class MyPageViewController: UIViewController {
                 self.myTableView.reloadData()
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didDismissNotification), name: NSNotification.Name("DismissUpdateAndDeleteView"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        Network.shared.getMyPosts { board in
+            self.recipeList = board
+            
+            DispatchQueue.main.async {
+                self.myTableView.reloadData()
+            }
+        }
+    }
+    
+    @objc func didDismissNotification(_ notification: Notification) {
         Network.shared.getMyPosts { board in
             self.recipeList = board
             
@@ -66,6 +78,7 @@ class MyPageViewController: UIViewController {
         myTableView.dataSource = self
         myTableView.register(MyInfoCell.self, forCellReuseIdentifier: MyInfoCell.cellId)
         myTableView.register(MyRecipeCell.self, forCellReuseIdentifier: MyRecipeCell.cellId)
+        myTableView.register(EmptyListCell.self, forCellReuseIdentifier: EmptyListCell.cellId)
         myTableView.sectionHeaderTopPadding = .zero
         myTableView.separatorStyle = .none
         

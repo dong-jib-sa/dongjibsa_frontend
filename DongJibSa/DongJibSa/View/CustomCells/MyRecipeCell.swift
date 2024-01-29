@@ -11,6 +11,8 @@ class MyRecipeCell: UITableViewCell {
 
     static let cellId: String = "MyRecipeCell"
     
+    weak var delegate: ButtonTappedDelegate?
+    
     var cellView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -66,6 +68,7 @@ class MyRecipeCell: UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -74,6 +77,12 @@ class MyRecipeCell: UITableViewCell {
         view.backgroundColor = .systemGray4
         return view
     }()
+    
+    var indexPath: IndexPath?
+    
+    @objc func moreButtonTapped(_ sender: UIButton) {
+        delegate?.cellButtonTapped(for: self)
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

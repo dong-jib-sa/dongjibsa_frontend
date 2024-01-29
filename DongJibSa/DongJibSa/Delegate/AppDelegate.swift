@@ -7,8 +7,8 @@
 
 import UIKit
 import FirebaseCore
-import UserNotifications
 import FirebaseAuth
+import UserNotifications
 import KakaoSDKCommon
 import KakaoSDKAuth
 

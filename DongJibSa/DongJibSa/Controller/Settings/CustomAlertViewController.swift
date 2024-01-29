@@ -41,13 +41,129 @@ class CustomAlertViewController: UIViewController {
         return label
     }()
     
-    lazy var contentLabel: UILabel = {
+    lazy var dot1Label: UILabel = {
         let label = UILabel()
-        label.text = content
+        label.text = "• "
         label.font = .systemFont(ofSize: 16)
-        label.textColor = .black
+        label.textColor = .bodyColor
+        return label
+    }()
+    
+    let empty1View: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var dot1TopStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [dot1Label, empty1View])
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    lazy var content1Label: UILabel = {
+        let label = UILabel()
+        label.text = "탈퇴하면 모든 정보(계정, 게시글)가 삭제되며 복구되지 않습니다."
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .bodyColor
         label.numberOfLines = 0
         return label
+    }()
+    
+    lazy var dot2Label: UILabel = {
+        let label = UILabel()
+        label.text = "• "
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .bodyColor
+        return label
+    }()
+    
+    lazy var content2Label: UILabel = {
+        let label = UILabel()
+        label.text = "작성한 댓글은 삭제되지 않습니다."
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .bodyColor
+        return label
+    }()
+    
+    lazy var dot3Label: UILabel = {
+        let label = UILabel()
+        label.text = "• "
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .bodyColor
+        return label
+    }()
+    
+    lazy var content3Label: UILabel = {
+        let label = UILabel()
+        label.text = "연동된 SNS 계정은 함께 탈퇴됩니다."
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .bodyColor
+        return label
+    }()
+    
+    lazy var dot4Label: UILabel = {
+        let label = UILabel()
+        label.text = "• "
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .bodyColor
+        return label
+    }()
+    
+    let empty4View: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    lazy var dotTopStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [dot4Label, empty4View])
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    lazy var content4Label: UILabel = {
+        let label = UILabel()
+        label.text = "단, 관련 법령에 의거하여 일정 기간 정보를 보유할 필요가 있을 경우 법이 정한 기간 동안 해당 정보를 보유합니다."
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .bodyColor
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    lazy var content1StackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [dot1TopStackView, content1Label])
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
+    lazy var content2StackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [dot2Label, content2Label])
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        return stackView
+    }()
+    
+    lazy var content3StackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [dot3Label, content3Label])
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        return stackView
+    }()
+    
+    lazy var content4StackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [dotTopStackView, content4Label])
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        return stackView
+    }()
+    
+    lazy var contentStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [content1StackView, content2StackView, content3StackView, content4StackView])
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        return stackView
     }()
     
     lazy var greenColorButton: UIButton = {
@@ -82,7 +198,6 @@ class CustomAlertViewController: UIViewController {
     }()
     
     var mainTitle: String
-    var content: String
     var greenColorButtonTitle: String
     var grayColorButtonTitle: String
     var customAlertType: CustomAlertType
@@ -90,9 +205,8 @@ class CustomAlertViewController: UIViewController {
     
     var delegate: CustomAlertDelegate?
     
-    init(title: String, content: String? = nil, greenColorButtonTitle: String? = nil, grayColorButtonTitle: String? = nil, customAlertType: CustomAlertType, alertHeight: Int) {
+    init(title: String, greenColorButtonTitle: String? = nil, grayColorButtonTitle: String? = nil, customAlertType: CustomAlertType, alertHeight: Int) {
         self.mainTitle = title
-        self.content = content ?? ""
         self.greenColorButtonTitle = greenColorButtonTitle ?? ""
         self.grayColorButtonTitle = grayColorButtonTitle ?? ""
         self.customAlertType = customAlertType
@@ -124,7 +238,7 @@ class CustomAlertViewController: UIViewController {
         self.view.addSubview(backgroudView)
         backgroudView.addSubview(mainView)
         mainView.addSubview(titleLabel)
-        mainView.addSubview(contentLabel)
+        mainView.addSubview(contentStackView)
         mainView.addSubview(buttonStackView)
         
         backgroudView.snp.makeConstraints { make in
@@ -139,10 +253,15 @@ class CustomAlertViewController: UIViewController {
             make.top.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
         }
-        contentLabel.snp.makeConstraints { make in
+//        dot1Label.setContentCompressionResistancePriority(.init(1000), for: .vertical)
+//        dot4Label.snp.makeConstraints { make in
+//            make.bottom.greaterThanOrEqualToSuperview()
+//        }
+        contentStackView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
+//            make.height.equalTo(160)
         }
         buttonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()

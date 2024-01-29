@@ -92,6 +92,13 @@ class TermsOfServiceViewController: UIViewController {
             }
         } else {
             Network.shared.postRegisterPhoneNumber(number: "01045674567", nickName: nickName) { result in
+                
+                UserDefaults.standard.set(self.loginType.title, forKey: "LoginType")
+                
+                let userId = result
+                UserDefaults.standard.set(userId, forKey: "UserId")
+                UserDefaults.standard.set(nickName, forKey: "UserNickName")
+                
                 DispatchQueue.main.async {
                     let main = UIStoryboard.init(name: "Main", bundle: nil)
                     let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
