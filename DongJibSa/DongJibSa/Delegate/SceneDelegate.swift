@@ -20,41 +20,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        // 온보딩 페이지
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        let onboarding = UIStoryboard.init(name: "Onboarding", bundle: nil)
-        let onboardingViewController = onboarding.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
-        window.rootViewController = onboardingViewController
-        window.makeKeyAndVisible()
+        
+        // 온보딩 페이지 -> 처음 앱 실행 시에 한 번만
+        if UserDefaults.standard.bool(forKey: "OnboardingPage") {
+            let login = UIStoryboard.init(name: "Login", bundle: nil)
+            let loginViewController = login.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+            let navigationController = UINavigationController(rootViewController: loginViewController)
+            navigationController.modalPresentationStyle = .fullScreen
+            window.rootViewController = navigationController
+            window.makeKeyAndVisible()
+        } else {
+            UserDefaults.standard.set(true, forKey: "OnboardingPage")
+            let onboarding = UIStoryboard.init(name: "Onboarding", bundle: nil)
+            let onboardingViewController = onboarding.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
+            window.rootViewController = onboardingViewController
+            window.makeKeyAndVisible()
+        }
         
 //        if let urlContext = connectionOptions.urlContexts.first {
 //            let sendingAppID = urlContext.options.sourceApplication
 //            print("sendingAppID: \(sendingAppID ?? "Unknown")")
 //        }
         
-        // apple 로그인 분기처리
-        guard let userID = UserDefaults.standard.string(forKey: "AppleUserId") else { return }
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        appleIDProvider.getCredentialState(forUserID: userID) { credentialState, error in
-            switch credentialState {
-            case .authorized:
-                print("authorized")
-                let main = UIStoryboard.init(name: "Main", bundle: nil)
-                let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
-                window.rootViewController = onboardingViewController
-                window.makeKeyAndVisible()
-            case .revoked:
-                print("revoked")
-            case .notFound:
-                print("notFound")
-            case .transferred:
-                print("transferred")
-            @unknown default:
-                fatalError()
-            }
-        }
     }
     
     // 카카오톡으로 로그인을 위한 설정

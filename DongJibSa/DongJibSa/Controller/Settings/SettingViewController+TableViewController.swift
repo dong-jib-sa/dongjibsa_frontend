@@ -45,12 +45,11 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate, Cus
             present(safari, animated: true)
         case 2:
             // MEMO: 로그아웃
-            let viewController = UIStoryboard.init(name: "Login", bundle: nil)
-            let loginViewController = viewController.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-    //
             self.view.window?.rootViewController?.dismiss(animated: true, completion: {
                 let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
-                guard let rootViewController = sceneDelegate.window?.rootViewController as? LoginViewController else { return }
+                let viewController = UIStoryboard.init(name: "Login", bundle: nil)
+                let loginViewController = viewController.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+                sceneDelegate.window?.rootViewController = loginViewController
             })
 //            let viewController = UIStoryboard.init(name: "Onboarding", bundle: nil)
 //            let onboardingViewController = viewController.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
