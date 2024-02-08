@@ -24,7 +24,7 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    var recipeList: [Board] = []
+    var recipeList: [Board] = Board.dummyDataList
     
     override func viewDidLoad() {
         super.viewDidLoad()
