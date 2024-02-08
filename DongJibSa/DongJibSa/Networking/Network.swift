@@ -132,8 +132,10 @@ class Network {
     }
     
     func getMypage(completion: @escaping (Indicator) -> Void) {
-        let memberId = "\(UserDefaults.standard.integer(forKey: "UserId"))"
-        let strURL = baseURL + getMypageURL + memberId + indicator
+        guard let user = UserDefaults.standard.dictionary(forKey: "User"),
+              let memberId = user["userId"] as? Int else { return }
+        let endPoint = "\(memberId)"
+        let strURL = baseURL + getMypageURL + endPoint + indicator
         
         let configuration = URLSessionConfiguration.default
         
@@ -172,8 +174,11 @@ class Network {
     }
     
     func getMyPosts(completion: @escaping ([PostDto]) -> Void) {
-        let memberId = "\(UserDefaults.standard.integer(forKey: "UserId"))/posts"
-        let strURL = baseURL + getMyposts + memberId
+        guard let user = UserDefaults.standard.dictionary(forKey: "User"),
+              let memberId = user["userId"] as? Int else { return }
+        
+        let endPoint = "\(memberId)/posts"
+        let strURL = baseURL + getMyposts + endPoint
         
         let configuration = URLSessionConfiguration.default
         
@@ -595,8 +600,10 @@ class Network {
     }
     
     func deleteUserLogout() {
-        let memberId = "\(UserDefaults.standard.integer(forKey: "UserId"))"
-        let strURL = baseURL + deleteUser + memberId
+        guard let user = UserDefaults.standard.dictionary(forKey: "User"),
+              let memberId = user["userId"] as? Int else { return }
+        let endPoint = "\(memberId)"
+        let strURL = baseURL + deleteUser + endPoint
         guard let url = URL(string: strURL) else { return }
         
         var request = URLRequest(url: url)
@@ -623,8 +630,10 @@ class Network {
     }
     
     func deleteMyRecipe(postId: Int) {
-        let memberId = "\(UserDefaults.standard.integer(forKey: "UserId"))"
-        let postId = "\(postId)/\(memberId)"
+        guard let user = UserDefaults.standard.dictionary(forKey: "User"),
+              let memberId = user["userId"] as? Int else { return }
+        let endPoint = "\(memberId)"
+        let postId = "\(postId)/\(endPoint)"
         let strURL = baseURL + deleteRecipe + postId
         guard let url = URL(string: strURL) else { return }
         

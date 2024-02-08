@@ -7,13 +7,25 @@
 
 import UIKit
 
-class TermsOfServiceViewController: UIViewController {
+final class TermsOfServiceViewController: UIViewController {
     
     private let termsOfServiceView = TermsOfServiceView()
     
-    var loginId: String = ""
-    var email: String = ""
-    var loginType: LoginType = .apple
+    private var loginType: LoginType
+    private var loginId: String?
+    private var email: String?
+    private let nickName: String = NickNameRandom().getRandomNickName()
+    
+    init(loginType: LoginType, loginId: String?, email: String?) {
+        self.loginType = loginType
+        self.loginId = loginId
+        self.email = email
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,11 +57,12 @@ class TermsOfServiceViewController: UIViewController {
         termsOfServiceView.startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
     
-    @objc func backButtonTapped(_ sender: UIButton) {
+    @objc private func backButtonTapped(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func agreementButtonTapped(_ sender: UIButton) {
+    // 약관 동의 버튼 Action
+    @objc private func agreementButtonTapped(_ sender: UIButton) {
         sender.isSelected.toggle()
         if sender.isSelected {
             sender.tintColor = .primaryColor
@@ -66,46 +79,48 @@ class TermsOfServiceViewController: UIViewController {
         }
     }
     
-    @objc func startButtonTapped(_ sender: UIButton) {
-        // MEMO: 동네설정 블라인드 처리
-//        let viewController = LocationSettingViewController(selectLocation: [])
-//        self.navigationController?.navigationBar.tintColor = .bodyColor
-//        self.navigationItem.backButtonDisplayMode = .minimal
-//        self.navigationController?.pushViewController(viewController, animated: true)
-        let nickName = NickNameRandom().getRandomNickName()
-        
-        if loginType == .apple || loginType == .kakao {
-            Network.shared.postRegisterOAuthUserLogin(type: loginType, email: email, id: loginId, nickName: nickName) { result in
-                // 로그아웃 및 회원탈퇴를 위해 저장
-                UserDefaults.standard.set(self.loginType.title, forKey: "LoginType")
-                // 유저 식별자와 닉네임 저장
-                let userId = result
-                UserDefaults.standard.set(userId, forKey: "UserId")
-                UserDefaults.standard.set(nickName, forKey: "UserNickName")
-                
-                DispatchQueue.main.async {
-                    let main = UIStoryboard.init(name: "Main", bundle: nil)
-                    let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
-                    viewController.modalPresentationStyle = .fullScreen
-                    self.present(viewController, animated: false)
-                }
-            }
-        } else {
-            Network.shared.postRegisterPhoneNumber(number: "01045674567", nickName: nickName) { result in
-                
-                UserDefaults.standard.set(self.loginType.title, forKey: "LoginType")
-                
-                let userId = result
-                UserDefaults.standard.set(userId, forKey: "UserId")
-                UserDefaults.standard.set(nickName, forKey: "UserNickName")
-                
-                DispatchQueue.main.async {
-                    let main = UIStoryboard.init(name: "Main", bundle: nil)
-                    let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
-                    viewController.modalPresentationStyle = .fullScreen
-                    self.present(viewController, animated: false)
-                }
-            }
+    @objc private func startButtonTapped(_ sender: UIButton) {
+        switch self.loginType {
+        case .kakao:
+            registerOAuthUserLogin()
+        case .apple:
+            registerOAuthUserLogin()
+        case .phoneNumber:
+            registerPhoneNumberUserLogin()
+        }
+    }
+    
+    // 소셜 로그인으로 회원가입 서버 연동
+    private func registerOAuthUserLogin() {
+        guard let email = email, let loginId = loginId else { return }
+        Network.shared.postRegisterOAuthUserLogin(type: loginType, email: email, id: loginId, nickName: nickName) { result in
+            // 유저 정보를 앱에 저장하여 서버 통신 및 로그인을 위해 사용
+            let loginInfo: [String: Any] = ["loginType": self.loginType.title, "userId": result, "nickName": self.nickName, "loginState": true]
+            UserDefaults.standard.set(loginInfo, forKey: "\(self.loginType.title)LoginInfo")
+            UserDefaults.standard.set(loginInfo, forKey: "User")
+            
+            self.presentViewController()
+        }
+    }
+    
+    // 핸드폰 번호로 회원가입 서버 연동
+    private func registerPhoneNumberUserLogin() {
+        Network.shared.postRegisterPhoneNumber(number: "01045674567", nickName: nickName) { result in
+            let loginInfo: [String: Any] = ["loginType": self.loginType.title, "userId": result, "nickName": self.nickName, "loginState": true]
+            UserDefaults.standard.set(loginInfo, forKey: "phoneNumberLoginInfo")
+            UserDefaults.standard.set(loginInfo, forKey: "User")
+            
+            self.presentViewController()
+        }
+    }
+    
+    // 회원가입 완료 시 메인 화면으로 화면 전환
+    private func presentViewController() {
+        DispatchQueue.main.async {
+            let main = UIStoryboard.init(name: "Main", bundle: nil)
+            let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+            viewController.modalPresentationStyle = .fullScreen
+            self.present(viewController, animated: false)
         }
     }
 }
