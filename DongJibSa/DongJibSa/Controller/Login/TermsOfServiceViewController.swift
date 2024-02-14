@@ -14,12 +14,14 @@ final class TermsOfServiceViewController: UIViewController {
     private var loginType: LoginType
     private var loginId: String?
     private var email: String?
+    private var phoneNumber: String?
     private let nickName: String = NickNameRandom().getRandomNickName()
     
-    init(loginType: LoginType, loginId: String?, email: String?) {
+    init(loginType: LoginType, loginId: String? = nil, email: String? = nil, phoneNumber: String? = nil) {
         self.loginType = loginType
         self.loginId = loginId
         self.email = email
+        self.phoneNumber = phoneNumber
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -105,7 +107,8 @@ final class TermsOfServiceViewController: UIViewController {
     
     // 핸드폰 번호로 회원가입 서버 연동
     private func registerPhoneNumberUserLogin() {
-        Network.shared.postRegisterPhoneNumber(number: "01045674567", nickName: nickName) { result in
+        guard let phoneNumber = phoneNumber else { return }
+        Network.shared.postRegisterPhoneNumber(number: phoneNumber, nickName: nickName) { result in
             let loginInfo: [String: Any] = ["loginType": self.loginType.title, "userId": result, "nickName": self.nickName, "loginState": true]
             UserDefaults.standard.set(loginInfo, forKey: "phoneNumberLoginInfo")
             UserDefaults.standard.set(loginInfo, forKey: "User")

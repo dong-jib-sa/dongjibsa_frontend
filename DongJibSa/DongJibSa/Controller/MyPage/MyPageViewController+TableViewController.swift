@@ -57,8 +57,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.recipeImage.setImageURL(imageURL[0])
                     }
                     cell.titleLabel.text = recipeList[indexPath.row].postDto.title
-                    let nickName = UserDefaults.standard.string(forKey: "UserNickName")
-                    cell.locationLabel.text = nickName
+                    cell.locationLabel.text = recipeList[indexPath.row].postDto.member?.nickName
                     cell.priceLabel.text = "1인당 예상가 \(recipeList[indexPath.row].postDto.pricePerOne)원"
                     var recipeIngredients: [String] = []
                     for i in 0..<recipeList[indexPath.row].postDto.recipeIngredients.count {
@@ -91,8 +90,10 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             myPageProfileView.snp.makeConstraints { make in
                 make.edges.equalToSuperview()
             }
-            let nickName = UserDefaults.standard.string(forKey: "UserNickName")
-            myPageProfileView.userNameLabel.text = nickName
+            if let user = UserDefaults.standard.dictionary(forKey: "User"),
+               let nickName = user["nickName"] as? String {
+                myPageProfileView.userNameLabel.text = nickName
+            }
             return headerView
         } else {
             headerView.addSubview(myPageBoardTitleView)

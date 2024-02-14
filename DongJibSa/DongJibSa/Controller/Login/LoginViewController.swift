@@ -187,7 +187,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 
                 if result == "신규 Apple 로그인 유저입니다." {
                     DispatchQueue.main.async {
-                        let viewController = TermsOfServiceViewController(loginType: .apple, loginId: nil, email: email)
+                        let viewController = TermsOfServiceViewController(loginType: .apple, email: email)
                         self.navigationController?.pushViewController(viewController, animated: true)
                     }
                 } else if result == "기존 Apple 로그인 유저입니다." {

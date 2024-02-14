@@ -179,7 +179,9 @@ class AddRecipeViewController: UIViewController {
                 present(alert, animated: true)
             } else {
                 guard let filename = recipe["title"] as? String else { return }
-                let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
+                guard let user = UserDefaults.standard.dictionary(forKey: "User"),
+                      let memberId = user["userId"] as? Int else { return }
+//                let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
                 var imageDatas: [Data] = []
                 if self.imageData.isEmpty {
                     guard let image = UIImage(named: "boardDefaultImage") else { return }
@@ -229,7 +231,9 @@ class AddRecipeViewController: UIViewController {
                 self.recipe.updateValue(putRecipeInfo.postDto.content, forKey: "content")
             }
             guard let filename = recipe["title"] as? String else { return }
-            let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
+            guard let user = UserDefaults.standard.dictionary(forKey: "User"),
+                  let memberId = user["userId"] as? Int else { return }
+//            let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
             var imageDatas: [Data] = []
             if !self.photoList.isEmpty {
                 for image in self.photoList {

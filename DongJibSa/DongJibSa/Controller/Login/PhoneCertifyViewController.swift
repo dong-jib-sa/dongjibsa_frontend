@@ -188,7 +188,7 @@ final class PhoneCertifyViewController: UIViewController {
                         }
                     case "신규 회원입니다. 약관 동의 후 회원 가입을 진행합니다.":
                         DispatchQueue.main.async {
-                            let viewController = TermsOfServiceViewController(loginType: .phoneNumber, loginId: nil, email: nil)
+                            let viewController = TermsOfServiceViewController(loginType: .phoneNumber, phoneNumber: phoneNumber)
                             self.navigationController?.pushViewController(viewController, animated: true)
                         }
                     default:
