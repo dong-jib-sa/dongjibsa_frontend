@@ -10,6 +10,8 @@ import UIKit
 class CommentCell: UITableViewCell {
     static let cellId: String = "CommentCell"
     
+//    weak var delegate: ButtonTappedDelegate?
+    
     var cellView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -35,7 +37,8 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
 //        label.text = "10분 전"
         label.text = "방금"
-        label.font = .systemFont(ofSize: 10)
+        label.font = .systemFont(ofSize: 12)
+        label.textColor = .gray
         return label
     }()
     
@@ -44,6 +47,7 @@ class CommentCell: UITableViewCell {
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
+        stackView.spacing = 1.5
         return stackView
     }()
     
@@ -55,13 +59,20 @@ class CommentCell: UITableViewCell {
         return label
     }()
     
-    let replyButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("답글쓰기", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        return button
-    }()
+//    let replyButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("답글쓰기", for: .normal)
+//        button.setTitleColor(.gray, for: .normal)
+//        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+////        button.addTarget(self, action: #selector(replyButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
+    
+//    var indexPath: IndexPath?
+//    
+//    @objc func replyButtonTapped(_ sender: UIButton) {
+//        delegate?.cellButtonTapped(for: self)
+//    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -82,12 +93,11 @@ class CommentCell: UITableViewCell {
         cellView.addSubview(profileImageView)
         cellView.addSubview(profileStackView)
         cellView.addSubview(commentLabel)
-        cellView.addSubview(replyButton)
+//        cellView.addSubview(replyButton)
         
         cellView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.bottom.equalToSuperview()
             make.left.right.equalToSuperview().inset(16)
-            make.height.equalTo(100)
         }
         
         profileImageView.snp.makeConstraints { make in
@@ -106,12 +116,14 @@ class CommentCell: UITableViewCell {
             make.top.equalTo(profileStackView.snp.bottom).offset(10)
             make.left.equalTo(profileStackView.snp.left)
             make.right.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview()
         }
         
-        replyButton.snp.makeConstraints { make in
-            make.top.equalTo(commentLabel.snp.bottom)
-            make.left.equalTo(commentLabel.snp.left)
-            make.width.equalTo(50)
-        }
+//        replyButton.snp.makeConstraints { make in
+//            make.top.equalTo(commentLabel.snp.bottom)
+//            make.left.equalTo(commentLabel.snp.left)
+//            make.width.equalTo(50)
+//            make.bottom.equalToSuperview()
+//        }
     }
 }
