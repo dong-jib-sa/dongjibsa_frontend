@@ -32,8 +32,8 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: RecipeContentCell.cellId, for: indexPath) as! RecipeContentCell
             cell.titleLabel.text = recipe.postDto.title
             let createdAt = recipe.postDto.createdAt?.components(separatedBy: "T")
-            cell.createdDateLabel.text = createdAt?.first ?? "2023.08.06."
-//            cell.timeLabel.text
+            cell.createdDateLabel.text = createdAt?.first ?? ""
+            cell.timeLabel.text = countDay(date: recipe.postDto.createdAt!)
             cell.contentLabel.text = recipe.postDto.content
             return cell
         case 1:
@@ -54,7 +54,6 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: IngredientsInfoCell.cellId, for: indexPath) as! IngredientsInfoCell
-//            guard let recipe = recipe else { return cell }
             cell.titleLabel.text = "  \(recipe.postDto.recipeIngredients[indexPath.row].ingredientName)"
             cell.buyLabel.text = "\(Int(recipe.postDto.recipeIngredients[indexPath.row].totalQty))"
             cell.needLabel.text = "\(Int(recipe.postDto.recipeIngredients[indexPath.row].requiredQty))"
@@ -65,20 +64,12 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.cellId, for: indexPath) as! CommentCell
             cell.userNameLabel.text = self.comment[indexPath.row]["userName"]
             cell.commentLabel.text = self.comment[indexPath.row]["comment"]
-//            cell.timeLabel.text = self.comment[indexPath.row]["createdAt"]]
             if let dateTime = self.comment[indexPath.item]["createdAt"]!.dateLong as? Date {
                 cell.timeLabel.text = dateTime.dayAndTimeText
             }
             cell.selectionStyle = .none
-//            cell.indexPath = indexPath
-//            cell.delegate = self
-//            let cell = tableView.dequeueReusableCell(withIdentifier: CollectionCommentCell.cellId, for: indexPath) as! CollectionCommentCell
-//            cell.items = comment
-//            cell.collectionView.reloadData()
             return cell
         default:
-//            let cell = tableView.dequeueReusableCell(withIdentifier: EmptyCell.cellId, for: indexPath) as! EmptyCell
-//            cell.selectionStyle = .none
             return UITableViewCell()
         }
     }
@@ -100,7 +91,6 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 3 {
             return 44
         } else if indexPath.section == 4 {
-//            return 100
             return UITableView.automaticDimension
         } else {
             return 0
@@ -180,5 +170,20 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+    
+    private func countDay(date: String) -> String {
+        if let creadtedAt = date.components(separatedBy: "T").first {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            if let creadtedDay = formatter.date(from: creadtedAt) {
+                let numberOfDays = Calendar.current.dateComponents([.day], from: creadtedDay, to: Date())
+                if numberOfDays.day! == 0 {
+                    return "오늘"
+                }
+                return "\(numberOfDays.day!)일 전"
+            }
+        }
+        return ""
     }
 }
