@@ -15,7 +15,7 @@ struct MyPractice: Hashable {
 
 extension MyPractice {
     static let list = [
-        MyPractice(item: "Discovery", description: "먹은 음식의 평균 칼로리", result: "0000kcal"),
-        MyPractice(item: "Chart", description: "버리지 않고 나눔한 식재료 수량", result: "0000개")
+        MyPractice(item: "Discovery", description: "먹은 음식의 평균 칼로리", result: "0kcal"),
+        MyPractice(item: "Chart", description: "버리지 않고 나눔한 식재료 수량", result: "0개")
     ]
 }

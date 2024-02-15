@@ -11,6 +11,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return myPractice.count
@@ -65,7 +66,6 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
                         recipeIngredients.append("#\(name) ")
                     }
                     cell.tagListLabel.text = recipeIngredients.reduce("", +)
-//                    cell.moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
                     cell.delegate = self
                     cell.indexPath = indexPath
                     cell.selectionStyle = .none
@@ -93,6 +93,8 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             if let user = UserDefaults.standard.dictionary(forKey: "User"),
                let nickName = user["nickName"] as? String {
                 myPageProfileView.userNameLabel.text = nickName
+            } else {
+                myPageProfileView.userNameLabel.text = NickNameRandom().getRandomNickName()
             }
             return headerView
         } else {
@@ -108,7 +110,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    @objc func writtenButtonTapped() {
+    @objc private func writtenButtonTapped() {
         toggleTableView = false
         myPageBoardTitleView.purchasedUnderLineView.isHidden = true
         myPageBoardTitleView.purchasedBoardListButton.setTitleColor(.systemGray, for: .normal)
@@ -117,7 +119,7 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         self.myTableView.reloadData()
     }
     
-    @objc func purchasedButtonTapped() {
+    @objc private func purchasedButtonTapped() {
         toggleTableView = true
         myPageBoardTitleView.purchasedUnderLineView.isHidden = false
         myPageBoardTitleView.purchasedBoardListButton.setTitleColor(.black, for: .normal)
@@ -125,14 +127,6 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         myPageBoardTitleView.writtenBoardListButton.setTitleColor(.systemGray, for: .normal)
         self.myTableView.reloadData()
     }
-    
-//    @objc func moreButtonTapped(_ sender: UIButton) {
-//        let viewController = UpdateAndDeleteViewController()
-//        viewController.modalTransitionStyle = .crossDissolve
-//        viewController.modalPresentationStyle = .overFullScreen
-////        viewController.postId = 0
-//        self.present(viewController, animated: true)
-//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
@@ -155,18 +149,12 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             return
         }
         let row = indexPath.row
-//        let viewController = UpdateAndDeleteViewController()
-//        viewController.modalTransitionStyle = .crossDissolve
-//        viewController.modalPresentationStyle = .overFullScreen
-//        viewController.postDto = recipeList[row]
-//        self.present(viewController, animated: true)
         let detail = UIStoryboard.init(name: "Detail", bundle: nil)
         guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
             return
         }
         viewController.recipeId = recipeList[row].postDto.id
         viewController.hidesBottomBarWhenPushed = true
-//        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(updateAndDeleteButtonTapped))
         viewController.writer = true
         navigationController?.pushViewController(viewController, animated: true)
         navigationItem.backButtonDisplayMode = .minimal

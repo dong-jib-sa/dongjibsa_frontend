@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyPageViewController: UIViewController {
+final class MyPageViewController: UIViewController {
     
     @IBOutlet weak var myTableView: UITableView!
     let myPageBoardTitleView = MyPageBoardTitleView()
@@ -22,43 +22,19 @@ class MyPageViewController: UIViewController {
         
         setupNavigationBar()
         setupView()
-        
-        Network.shared.getMypage { indicator in
-            self.indicator = indicator
-            DispatchQueue.main.async {
-                self.myTableView.reloadData()
-            }
-        }
-        
-        Network.shared.getMyPosts { board in
-            self.recipeList = board
-            
-            DispatchQueue.main.async {
-                self.myTableView.reloadData()
-            }
-        }
+        getMyIndicator()
+        getMyRecipeList()
         
         NotificationCenter.default.addObserver(self, selector: #selector(didDismissNotification), name: NSNotification.Name("DismissUpdateAndDeleteView"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        Network.shared.getMyPosts { board in
-            self.recipeList = board
-            
-            DispatchQueue.main.async {
-                self.myTableView.reloadData()
-            }
-        }
+        getMyIndicator()
+        getMyRecipeList()
     }
     
-    @objc func didDismissNotification(_ notification: Notification) {
-        Network.shared.getMyPosts { board in
-            self.recipeList = board
-            
-            DispatchQueue.main.async {
-                self.myTableView.reloadData()
-            }
-        }
+    @objc private func didDismissNotification(_ notification: Notification) {
+        getMyRecipeList()
     }
     
     private func setupNavigationBar() {
@@ -86,7 +62,6 @@ class MyPageViewController: UIViewController {
         myTableView.tableHeaderView = headerView
         headerView.backgroundColor = .white
         
-        
         let thumbnailImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.image = UIImage(named: "mypage")
@@ -97,6 +72,26 @@ class MyPageViewController: UIViewController {
         headerView.addSubview(thumbnailImageView)
         thumbnailImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+    }
+    
+    private func getMyIndicator() {
+        Network.shared.getMypage { indicator in
+            self.indicator = indicator
+            
+            DispatchQueue.main.async {
+                self.myTableView.reloadData()
+            }
+        }
+    }
+
+    private func getMyRecipeList() {
+        Network.shared.getMyPosts { board in
+            self.recipeList = board
+            
+            DispatchQueue.main.async {
+                self.myTableView.reloadData()
+            }
         }
     }
 }
