@@ -7,15 +7,15 @@
 
 import UIKit
 
-class UpdateAndDeleteViewController: UIViewController {
-    let mainView: UIView = {
+final class UpdateAndDeleteViewController: UIViewController {
+    private let mainView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 12
         return view
     }()
     
-    let updateButton: UIButton = {
+    private let updateButton: UIButton = {
         var attString = AttributedString("게시글 수정하기")
         attString.font = .systemFont(ofSize: 16)
         attString.foregroundColor = .black
@@ -34,7 +34,7 @@ class UpdateAndDeleteViewController: UIViewController {
         return button
     }()
     
-    let deleteButton: UIButton = {
+    private let deleteButton: UIButton = {
         var attString = AttributedString("게시글 삭제하기")
         attString.font = .systemFont(ofSize: 16)
         attString.foregroundColor = .black
@@ -53,7 +53,7 @@ class UpdateAndDeleteViewController: UIViewController {
         return button
     }()
     
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [updateButton, deleteButton])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -157,8 +157,6 @@ class UpdateAndDeleteViewController: UIViewController {
         alert.addAction(deleteAction)
         present(alert, animated: true)
         // ["result": "9번 게시글이 삭제되었습니다.", "resultCode": "SUCCESS!"]
-        
-        
     }
     
     @objc func closeAddViewController() {
