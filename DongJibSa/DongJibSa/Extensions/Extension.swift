@@ -129,6 +129,16 @@ extension String {
     var date: Date? {
         return String.dateFormatter.date(from: self)
     }
+    
+    static var dateFormatterLong: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return formatter
+    }()
+    
+    var dateLong: Date? {
+        return String.dateFormatterLong.date(from: self)
+    }
 }
 
 extension Date {
@@ -140,5 +150,59 @@ extension Date {
     
     var date: String? {
         return Date.dateFormatter.string(from: self)
+    }
+    
+    var dayAndTimeText: String {
+        let timeText = Date.timeFormatter.string(from: self)
+        if Locale.current.calendar.isDateInToday(self) {
+            let timeFormat = NSLocalizedString("%@", comment: "Today at time format string")
+            return String(format: timeFormat, timeText) // 오늘 오후 ㅁ시
+        } else if Locale.current.calendar.isDateInYesterday(self) {
+            let dateAndTimeFormat = NSLocalizedString("%@, %@", comment: "Today at time format string")
+            return String(format: dateAndTimeFormat) // 어제 10월 14일, ㅁ시, 오후 ㅁ시
+        } else {
+            // 현재년도 일때와 아닐때 구분
+            let currentYear = Date.now
+            if Locale.current.calendar.isDate(currentYear, equalTo: self, toGranularity: .year) {
+                let dateText = formatted(.dateTime.month(.wide).day().locale(Locale(identifier: "ko_KR")))
+                let dateAndTimeFormat = NSLocalizedString("%@, %@", comment: "Date and time format string")
+                return String(format: dateAndTimeFormat, dateText, timeText) // 10월 14일, ㅁ시, 오후 ㅁ시
+            } else {
+                let dateText = formatted(.dateTime.year().month(.wide).day().locale(Locale(identifier: "ko_KR")))
+                let dateAndTimeFormat = NSLocalizedString("%@, %@", comment: "Date and time format string")
+                return String(format: dateAndTimeFormat, dateText, timeText) // 10월 14일, 2022, ㅁ시, 오후 ㅁ시
+            }
+        }
+    }
+    
+    static var timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
+    var timeFormat: String {
+        return Date.timeFormatter.string(from: self)
+    }
+    
+    static var dateLongFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return formatter
+    }()
+    
+    var dateLongFormat: String {
+        return Date.dateLongFormatter.string(from: self)
+    }
+}
+
+extension Bundle {
+    var apiKey: String {
+        guard let file = self.path(forResource: "SecureAPIKeys", ofType: "plist"),
+              let resource = NSDictionary(contentsOfFile: file),
+              let key = resource["API_KEY"] as? String else {
+            fatalError("API KEY를 가져오는데 실패하였습니다.")
+        }
+        return key
     }
 }

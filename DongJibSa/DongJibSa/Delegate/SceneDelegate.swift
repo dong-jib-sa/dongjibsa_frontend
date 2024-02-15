@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import KakaoSDKAuth
+import AuthenticationServices
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,14 +20,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        // 온보딩 페이지
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        let onboarding = UIStoryboard.init(name: "Onboarding", bundle: nil)
-        let onboardingViewController = onboarding.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
-        window.rootViewController = onboardingViewController
-        window.makeKeyAndVisible()
+        
+        // 온보딩 페이지 -> 처음 앱 실행 시에 한 번만
+        if UserDefaults.standard.bool(forKey: "OnboardingPage") {
+            let login = UIStoryboard.init(name: "Login", bundle: nil)
+            let loginViewController = login.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
+            let navigationController = UINavigationController(rootViewController: loginViewController)
+            navigationController.modalPresentationStyle = .fullScreen
+            window.rootViewController = navigationController
+            window.makeKeyAndVisible()
+        } else {
+            UserDefaults.standard.set(true, forKey: "OnboardingPage")
+            let onboarding = UIStoryboard.init(name: "Onboarding", bundle: nil)
+            let onboardingViewController = onboarding.instantiateViewController(identifier: "OnboardingViewController") as! OnboardingViewController
+            window.rootViewController = onboardingViewController
+            window.makeKeyAndVisible()
+        }
+        
+//        if let urlContext = connectionOptions.urlContexts.first {
+//            let sendingAppID = urlContext.options.sourceApplication
+//            print("sendingAppID: \(sendingAppID ?? "Unknown")")
+//        }
+        
+    }
+    
+    // 카카오톡으로 로그인을 위한 설정
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

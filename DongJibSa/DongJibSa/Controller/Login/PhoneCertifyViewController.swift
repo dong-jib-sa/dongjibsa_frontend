@@ -8,15 +8,15 @@
 import UIKit
 import FirebaseAuth
 
-class PhoneCertifyViewController: UIViewController {
+final class PhoneCertifyViewController: UIViewController {
     
     private let phoneCertifyView = PhoneCertifyView()
     private var authVerificationID: String?
     private let phoneNumberFormat = PhoneNumberFormat.init(digits: "")
     
-    var timer: Timer?
-    var timerLeft: Date = "03:00".date!
-    var timerEnd: Date = "00:00".date!
+    private var timer: Timer?
+    private var timerLeft: Date = "03:00".date!
+    private var timerEnd: Date = "00:00".date!
     lazy var durationFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.minute, .second]
@@ -25,15 +25,20 @@ class PhoneCertifyViewController: UIViewController {
         return formatter
     }()
     private var certifyCount: Int = 0
+    private let nickName = NickNameRandom().getRandomNickName()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setNavigationBar()
         setupView()
-        phoneCertifyView.phoneTextField.becomeFirstResponder()
         viewTappedKeyboardCancel()
         checkedNumberOfCertifications()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        phoneCertifyView.phoneTextField.becomeFirstResponder()
     }
     
     private func setNavigationBar() {
@@ -67,7 +72,7 @@ class PhoneCertifyViewController: UIViewController {
         tapGesture.cancelsTouchesInView = false
     }
     
-    @objc func backButtonTapped(_ sender: UIButton) {
+    @objc private func backButtonTapped(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -81,7 +86,7 @@ class PhoneCertifyViewController: UIViewController {
         }
     }
     
-    @objc func phoneButtonTapped(_ sender: UIButton) {
+    @objc private func phoneButtonTapped(_ sender: UIButton) {
         phoneCertifyView.phoneTextField.resignFirstResponder()
         phoneCertifyView.certificationStackView.isHidden = false
         phoneCertifyView.phoneButton.isEnabled = false
@@ -123,12 +128,12 @@ class PhoneCertifyViewController: UIViewController {
         }
     }
     
-    @objc func onTimerTicked() {
+    @objc private func onTimerTicked() {
         formatDuration(from: timerEnd, to: timerLeft)
         timerLeft -= 1
     }
     
-    func formatDuration(from: Date, to: Date) {
+    private func formatDuration(from: Date, to: Date) {
         let text = durationFormatter.string(from: to.timeIntervalSince(from))
         self.phoneCertifyView.timerButton.setTitle(text, for: .normal)
 
@@ -142,7 +147,7 @@ class PhoneCertifyViewController: UIViewController {
         }
     }
     
-    @objc func phoneTextFieldDidChange(_ textField: UITextField) {
+    @objc private func phoneTextFieldDidChange(_ textField: UITextField) {
         if textField.text!.count < 13 {
             textField.text = phoneNumberFormat.addSpacing(at: textField.text!)
             phoneCertifyView.phoneButton.isEnabled = false
@@ -153,7 +158,7 @@ class PhoneCertifyViewController: UIViewController {
         }
     }
     
-    @objc func certificationButtonTapped(_ sender: UIButton) {
+    @objc private func certificationButtonTapped(_ sender: UIButton) {
         let verificationCode: String = phoneCertifyView.certificationNumberTextField.text!
 
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: authVerificationID!, verificationCode: verificationCode)
@@ -166,22 +171,24 @@ class PhoneCertifyViewController: UIViewController {
                 self.phoneCertifyView.helpMessageLabel.textColor = .systemRed
                 self.phoneCertifyView.certificationNumberTextField.layer.borderColor = UIColor.systemRed.cgColor
             } else {
-                // User is signed in
-                print(authResult)
-                // MEMO: 화면전환 -> 전화번호 ? 있음(홈 화면) : 없음(약관)
-                // MARK: 입력받은 번호로 저장하는 걸로 수정하기 -> 엔드포인트 구현 후에
-                Network.shared.postPhoneNumber(number: "01012341237") { result in
+                guard let phoneNumber: String = self.phoneCertifyView.phoneTextField.text else { return }
+                Network.shared.postVeripyPhoneNumber(number: phoneNumber, nickName: self.nickName) { result in
                     switch result {
-                    case "이미 회원입니다.":
+                    case "이미 존재하는 회원입니다.":
+                        // 앱에 저장된 유저 데이터가 있으면 -> User에 저장 (실질적으로 로그인 한 유저 정보)
+                        let key: String = "phoneNumberLoginInfo"
+                        guard let loginUser = UserDefaults.standard.dictionary(forKey: key) else { return }
+                        UserDefaults.standard.set(loginUser, forKey: "User")
+                        
                         DispatchQueue.main.async {
                             let main = UIStoryboard.init(name: "Main", bundle: nil)
                             let viewController = main.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
                             viewController.modalPresentationStyle = .fullScreen
                             self.present(viewController, animated: false)
                         }
-                    case "회원으로 등록했습니다.":
+                    case "신규 회원입니다. 약관 동의 후 회원 가입을 진행합니다.":
                         DispatchQueue.main.async {
-                            let viewController = TermsOfServiceViewController()
+                            let viewController = TermsOfServiceViewController(loginType: .phoneNumber, phoneNumber: phoneNumber)
                             self.navigationController?.pushViewController(viewController, animated: true)
                         }
                     default:
@@ -192,7 +199,7 @@ class PhoneCertifyViewController: UIViewController {
         }
     }
     
-    @objc func certificationTextFieldDidChange(_ textField: UITextField) {
+    @objc private func certificationTextFieldDidChange(_ textField: UITextField) {
         if textField.text!.count == 6 {
             phoneCertifyView.certificationButton.isEnabled = true
         } else if textField.text!.count > 6 {
@@ -203,7 +210,7 @@ class PhoneCertifyViewController: UIViewController {
         }
     }
     
-    func showToastMessage(_ message: String) {
+    private func showToastMessage(_ message: String) {
         let toastLabel = UILabel()
         toastLabel.backgroundColor = .systemGray.withAlphaComponent(0.8)
         toastLabel.textColor = .white

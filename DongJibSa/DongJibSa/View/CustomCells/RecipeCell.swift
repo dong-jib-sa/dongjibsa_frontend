@@ -20,6 +20,7 @@ class RecipeCell: UITableViewCell {
     
     var recipeImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(named: "boardDefaultImage")
         imageView.backgroundColor = .accentColor
         imageView.layer.cornerRadius = 8
         imageView.contentMode = .scaleAspectFill

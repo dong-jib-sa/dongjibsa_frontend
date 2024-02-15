@@ -11,11 +11,20 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return myPractice.count
         } else {
-            return recipeList.count
+            if !toggleTableView {
+                if recipeList.isEmpty {
+                    return 1
+                } else {
+                    return recipeList.count
+                }
+            } else {
+                return 1
+            }
         }
     }
     
@@ -25,33 +34,50 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
             cell.itemImageView.image = UIImage(named: myPractice[indexPath.row].item)
             cell.descriptionLabel.text = myPractice[indexPath.row].description
             cell.resultLabel.text = myPractice[indexPath.row].result
+            guard let indicator = indicator else { return cell }
             if indexPath.row == 0 {
-                let calorie: Int = Int(my[indexPath.row])
-                cell.resultLabel.text = "\(calorie * 10)kcal"
+                let calorie: Double = indicator.calorieAvg
+                cell.resultLabel.text = "\(calorie)kcal"
             } else {
-                let sum: Int = Int(my[indexPath.row])
-                cell.resultLabel.text = "\(sum / 100)개"
+                let sum: Double = indicator.sumOfSharingAvailableQty
+                cell.resultLabel.text = "\(sum)개"
             }
             cell.selectionStyle = .none
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: MyRecipeCell.cellId, for: indexPath) as! MyRecipeCell
-//            if let imageURL = URL(string: boardList[indexPath.row].imgUrl) {
-//                if let imageData = try? Data(contentsOf: imageURL) {
-                    cell.recipeImage.setImageURL(recipeList[indexPath.row].imgUrl)
-//                }
-//            }
-            cell.titleLabel.text = recipeList[indexPath.row].title
-            cell.locationLabel.text = "집밥이지"
-            cell.priceLabel.text = "1인당 예상가 \(recipeList[indexPath.row].pricePerOne)원"
-            var recipeIngredients: [String] = []
-            for i in 0..<recipeList[indexPath.row].recipeIngredients.count {
-                var name: String = recipeList[indexPath.row].recipeIngredients[i].ingredientName
-                recipeIngredients.append("#\(name) ")
+            if !toggleTableView {
+                if recipeList.isEmpty {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: EmptyListCell.cellId, for: indexPath) as! EmptyListCell
+                    cell.mainImageView.image = UIImage(named: "EmptyImage")
+                    cell.descriptionLabel.text = "작성한 게시글이 없어요.\n게시글을 작성해 공동구매 해보세요."
+                    cell.selectionStyle = .none
+                    return cell
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: MyRecipeCell.cellId, for: indexPath) as! MyRecipeCell
+                    if let imageURL = recipeList[indexPath.row].postDto.imgUrls {
+                        cell.recipeImage.setImageURL(imageURL[0])
+                    }
+                    cell.titleLabel.text = recipeList[indexPath.row].postDto.title
+                    cell.locationLabel.text = recipeList[indexPath.row].postDto.member?.nickName
+                    cell.priceLabel.text = "1인당 예상가 \(recipeList[indexPath.row].postDto.pricePerOne)원"
+                    var recipeIngredients: [String] = []
+                    for i in 0..<recipeList[indexPath.row].postDto.recipeIngredients.count {
+                        let name: String = recipeList[indexPath.row].postDto.recipeIngredients[i].ingredientName
+                        recipeIngredients.append("#\(name) ")
+                    }
+                    cell.tagListLabel.text = recipeIngredients.reduce("", +)
+                    cell.delegate = self
+                    cell.indexPath = indexPath
+                    cell.selectionStyle = .none
+                    return cell
+                }
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: EmptyListCell.cellId, for: indexPath) as! EmptyListCell
+                cell.mainImageView.image = UIImage(named: "EmptyImage")
+                cell.descriptionLabel.text = "구매한 게시글이 없어요.\n공동구매에 참여해보세요."
+                cell.selectionStyle = .none
+                return cell
             }
-            cell.tagListLabel.text = recipeIngredients.reduce("", +)
-            cell.selectionStyle = .none
-            return cell
         }
     }
     
@@ -60,86 +86,46 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         headerView.backgroundColor = .white
         
         if section == 0 {
-            let profileImageView: UIImageView = {
-                let imageView = UIImageView()
-                imageView.backgroundColor = .primaryColor
-                imageView.layer.cornerRadius = 45 / 2
-                imageView.image = UIImage(named: "Myprofile")
-                return imageView
-            }()
-            
-            headerView.addSubview(profileImageView)
-            profileImageView.snp.makeConstraints { make in
-                make.top.equalTo(headerView.snp.top).offset(10)
-                make.left.equalToSuperview().inset(16)
-                make.width.height.equalTo(45)
+            headerView.addSubview(myPageProfileView)
+            myPageProfileView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
             }
-            
-            let userNameLabel: UILabel = {
-                let label = UILabel()
-                label.text = "집밥이지"
-                label.font = .boldSystemFont(ofSize: 16)
-                return label
-            }()
-            
-            let sideLabel: UILabel = {
-                let label = UILabel()
-                label.text = "님이"
-                label.font = .systemFont(ofSize: 16)
-                return label
-            }()
-            
-            let nickNameStackView: UIStackView = {
-                let stackView = UIStackView(arrangedSubviews: [userNameLabel, sideLabel])
-                stackView.axis = .horizontal
-                stackView.distribution = .fill
-                stackView.alignment = .fill
-                return stackView
-            }()
-            
-            let descriptionLabel: UILabel = {
-                let label = UILabel()
-                label.text = "이번주에 실천한 식재료 제로 웨이스트"
-                label.font = .systemFont(ofSize: 16)
-                return label
-            }()
-            
-            let profileStackView: UIStackView = {
-                let stackView = UIStackView(arrangedSubviews: [nickNameStackView, descriptionLabel])
-                stackView.axis = .vertical
-                stackView.distribution = .fillEqually
-                stackView.alignment = .fill
-                stackView.spacing = 3
-                return stackView
-            }()
-            
-            headerView.addSubview(profileStackView)
-            profileStackView.snp.makeConstraints { make in
-                make.centerY.equalTo(profileImageView.snp.centerY)
-                make.left.equalTo(profileImageView.snp.right).offset(10)
-                make.right.equalToSuperview().inset(16)
+            if let user = UserDefaults.standard.dictionary(forKey: "User"),
+               let nickName = user["nickName"] as? String {
+                myPageProfileView.userNameLabel.text = nickName
+            } else {
+                myPageProfileView.userNameLabel.text = NickNameRandom().getRandomNickName()
             }
-            
-            userNameLabel.setContentHuggingPriority(.init(251), for: .horizontal)
-            sideLabel.setContentHuggingPriority(.init(250), for: .horizontal)
-            
             return headerView
         } else {
-            let titleLabel: UILabel = {
-                let label = UILabel()
-                label.text = "내가 구매한 레시피"
-                label.font = .boldSystemFont(ofSize: 16)
-                return label
-            }()
-            
-            headerView.addSubview(titleLabel)
-            titleLabel.snp.makeConstraints { make in
-                make.centerY.equalToSuperview().offset(10)
-                make.left.right.equalToSuperview().inset(16)
+            headerView.addSubview(myPageBoardTitleView)
+            myPageBoardTitleView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
             }
+            
+            myPageBoardTitleView.writtenBoardListButton.addTarget(self, action: #selector(writtenButtonTapped), for: .touchUpInside)
+            myPageBoardTitleView.purchasedBoardListButton.addTarget(self, action: #selector(purchasedButtonTapped), for: .touchUpInside)
             
             return headerView
         }
+    }
+    
+    @objc private func writtenButtonTapped() {
+        toggleTableView = false
+        myPageBoardTitleView.purchasedUnderLineView.isHidden = true
+        myPageBoardTitleView.purchasedBoardListButton.setTitleColor(.systemGray, for: .normal)
+        myPageBoardTitleView.writtenUnderLineView.isHidden = false
+        myPageBoardTitleView.writtenBoardListButton.setTitleColor(.black, for: .normal)
+        self.myTableView.reloadData()
+    }
+    
+    @objc private func purchasedButtonTapped() {
+        toggleTableView = true
+        myPageBoardTitleView.purchasedUnderLineView.isHidden = false
+        myPageBoardTitleView.purchasedBoardListButton.setTitleColor(.black, for: .normal)
+        myPageBoardTitleView.writtenUnderLineView.isHidden = true
+        myPageBoardTitleView.writtenBoardListButton.setTitleColor(.systemGray, for: .normal)
+        self.myTableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -156,5 +142,33 @@ extension MyPageViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             return 140
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let currentCell = tableView.cellForRow(at: indexPath) as? MyRecipeCell else {
+            return
+        }
+        let row = indexPath.row
+        let detail = UIStoryboard.init(name: "Detail", bundle: nil)
+        guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
+            return
+        }
+        viewController.recipeId = recipeList[row].postDto.id
+        viewController.hidesBottomBarWhenPushed = true
+        viewController.writer = true
+        navigationController?.pushViewController(viewController, animated: true)
+        navigationItem.backButtonDisplayMode = .minimal
+    }
+}
+
+extension MyPageViewController: ButtonTappedDelegate {
+    func cellButtonTapped(for cell: MyRecipeCell) {
+        guard let indexPath = cell.indexPath else { return }
+        
+        let viewController = UpdateAndDeleteViewController()
+        viewController.modalTransitionStyle = .crossDissolve
+        viewController.modalPresentationStyle = .overFullScreen
+        viewController.postDto = self.recipeList[indexPath.row]
+        self.present(viewController, animated: true)
     }
 }

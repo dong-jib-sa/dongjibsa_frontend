@@ -7,8 +7,10 @@
 
 import UIKit
 import FirebaseCore
-import UserNotifications
 import FirebaseAuth
+import UserNotifications
+import KakaoSDKCommon
+import KakaoSDKAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +23,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.sound,.alert], completionHandler: { (granted,error) in })
         application.registerForRemoteNotifications()
+        // 카카오 SDK 초기화
+        let apiKey = Bundle.main.apiKey
+        KakaoSDK.initSDK(appKey: apiKey)
+        
+        // 탭바 배경 구분선 보이도록 표시
+        if #available(iOS 15, *) {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
 
         return true
     }
