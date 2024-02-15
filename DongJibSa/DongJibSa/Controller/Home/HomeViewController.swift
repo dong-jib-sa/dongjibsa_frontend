@@ -61,6 +61,13 @@ final class HomeViewController: UIViewController {
     }
     
     @objc private func floatingActionButtonTapped(_ sender: UIButton) {
+        if UserDefaults.standard.dictionary(forKey: "User") == nil {
+            let alert = UIAlertController(title: "회원가입을 하지 않으면 이용할 수 없습니다.", message: "회원가입 혹은 로그인 후 이용해주세요.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+            return
+        }
         let addViewController = AddRecipeViewController(navigationController: self.navigationController)
         let navigationController = UINavigationController(rootViewController: addViewController)
         navigationController.modalPresentationStyle = .fullScreen
