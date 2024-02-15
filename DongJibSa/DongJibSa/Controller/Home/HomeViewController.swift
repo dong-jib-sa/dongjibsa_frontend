@@ -8,11 +8,13 @@
 import UIKit
 import SnapKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    let floatingActionButton: UIButton = {
+    var recipeList: [PostDto] = PostDto.dummyDataList
+    
+    private lazy var floatingActionButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .accentColor
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -21,10 +23,10 @@ class HomeViewController: UIViewController {
         button.layer.shadowOpacity = 0.5
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.shadowOffset = .zero
+        view.addSubview(button)
+        button.addTarget(self, action: #selector(floatingActionButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-    var recipeList: [Board] = Board.dummyDataList
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,23 +38,12 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Network.shared.getRecipes { board in
-            self.recipeList = board
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
+        getRecipeList()
     }
     
     private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "우리동네 장바구니", style: .plain, target: self, action: nil)
-//        navigationItem.leftBarButtonItem?.isEnabled = false
         navigationController?.navigationBar.tintColor = .headerColor
-    }
-    
-    @objc private func closeButtonTapped(_ sender: UIButton) {
-        self.dismiss(animated: true)
     }
     
     private func setupView() {
@@ -62,19 +53,15 @@ class HomeViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.showsHorizontalScrollIndicator = false
         
-        self.view.addSubview(floatingActionButton)
-        self.view.bringSubviewToFront(floatingActionButton)
         floatingActionButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview().inset(100)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(16)
             make.height.width.equalTo(65)
         }
-        floatingActionButton.addTarget(self, action: #selector(floatingActionButtonTapped), for: .touchUpInside)
     }
     
-    @objc func floatingActionButtonTapped(_ sender: UIButton) {
+    @objc private func floatingActionButtonTapped(_ sender: UIButton) {
         let addViewController = AddRecipeViewController(navigationController: self.navigationController)
-        
         let navigationController = UINavigationController(rootViewController: addViewController)
         navigationController.modalPresentationStyle = .fullScreen
         addViewController.navigationItem.title = NSLocalizedString("레시피 파티원 모집하기", comment: "")
@@ -84,29 +71,17 @@ class HomeViewController: UIViewController {
         self.present(navigationController, animated: true)
     }
     
-    @objc func closeAddViewController() {
+    @objc private func closeAddViewController() {
         self.dismiss(animated: true)
     }
     
-    func showDetail(for recipeInfo: Board) {
-        let detail = UIStoryboard.init(name: "Detail", bundle: nil)
-        guard let viewController = detail.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
-            return
+    private func getRecipeList() {
+        Network.shared.getRecipes { recipeList in
+//            self.recipeList = recipeList
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
-        viewController.recipeId = recipeInfo.id
-        viewController.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(viewController, animated: true)
-        navigationItem.backButtonDisplayMode = .minimal
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

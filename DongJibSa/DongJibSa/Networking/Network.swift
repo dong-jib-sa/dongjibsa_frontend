@@ -55,7 +55,7 @@ class Network {
         task.resume()
     }
     
-    func getRecipes(completion: @escaping ([Board]) -> Void) {
+    func getRecipes(completion: @escaping ([PostDto]) -> Void) {
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
                 
@@ -80,9 +80,11 @@ class Network {
             
             do {
                 let decoder = JSONDecoder()
-                let resultData = try decoder.decode(ResultData.self, from: data)
-                let boardList = resultData.result.map { $0 }
-                completion(boardList)
+                let resultData = try decoder.decode(ResponseRecipe.self, from: data)
+//                let boardList = resultData.result
+//                for recipe in resultData.result {
+//                }
+//                completion(boardList)
                 
             } catch let error as NSError {
                 print("error: \(error)")

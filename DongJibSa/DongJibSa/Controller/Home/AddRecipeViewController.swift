@@ -56,7 +56,7 @@ class AddRecipeViewController: UIViewController {
     var requiredQty: Double = 0.0
     var sharingAvailableQty: Double = 0.0
     
-    var recipeInfo: Board?
+//    var recipeInfo: Board?
     var imageData: [Data] = []
     
     var putRecipe: Bool = false
