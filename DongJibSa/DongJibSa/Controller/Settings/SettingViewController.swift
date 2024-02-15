@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+final class SettingViewController: UIViewController {
     
     let sections: [String] = ["약관 및 정책", "앱 버전", "로그아웃", "회원탈퇴"]
     var contents: [String] = ["", "", "", ""]
@@ -58,7 +58,7 @@ class SettingViewController: UIViewController {
         }
     }
     
-    @objc func backButtonTapped(_ sender: UIButton) {
+    @objc private func backButtonTapped(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
 }
