@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-class AddRecipeViewController: UIViewController {
+final class AddRecipeViewController: UIViewController {
     
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -55,8 +55,7 @@ class AddRecipeViewController: UIViewController {
     var totalQty: Double = 0.0
     var requiredQty: Double = 0.0
     var sharingAvailableQty: Double = 0.0
-    
-//    var recipeInfo: Board?
+
     var imageData: [Data] = []
     
     var putRecipe: Bool = false
@@ -77,8 +76,6 @@ class AddRecipeViewController: UIViewController {
         setupView()
         viewTappedKeyboardCancel()
         keyboardNotification()
-        
-        print(putRecipeInfo)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,7 +90,7 @@ class AddRecipeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func keyboardWillShow(_ notification:Notification) {
+    @objc private func keyboardWillShow(_ notification:Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         else { return }
@@ -101,7 +98,7 @@ class AddRecipeViewController: UIViewController {
             tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardTopY, right: 0)
     }
     
-    @objc func keyboardWillHide(_ notification:Notification) {
+    @objc private func keyboardWillHide(_ notification:Notification) {
         tableView.contentInset = .zero
     }
     
@@ -163,7 +160,6 @@ class AddRecipeViewController: UIViewController {
             table += 1
             tableView.insertRows(at: [IndexPath(row: table - 1, section: 5)], with: .none)
             tableView.reloadRows(at: [IndexPath(row: table - 1, section: 5)], with: .none)
-//            tableView.reloadRows(at: [IndexPath(row: table - 1, section: 6)], with: .none) // 수정해야할 사항 - 열 추가하고 나면 필드 초기화
             sender.isEnabled.toggle()
         }
     }
@@ -171,7 +167,7 @@ class AddRecipeViewController: UIViewController {
     @objc func doneButtonTapped(_ sender: UIButton) {
         
         if self.putRecipe == false {
-            // MARK: 필드가 비어있을 시 작성 버튼 disable
+            // 필드가 비어있을 시 작성 버튼 disable
             if self.recipe["title"] == nil || self.recipe["recipeName"] == nil || self.recipe["expectingPrice"] == nil || self.recipe["peopleCount"] == nil || self.recipe["content"] == nil || self.recipeIngredients.isEmpty  {
                 let alert = UIAlertController(title: "빠짐없이 작성했는지 확인해주세요.", message: nil, preferredStyle: .alert)
                 let doneAction = UIAlertAction(title: "확인", style: .default)
@@ -181,7 +177,6 @@ class AddRecipeViewController: UIViewController {
                 guard let filename = recipe["title"] as? String else { return }
                 guard let user = UserDefaults.standard.dictionary(forKey: "User"),
                       let memberId = user["userId"] as? Int else { return }
-//                let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
                 var imageDatas: [Data] = []
                 if self.imageData.isEmpty {
                     guard let image = UIImage(named: "boardDefaultImage") else { return }
@@ -233,7 +228,6 @@ class AddRecipeViewController: UIViewController {
             guard let filename = recipe["title"] as? String else { return }
             guard let user = UserDefaults.standard.dictionary(forKey: "User"),
                   let memberId = user["userId"] as? Int else { return }
-//            let memberId: Int = UserDefaults.standard.integer(forKey: "UserId")
             var imageDatas: [Data] = []
             if !self.photoList.isEmpty {
                 for image in self.photoList {
@@ -258,11 +252,9 @@ class AddRecipeViewController: UIViewController {
                                 return
                             }
                             viewController.recipe = result
-                            //                        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: .none)
                             viewController.hidesBottomBarWhenPushed = true
                             self.navigation?.navigationItem.backButtonDisplayMode = .minimal
                             self.navigation?.pushViewController(viewController, animated: false)
-                            //                        self.present(viewController, animated: true)
                         }
                         
                     }

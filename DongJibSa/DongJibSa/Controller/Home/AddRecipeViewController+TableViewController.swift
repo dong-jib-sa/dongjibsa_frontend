@@ -290,18 +290,6 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
             
             return headerView
         case 7:
-//            let addButton: UIButton = {
-//                let button = UIButton()
-//                button.backgroundColor = .systemGray6
-//                button.setImage(UIImage(systemName: "plus"), for: .normal)
-//                button.layer.borderWidth = 0.5
-//                button.layer.borderColor = UIColor.systemGray3.cgColor
-//                button.layer.cornerRadius = 10
-//                button.tintColor = .black
-//                button.isEnabled = false
-//                return button
-//            }()
-            
             headerView.addSubview(addButton)
             addButton.snp.makeConstraints { make in
                 make.centerY.equalToSuperview()
@@ -352,7 +340,7 @@ extension AddRecipeViewController: UITableViewDelegate, UITableViewDataSource {
     
     @objc func partyTextFieldDidChange(_ textField: UITextField) {
         if textField.text!.count < 2 {
-            // MARK: 최대 4명
+            // 최대 4명
         } else {
             textField.deleteBackward()
         }

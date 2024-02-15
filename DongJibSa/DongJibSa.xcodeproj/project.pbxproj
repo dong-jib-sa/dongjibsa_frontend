@@ -17,7 +17,6 @@
 		103449A92A725A110096E45D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449A82A725A110096E45D /* HomeViewController.swift */; };
 		103449AB2A725D8F0096E45D /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449AA2A725D8F0096E45D /* RecipeCell.swift */; };
 		103449AE2A726F2E0096E45D /* HomeViewController+TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449AD2A726F2E0096E45D /* HomeViewController+TableViewController.swift */; };
-		103449B02A729D460096E45D /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449AF2A729D460096E45D /* AddViewController.swift */; };
 		103449B42A72B4B60096E45D /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449B32A72B4B60096E45D /* PhotoCell.swift */; };
 		103449B62A73AAAA0096E45D /* IngredientsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449B52A73AAAA0096E45D /* IngredientsCell.swift */; };
 		103449BC2A73F06C0096E45D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103449BB2A73F06C0096E45D /* DetailViewController.swift */; };
@@ -120,7 +119,6 @@
 		103449A82A725A110096E45D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		103449AA2A725D8F0096E45D /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		103449AD2A726F2E0096E45D /* HomeViewController+TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+TableViewController.swift"; sourceTree = "<group>"; };
-		103449AF2A729D460096E45D /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		103449B32A72B4B60096E45D /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		103449B52A73AAAA0096E45D /* IngredientsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsCell.swift; sourceTree = "<group>"; };
 		103449BB2A73F06C0096E45D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -329,7 +327,6 @@
 			children = (
 				103449A82A725A110096E45D /* HomeViewController.swift */,
 				103449AD2A726F2E0096E45D /* HomeViewController+TableViewController.swift */,
-				103449AF2A729D460096E45D /* AddViewController.swift */,
 				103449FA2A767F100096E45D /* AddRecipeViewController.swift */,
 				10344A042A773E270096E45D /* AddRecipeViewController+TableViewController.swift */,
 				10344A062A773E770096E45D /* AddRecipeViewController+CollectionViewController.swift */,
@@ -575,7 +572,6 @@
 				10C1CEF42B442AD3000A6B99 /* UpdateAndDeleteViewController.swift in Sources */,
 				10C1CEF02B442287000A6B99 /* MyPageBoardTitleView.swift in Sources */,
 				103449AE2A726F2E0096E45D /* HomeViewController+TableViewController.swift in Sources */,
-				103449B02A729D460096E45D /* AddViewController.swift in Sources */,
 				10344A912A9DCA350096E45D /* TermsOfServiceView.swift in Sources */,
 				10A443922B5E79CA00E395AF /* IngredientHeaderView.swift in Sources */,
 				10344A5B2A7D55160096E45D /* Indicator.swift in Sources */,
